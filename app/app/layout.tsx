@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
@@ -31,15 +31,15 @@ export default async function AppLayout({
         </Link>
 
         <nav className="flex flex-col gap-1">
-          <Button variant="ghost" className="justify-start text-zinc-300 hover:text-zinc-100" asChild>
-            <Link href="/app/dashboard">Dashboard</Link>
-          </Button>
-          <Button variant="ghost" className="justify-start text-zinc-300 hover:text-zinc-100" asChild>
-            <Link href="/app/angebote/neu">Neues Angebot</Link>
-          </Button>
-          <Button variant="ghost" className="justify-start text-zinc-300 hover:text-zinc-100" asChild>
-            <Link href="/app/einstellungen">Einstellungen</Link>
-          </Button>
+          <Link href="/app/dashboard" className={buttonVariants({ variant: "ghost", className: "justify-start text-zinc-300 hover:text-zinc-100" })}>
+            Dashboard
+          </Link>
+          <Link href="/app/angebote/neu" className={buttonVariants({ variant: "ghost", className: "justify-start text-zinc-300 hover:text-zinc-100" })}>
+            Neues Angebot
+          </Link>
+          <Link href="/app/einstellungen" className={buttonVariants({ variant: "ghost", className: "justify-start text-zinc-300 hover:text-zinc-100" })}>
+            Einstellungen
+          </Link>
         </nav>
 
         <div className="mt-auto">
