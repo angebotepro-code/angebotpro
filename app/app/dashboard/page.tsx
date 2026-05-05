@@ -1,33 +1,25 @@
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+"use client";
+
+import { useI18n } from "@/lib/i18n/context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default async function DashboardPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
+export default function DashboardPage() {
+  const { t } = useI18n();
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-zinc-50">
-          Willkommen{user.email ? `, ${user.email.split("@")[0]}` : ""}!
+          {t("dashboard.welcome")}
         </h1>
-        <p className="mt-1 text-zinc-400">
-          Erstelle und verwalte deine Angebote mit KI-Unterstützung.
-        </p>
+        <p className="mt-1 text-zinc-400">{t("dashboard.subtitle")}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="border-zinc-800 bg-zinc-900">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-zinc-400">
-              Gesendet
+              {t("dashboard.sent")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -37,7 +29,7 @@ export default async function DashboardPage() {
         <Card className="border-zinc-800 bg-zinc-900">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-zinc-400">
-              Angenommen
+              {t("dashboard.accepted")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -47,7 +39,7 @@ export default async function DashboardPage() {
         <Card className="border-zinc-800 bg-zinc-900">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-zinc-400">
-              Abgelehnt
+              {t("dashboard.rejected")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -57,7 +49,7 @@ export default async function DashboardPage() {
         <Card className="border-zinc-800 bg-zinc-900">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-zinc-400">
-              Offen
+              {t("dashboard.open")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -68,12 +60,12 @@ export default async function DashboardPage() {
 
       <Card className="border-zinc-800 bg-zinc-900">
         <CardHeader>
-          <CardTitle className="text-zinc-50">Aktuelle Angebote</CardTitle>
+          <CardTitle className="text-zinc-50">
+            {t("dashboard.recentQuotes")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-zinc-500">
-            Noch keine Angebote. Erstelle dein erstes Angebot!
-          </p>
+          <p className="text-sm text-zinc-500">{t("dashboard.noQuotes")}</p>
         </CardContent>
       </Card>
     </div>

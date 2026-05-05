@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,9 +33,8 @@ interface AngebotResponse {
 }
 
 export default function TestPage() {
-  const [input, setInput] = useState(
-    "Badrenovierung bei Familie Müller, Linzerstraße 12, 4020 Linz. Altes Bad raus, Fliesen und Estrich rausstemmen, entsorgen. Neue Fliesen 30x60 weiß glänzend, ca. 25m² Wand, 8m² Boden. Neue Duschwanne 100x100, neues WC, neuer Waschtisch mit Unterschrank. Abdichtung nach ÖNORM, inkl. aller Materialien. Geschätzte Dauer: 2 Wochen."
-  );
+  const { t } = useI18n();
+  const [input, setInput] = useState(t("test.defaultInput"));
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AngebotResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -54,12 +54,12 @@ export default function TestPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Fehler bei der Generierung");
+        setError(data.error || t("general.error"));
       } else {
         setResult(data);
       }
-    } catch (e) {
-      setError("Netzwerkfehler. Bitte versuchen Sie es erneut.");
+    } catch {
+      setError(t("test.networkError"));
     } finally {
       setLoading(false);
     }
@@ -67,11 +67,11 @@ export default function TestPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-zinc-50">Angebot testen</h1>
+      <h1 className="text-3xl font-bold text-zinc-50">{t("test.title")}</h1>
 
       <Card className="border-zinc-800 bg-zinc-900">
         <CardHeader>
-          <CardTitle className="text-zinc-50">Beschreibung</CardTitle>
+          <CardTitle className="text-zinc-50">{t("test.description")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <Textarea
@@ -79,14 +79,13 @@ export default function TestPage() {
             onChange={(e) => setInput(e.target.value)}
             rows={6}
             className="border-zinc-700 bg-zinc-800 text-zinc-100"
-            placeholder="Beschreibe die Arbeit..."
           />
           <Button
             onClick={handleGenerate}
             disabled={loading || input.trim().length < 10}
             className="bg-emerald-500 hover:bg-emerald-600"
           >
-            {loading ? "Generiere..." : "Angebot generieren"}
+            {loading ? t("test.generating") : t("test.generate")}
           </Button>
         </CardContent>
       </Card>
@@ -103,7 +102,7 @@ export default function TestPage() {
         <Card className="border-zinc-800 bg-zinc-900">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-zinc-50">
-              Generiertes Angebot
+              {t("test.generatedQuote")}
               {result.number && (
                 <Badge className="bg-emerald-800 text-emerald-200">
                   {result.number}
@@ -112,16 +111,16 @@ export default function TestPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Einleitung */}
             <div>
               <p className="whitespace-pre-wrap text-sm text-zinc-300">
                 {result.einleitung}
               </p>
             </div>
 
-            {/* Positionen */}
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-zinc-400">Positionen</h3>
+              <h3 className="text-sm font-medium text-zinc-400">
+                {t("test.positions")}
+              </h3>
               {result.positionen.map((pos) => (
                 <div
                   key={pos.pos}
@@ -149,15 +148,14 @@ export default function TestPage() {
               ))}
             </div>
 
-            {/* Totals */}
             <div className="space-y-2 border-t border-zinc-800 pt-4">
               <div className="flex justify-between text-sm text-zinc-400">
-                <span>Zwischensumme (netto)</span>
+                <span>{t("test.subtotal")}</span>
                 <span>€ {result.subtotalNet.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm text-zinc-400">
                 <span>
-                  + {result.mwstRate}% MwSt
+                  + {result.mwstRate}% {t("test.mwst")}
                   {result.mwstReason && (
                     <span className="ml-1 text-xs text-zinc-500">
                       ({result.mwstReason})
@@ -167,23 +165,21 @@ export default function TestPage() {
                 <span>€ {result.mwstTotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between font-bold text-zinc-100">
-                <span>Gesamtbetrag</span>
+                <span>{t("test.total")}</span>
                 <span>€ {result.totalGross.toFixed(2)}</span>
               </div>
             </div>
 
-            {/* Legal */}
             <div className="space-y-2 border-t border-zinc-800 pt-4 text-sm text-zinc-400">
               <p>
-                <strong>Zahlungsbedingungen:</strong>{" "}
+                <strong>{t("test.paymentTerms")}:</strong>{" "}
                 {result.zahlungsbedingungen}
               </p>
               <p>
-                <strong>Gewährleistung:</strong> {result.gewaehrleistung}
+                <strong>{t("test.warranty")}:</strong> {result.gewaehrleistung}
               </p>
             </div>
 
-            {/* Schlussformel */}
             <div>
               <p className="whitespace-pre-wrap text-sm text-zinc-300">
                 {result.schlussformel}

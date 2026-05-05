@@ -2,9 +2,11 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
 
 export function LogoutButton() {
+  const { t } = useI18n();
   const router = useRouter();
   const supabase = createClient();
 
@@ -21,7 +23,7 @@ export function LogoutButton() {
       onClick={handleLogout}
       className="mt-2 w-full justify-start text-xs text-zinc-500 hover:text-zinc-300"
     >
-      Abmelden
+      {t("sidebar.logout")}
     </Button>
   );
 }
