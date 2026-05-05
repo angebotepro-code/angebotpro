@@ -37,6 +37,9 @@ export default async function AppLayout({
           <Link href="/app/angebote/neu" className={buttonVariants({ variant: "ghost", className: "justify-start text-zinc-300 hover:text-zinc-100" })}>
             Neues Angebot
           </Link>
+          <Link href="/app/test" className={buttonVariants({ variant: "ghost", className: "justify-start text-zinc-300 hover:text-zinc-100" })}>
+            🧪 Test
+          </Link>
           <Link href="/app/einstellungen" className={buttonVariants({ variant: "ghost", className: "justify-start text-zinc-300 hover:text-zinc-100" })}>
             Einstellungen
           </Link>
