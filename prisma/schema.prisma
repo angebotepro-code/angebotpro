@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Company {
+  id                String     @id @default(cuid())
+  name              String
+  address           String?
+  uidNumber         String?
+  logoUrl           String?
+  defaultHourlyRate Decimal    @default(95.00)
+  defaultMwst       Decimal    @default(20.0)
+  phone             String?
+  email             String?
+  website           String?
+  agbText           String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  users             User[]
+  angebote          Angebot[]
+  customers         Customer[]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Customer {
+  id        String    @id @default(cuid())
+  companyId String
+  company   Company   @relation(fields: [companyId], references: [id])
+  name      String
+  address   String?
+  email     String?
+  phone     String?
+  angebote  Angebot[]
+  createdAt DateTime  @default(now())
+}
+
+model Angebot {
+  id                  String    @id @default(cuid())
+  companyId           String
+  company             Company   @relation(fields: [companyId], references: [id])
+  customerId          String?
+  customer            Customer? @relation(fields: [customerId], references: [id])
+  number              String
+  title               String?
+  status              String    @default("draft")
+  inputText           String?
+  inputType           String?
+  positions           Json      @default("[]")
+  subtotalNet         Decimal   @default(0)
+  mwstTotal           Decimal   @default(0)
+  totalGross          Decimal   @default(0)
+  mwstRate            Decimal   @default(20.0)
+  zahlungsbedingungen String?
+  gewaehrleistung     String?
+  gueltigBis          DateTime?
+  einleitung          String?
+  schlussformel       String?
+  customNote          String?
+  pdfUrl              String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  sentAt              DateTime?
+  acceptedAt          DateTime?
+}
+
+model Subscription {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  stripeCustomerId String?
+  stripeSubId      String?
+  plan             String    @default("free")
+  status           String    @default("active")
+  currentPeriodEnd DateTime?
+  quotesUsed       Int       @default(0)
+  quotesLimit      Int       @default(3)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
