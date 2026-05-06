@@ -43,8 +43,10 @@ export default function NeuesAngebotPage() {
   const [listening, setListening] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
+  const [interimText, setInterimText] = useState("");
+  const stopFnRef = { current: (() => {}) as () => void };
 
-  // Voice input
+  // Voice input — continuous until user stops
   function startListening() {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
@@ -57,23 +59,57 @@ export default function NeuesAngebotPage() {
 
     const recognition = new SpeechRecognition();
     recognition.lang = "de-DE";
-    recognition.interimResults = false;
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    let finalTranscript = inputText ? inputText + " " : "";
+    let userStopped = false;
 
     recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      setInputText(transcript);
-      setListening(false);
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const result = event.results[i];
+        if (result.isFinal) {
+          finalTranscript += result[0].transcript + " ";
+        } else {
+          interim += result[0].transcript;
+        }
+      }
+      setInputText(finalTranscript.trim());
+      setInterimText(interim);
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (e: any) => {
+      if (e.error === "no-speech") return; // ignore, keep listening
       setListening(false);
+      setInterimText("");
       setError("Voice recognition failed. Please try again or type instead.");
     };
 
-    recognition.onend = () => setListening(false);
+    recognition.onend = () => {
+      if (!userStopped) {
+        // Browser auto-paused — restart
+        try { recognition.start(); } catch { /* ignore */ }
+      } else {
+        setListening(false);
+        setInterimText("");
+      }
+    };
+
+    const stop = () => {
+      userStopped = true;
+      recognition.stop();
+    };
+    stopFnRef.current = stop;
 
     setListening(true);
+    setInterimText("");
     recognition.start();
+    return stop;
+  }
+
+  function stopListening() {
+    stopFnRef.current();
   }
 
   // Generate Angebot
@@ -153,25 +189,36 @@ export default function NeuesAngebotPage() {
             </TabsList>
 
             <TabsContent value="voice" className="space-y-4">
-              <div className="flex justify-center py-8">
-                <button
-                  onClick={startListening}
-                  disabled={listening}
-                  className={`w-24 h-24 rounded-full flex items-center justify-center text-3xl transition-all ${
-                    listening
-                      ? "bg-red-500 animate-pulse"
-                      : "bg-emerald-500 hover:bg-emerald-600"
-                  }`}
-                >
-                  🎤
-                </button>
+              <div className="flex justify-center gap-4 py-8">
+                {!listening ? (
+                  <button
+                    onClick={startListening}
+                    className="w-24 h-24 rounded-full flex items-center justify-center text-3xl bg-emerald-500 hover:bg-emerald-600 transition-all"
+                  >
+                    🎤
+                  </button>
+                ) : (
+                  <button
+                    onClick={stopListening}
+                    className="w-24 h-24 rounded-full flex items-center justify-center text-3xl bg-red-500 hover:bg-red-600 animate-pulse transition-all"
+                  >
+                    ⏹
+                  </button>
+                )}
               </div>
               {listening && (
-                <p className="text-center text-sm text-emerald-400">
-                  Listening... Speak your job description in German.
-                </p>
+                <div className="text-center space-y-2">
+                  <p className="text-sm text-emerald-400">
+                    Recording... speak your job description in German. Press ⏹ when done.
+                  </p>
+                  {interimText && (
+                    <p className="text-sm text-zinc-500 italic max-w-lg mx-auto">
+                      {interimText}
+                    </p>
+                  )}
+                </div>
               )}
-              {inputText && (
+              {inputText && !listening && (
                 <div className="space-y-4">
                   <Textarea
                     value={inputText}
@@ -187,6 +234,11 @@ export default function NeuesAngebotPage() {
                     {loading ? "Generating..." : "Generate Quote"}
                   </Button>
                 </div>
+              )}
+              {!inputText && !listening && (
+                <p className="text-center text-sm text-zinc-500">
+                  Tap the microphone and describe the job in German.
+                </p>
               )}
             </TabsContent>
 
