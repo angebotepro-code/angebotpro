@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
@@ -44,9 +44,9 @@ export default function NeuesAngebotPage() {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [interimText, setInterimText] = useState("");
-  const stopFnRef = { current: (() => {}) as () => void };
+  const recognitionRef = useRef<any>(null);
+  const userStoppedRef = useRef(false);
 
-  // Voice input — continuous until user stops
   function startListening() {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
@@ -63,7 +63,8 @@ export default function NeuesAngebotPage() {
     recognition.interimResults = true;
 
     let finalTranscript = inputText ? inputText + " " : "";
-    let userStopped = false;
+    userStoppedRef.current = false;
+    recognitionRef.current = recognition;
 
     recognition.onresult = (event: any) => {
       let interim = "";
@@ -80,36 +81,36 @@ export default function NeuesAngebotPage() {
     };
 
     recognition.onerror = (e: any) => {
-      if (e.error === "no-speech") return; // ignore, keep listening
+      if (e.error === "no-speech") return;
       setListening(false);
       setInterimText("");
+      recognitionRef.current = null;
       setError("Voice recognition failed. Please try again or type instead.");
     };
 
     recognition.onend = () => {
-      if (!userStopped) {
-        // Browser auto-paused — restart
-        try { recognition.start(); } catch { /* ignore */ }
+      if (!userStoppedRef.current && recognitionRef.current) {
+        try { recognitionRef.current.start(); } catch { /* ignore */ }
       } else {
         setListening(false);
         setInterimText("");
+        recognitionRef.current = null;
       }
     };
-
-    const stop = () => {
-      userStopped = true;
-      recognition.stop();
-    };
-    stopFnRef.current = stop;
 
     setListening(true);
     setInterimText("");
     recognition.start();
-    return stop;
   }
 
   function stopListening() {
-    stopFnRef.current();
+    userStoppedRef.current = true;
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+    setListening(false);
+    setInterimText("");
   }
 
   // Generate Angebot
