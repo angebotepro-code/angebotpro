@@ -57,8 +57,8 @@ export async function POST(
       )
       .join("\n");
 
-    const { error: sendError } = await resend.emails.send({
-      from: `${companyName} <angebote@angebotpro.at>`,
+    const { data: sendData, error: sendError } = await resend.emails.send({
+      from: `${companyName} <onboarding@resend.dev>`,
       to: [to],
       subject: `Angebot ${angebot.number} — ${companyName}`,
       html: `
@@ -88,7 +88,11 @@ export async function POST(
     });
 
     if (sendError) {
-      return NextResponse.json({ error: sendError.message }, { status: 500 });
+      console.error("Resend error:", sendError);
+      return NextResponse.json(
+        { error: sendError.message || "Email send failed" },
+        { status: 500 }
+      );
     }
 
     // Update status to sent
