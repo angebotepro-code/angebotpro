@@ -47,13 +47,24 @@ export default function NeuesAngebotPage() {
   const recognitionRef = useRef<any>(null);
   const userStoppedRef = useRef(false);
 
-  function startListening() {
+  async function startListening() {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
+      (window as any).webkitSpeechRecognition ||
+      (window as any).mozSpeechRecognition ||
+      (window as any).msSpeechRecognition;
 
     if (!SpeechRecognition) {
-      setError("Voice input is not supported in this browser. Please use Chrome.");
+      setError("Voice input is not supported in this browser. Please use Chrome or Edge.");
+      return;
+    }
+
+    // Request microphone permission first
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach((t) => t.stop());
+    } catch {
+      setError("Microphone access denied. Please allow microphone access and try again.");
       return;
     }
 
