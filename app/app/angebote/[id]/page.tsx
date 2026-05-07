@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface AngebotDetail {
   id: string;
@@ -44,13 +45,20 @@ export default function AngebotDetailPage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div>
-        <h1 className="text-3xl font-bold text-zinc-50">
-          {angebot.title || angebot.number}
-        </h1>
-        <p className="text-sm text-zinc-500 mt-1">
-          {angebot.number} · {new Date(angebot.createdAt).toLocaleDateString()}
-        </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-zinc-50">
+            {angebot.title || angebot.number}
+          </h1>
+          <p className="text-sm text-zinc-500 mt-1">
+            {angebot.number} · {new Date(angebot.createdAt).toLocaleDateString()}
+          </p>
+        </div>
+        <a href={`/api/angebote/${angebot.id}/pdf`} target="_blank">
+          <Button className="bg-emerald-500 hover:bg-emerald-600">
+            📄 PDF
+          </Button>
+        </a>
       </div>
 
       <Card className="border-zinc-800 bg-zinc-900">

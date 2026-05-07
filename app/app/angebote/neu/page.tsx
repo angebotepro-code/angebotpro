@@ -295,14 +295,23 @@ export default function NeuesAngebotPage() {
         <Card className="border-zinc-800 bg-zinc-900">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-zinc-50">Generated Quote</CardTitle>
-            <Button
-              size="sm"
-              onClick={handleSave}
-              disabled={saving || !savedId}
-              className="bg-emerald-500 hover:bg-emerald-600"
-            >
-              {saving ? "Saving..." : "Save"}
-            </Button>
+            <div className="flex gap-2">
+              {savedId && (
+                <a href={`/api/angebote/${savedId}/pdf`} target="_blank">
+                  <Button size="sm" className="bg-zinc-700 hover:bg-zinc-600">
+                    📄 PDF
+                  </Button>
+                </a>
+              )}
+              <Button
+                size="sm"
+                onClick={handleSave}
+                disabled={saving || !savedId}
+                className="bg-emerald-500 hover:bg-emerald-600"
+              >
+                {saving ? "Saving..." : "Save"}
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Einleitung */}
