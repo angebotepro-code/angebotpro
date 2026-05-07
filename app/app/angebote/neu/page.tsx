@@ -82,10 +82,18 @@ export default function NeuesAngebotPage() {
 
     recognition.onerror = (e: any) => {
       if (e.error === "no-speech") return;
+      if (e.error === "aborted") return;
       setListening(false);
       setInterimText("");
       recognitionRef.current = null;
-      setError("Voice recognition failed. Please try again or type instead.");
+
+      if (e.error === "not-allowed") {
+        setError("Microphone access denied. Please allow microphone access in your browser settings and try again.");
+      } else if (e.error === "network") {
+        setError("Network error. Check your internet connection and try again.");
+      } else {
+        setError(`Voice error: ${e.error}. Try using Chrome if the issue persists.`);
+      }
     };
 
     recognition.onend = () => {
