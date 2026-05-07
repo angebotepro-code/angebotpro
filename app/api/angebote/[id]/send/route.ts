@@ -47,7 +47,16 @@ export async function POST(
 
     const companyName = company?.name ?? "AngebotPro";
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) {
+      console.error("RESEND_API_KEY not set");
+      return NextResponse.json(
+        { error: "RESEND_API_KEY missing — add it to Vercel Environment Variables" },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(resendKey);
 
     // Build email body
     const positionsText = (angebot.positions as any[])
@@ -88,12 +97,14 @@ export async function POST(
     });
 
     if (sendError) {
-      console.error("Resend error:", sendError);
+      console.error("Resend error:", JSON.stringify(sendError));
       return NextResponse.json(
         { error: sendError.message || "Email send failed" },
         { status: 500 }
       );
     }
+
+    console.log("Email sent:", sendData?.id);
 
     // Update status to sent
     await adminClient
