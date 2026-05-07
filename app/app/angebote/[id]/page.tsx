@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface AngebotDetail {
   id: string;
@@ -27,6 +29,10 @@ export default function AngebotDetailPage() {
   const params = useParams();
   const [angebot, setAngebot] = useState<AngebotDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sendEmail, setSendEmail] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     fetch(`/api/angebote/${params.id}`)
@@ -43,6 +49,23 @@ export default function AngebotDetailPage() {
     return <p className="text-zinc-400">Quote not found.</p>;
   }
 
+  async function handleSend() {
+    setSending(true);
+    try {
+      const res = await fetch(`/api/angebote/${angebot!.id}/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to: sendEmail }),
+      });
+      if (res.ok) {
+        setSent(true);
+        setAngebot({ ...angebot!, status: "sent" });
+      }
+    } catch {}
+    setSending(false);
+    setDialogOpen(false);
+  }
+
   return (
     <div className="space-y-6 max-w-3xl">
       <div className="flex items-start justify-between">
@@ -54,11 +77,41 @@ export default function AngebotDetailPage() {
             {angebot.number} · {new Date(angebot.createdAt).toLocaleDateString()}
           </p>
         </div>
-        <a href={`/api/angebote/${angebot.id}/pdf`} target="_blank">
-          <Button className="bg-emerald-500 hover:bg-emerald-600">
-            📄 PDF
-          </Button>
-        </a>
+        <div className="flex gap-2">
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <Button
+              className="bg-emerald-500 hover:bg-emerald-600"
+              disabled={sent}
+              onClick={() => setDialogOpen(true)}
+            >
+              {sent ? "✓ Sent" : "📧 Send"}
+            </Button>
+            <DialogContent className="bg-zinc-900 border-zinc-800">
+              <DialogHeader>
+                <DialogTitle className="text-zinc-50">Send Angebot via Email</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-4">
+                <Input
+                  type="email"
+                  placeholder="customer@example.com"
+                  value={sendEmail}
+                  onChange={(e) => setSendEmail(e.target.value)}
+                  className="border-zinc-700 bg-zinc-800 text-zinc-100"
+                />
+                <Button
+                  onClick={handleSend}
+                  disabled={sending || !sendEmail.includes("@")}
+                  className="w-full bg-emerald-500 hover:bg-emerald-600"
+                >
+                  {sending ? "Sending..." : "Send Angebot"}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+          <a href={`/api/angebote/${angebot.id}/pdf`} target="_blank">
+            <Button className="bg-zinc-700 hover:bg-zinc-600">📄 PDF</Button>
+          </a>
+        </div>
       </div>
 
       <Card className="border-zinc-800 bg-zinc-900">
