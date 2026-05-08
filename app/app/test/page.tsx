@@ -83,7 +83,7 @@ export default function TestPage() {
           <Button
             onClick={handleGenerate}
             disabled={loading || input.trim().length < 10}
-            className="bg-emerald-500 hover:bg-emerald-600"
+            className="bg-foreground text-background hover:bg-foreground/80"
           >
             {loading ? t("test.generating") : t("test.generate")}
           </Button>
@@ -104,7 +104,7 @@ export default function TestPage() {
             <CardTitle className="flex items-center gap-2 text-zinc-50">
               {t("test.generatedQuote")}
               {result.number && (
-                <Badge className="bg-emerald-800 text-emerald-200">
+                <Badge className="text-white dark:text-black bg-foreground">
                   {result.number}
                 </Badge>
               )}

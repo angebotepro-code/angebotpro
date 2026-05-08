@@ -33,7 +33,7 @@ interface AngebotDetail {
 const statusConfig: Record<string, { label: string; className: string }> = {
   draft: { label: "Draft", className: "text-zinc-400 border-zinc-700 bg-muted" },
   sent: { label: "Sent", className: "text-blue-300 border-blue-800 bg-blue-950" },
-  accepted: { label: "Accepted", className: "text-brand border-emerald-800 bg-brand/10" },
+  accepted: { label: "Accepted", className: "text-emerald-600 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950" },
   rejected: { label: "Rejected", className: "text-red-300 border-red-800 bg-destructive/10" },
 };
 
@@ -247,7 +247,7 @@ export default function AngebotDetailPage() {
               </Select>
               <span className="text-foreground tabular-nums">€{a.mwstTotal?.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between font-semibold text-base pt-2 border-t border-zinc-800"><span className="text-foreground">Total</span><span className="text-emerald-400 tabular-nums">€{a.totalGross?.toFixed(2)}</span></div>
+            <div className="flex justify-between font-semibold text-base pt-2 border-t border-zinc-800"><span className="text-foreground">Total</span><span className="text-foreground tabular-nums">€{a.totalGross?.toFixed(2)}</span></div>
           </div>
 
           {/* Legal */}

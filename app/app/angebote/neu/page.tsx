@@ -132,7 +132,7 @@ export default function NeuesAngebotPage() {
       {/* Pricing info */}
       <div className="rounded-lg border border-brand/30 bg-brand/10/10 px-4 py-3 text-xs text-muted-foreground">
         <span className="font-medium text-brand">How pricing works:</span> The AI estimates <strong>labor</strong> (hours × your hourly rate from Settings) and <strong>material</strong> costs (Austrian market estimates). All prices are estimates — review and adjust before sending.
-        <a href="/app/einstellungen" className="ml-1 text-emerald-400 hover:underline">Set your hourly rate →</a>
+        <a href="/app/einstellungen" className="ml-1 text-blue-600 dark:text-blue-400 hover:underline">Set your hourly rate →</a>
       </div>
 
       {/* Input card */}
@@ -140,9 +140,9 @@ export default function NeuesAngebotPage() {
         <Tabs defaultValue="voice" className="w-full">
           <div className="flex items-center justify-between border-b border-border/50 px-6 pt-4">
             <TabsList className="bg-transparent h-auto p-0 gap-0">
-              <TabsTrigger value="voice" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-emerald-400 rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100 flex items-center gap-1.5">
+              <TabsTrigger value="voice" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-foreground rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100 flex items-center gap-1.5">
                 <MicrophoneIcon className="size-3.5" />Voice</TabsTrigger>
-              <TabsTrigger value="text" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-emerald-400 rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100 flex items-center gap-1.5">
+              <TabsTrigger value="text" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-foreground rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100 flex items-center gap-1.5">
                 <PencilSquareIcon className="size-3.5" />Text</TabsTrigger>
             </TabsList>
           </div>
@@ -153,7 +153,7 @@ export default function NeuesAngebotPage() {
               <div className="flex flex-col items-center gap-4 py-8">
                 <button onClick={listening ? stopListening : startListening}
                   className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-[transform,box-shadow,background-color] duration-200 ${
-                    listening ? "bg-red-500/20 text-destructive ring-4 ring-red-500/20" : "bg-black dark:bg-white/10 text-emerald-400 hover:bg-black dark:bg-white/20 active:scale-[0.96]"
+                    listening ? "bg-red-500/20 text-destructive ring-4 ring-red-500/20" : "bg-muted text-foreground hover:bg-muted/80 active:scale-[0.96]"
                   }`}>
                   {listening ? <StopCircleIcon className="size-8" /> : <MicrophoneIcon className="size-8" />}
                   {listening && <span className="absolute inset-0 animate-ping rounded-full bg-red-500/20" />}
@@ -322,7 +322,7 @@ export default function NeuesAngebotPage() {
                 </Select>
                 <span className="text-foreground tabular-nums">€{angebot.mwstTotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between font-semibold text-base pt-2 border-t border-zinc-800"><span className="text-foreground">Total</span><span className="text-emerald-400 tabular-nums">€{angebot.totalGross.toFixed(2)}</span></div>
+              <div className="flex justify-between font-semibold text-base pt-2 border-t border-zinc-800"><span className="text-foreground">Total</span><span className="text-foreground tabular-nums">€{angebot.totalGross.toFixed(2)}</span></div>
               {angebot.mwstReason && <p className="text-[10px] text-zinc-600 pt-1">{angebot.mwstReason}</p>}
             </div>
 

@@ -72,7 +72,7 @@ export default function ImpressumPage() {
           abrufbar unter{" "}
           <a
             href="https://www.ris.bka.gv.at"
-            className="text-emerald-400 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             www.ris.bka.gv.at
           </a>
@@ -86,7 +86,7 @@ export default function ImpressumPage() {
           Online-Streitbeilegung (OS) bereit:{" "}
           <a
             href="https://ec.europa.eu/consumers/odr/"
-            className="text-emerald-400 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             https://ec.europa.eu/consumers/odr/
           </a>

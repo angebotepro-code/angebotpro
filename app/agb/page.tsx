@@ -125,7 +125,7 @@ export default function AGBPage() {
           Die Verarbeitung personenbezogener Daten erfolgt gemäß unserer{" "}
           <a
             href="/datenschutz"
-            className="text-emerald-400 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             Datenschutzerklärung
           </a>
