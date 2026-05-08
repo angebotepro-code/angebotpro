@@ -340,7 +340,7 @@ export default function NeuesAngebotPage() {
                     rows={3}
                     className="border-zinc-700 bg-zinc-800 text-zinc-200 text-sm"
                   />
-                  <div className="flex gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <div className="flex-1">
                       <Label className="text-xs text-zinc-500">Qty</Label>
                       <Input
@@ -350,7 +350,7 @@ export default function NeuesAngebotPage() {
                         className="border-zinc-700 bg-zinc-800 text-zinc-100 text-sm h-8"
                       />
                     </div>
-                    <div className="w-24">
+                    <div className="w-full sm:w-24">
                       <Label className="text-xs text-zinc-500">Unit</Label>
                       <Input
                         value={pos.einheit}
@@ -358,7 +358,7 @@ export default function NeuesAngebotPage() {
                         className="border-zinc-700 bg-zinc-800 text-zinc-100 text-sm h-8"
                       />
                     </div>
-                    <div className="w-32">
+                    <div className="w-full sm:w-32">
                       <Label className="text-xs text-zinc-500">Price (€)</Label>
                       <Input
                         type="number"
@@ -367,7 +367,7 @@ export default function NeuesAngebotPage() {
                         className="border-zinc-700 bg-zinc-800 text-zinc-100 text-sm h-8"
                       />
                     </div>
-                    <div className="w-32">
+                    <div className="w-full sm:w-32">
                       <Label className="text-xs text-zinc-500">Total (€)</Label>
                       <Input
                         type="number"

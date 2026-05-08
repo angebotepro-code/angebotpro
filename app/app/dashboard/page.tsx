@@ -46,17 +46,17 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-50">
+          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-50">
             {t("dashboard.welcome")}
           </h1>
-          <p className="mt-1 text-zinc-400">{t("dashboard.subtitle")}</p>
+          <p className="mt-1 text-zinc-400 text-sm sm:text-base">{t("dashboard.subtitle")}</p>
         </div>
         <Link
           href="/app/angebote/neu"
           className={buttonVariants({
-            className: "bg-emerald-500 hover:bg-emerald-600",
+            className: "bg-emerald-500 hover:bg-emerald-600 w-full sm:w-auto",
           })}
         >
           + {t("sidebar.newQuote")}
