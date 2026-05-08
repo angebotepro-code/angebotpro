@@ -87,7 +87,7 @@ export default function AngebotePage() {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 max-w-sm">
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search quotes..."
+          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search quotes…"
             className="pl-9 h-9" />
         </div>
         <div className="flex gap-1.5">
@@ -99,16 +99,31 @@ export default function AngebotePage() {
             </Button>
           ))}
         </div>
-        {selected.size > 0 && (
-          <div className="flex gap-1.5">
-            <Button size="sm" variant="ghost" className="h-8 text-xs text-emerald-600 dark:text-emerald-400" onClick={() => bulkAction("accepted")}><CheckIcon className="size-3.5 mr-1" />Accept</Button>
-            <Button size="sm" variant="ghost" className="h-8 text-xs text-red-600 dark:text-red-400" onClick={() => bulkAction("rejected")}><XMarkIcon className="size-3.5 mr-1" />Reject</Button>
-            <Button size="sm" variant="ghost" className="h-8 text-xs text-red-500" onClick={() => { if (confirm(`Delete ${selected.size} quotes?`)) bulkAction("delete"); }}><TrashIcon className="size-3.5 mr-1" />Delete</Button>
-          </div>
-        )}
       </div>
 
       <Card className="shadow-card bg-card overflow-hidden">
+        {selected.size > 0 && (
+          <div className="flex items-center gap-3 px-4 py-2.5 bg-muted/50 border-b border-border">
+            <span className="text-xs font-medium text-foreground">{selected.size} selected</span>
+            <div className="flex-1" />
+            <Button size="sm" onClick={() => bulkAction("accepted")}
+              className="h-7 text-xs bg-emerald-600 hover:bg-emerald-700 text-white">
+              <CheckIcon className="size-3 mr-1" />Accept
+            </Button>
+            <Button size="sm" onClick={() => bulkAction("rejected")}
+              className="h-7 text-xs bg-red-600 hover:bg-red-700 text-white">
+              <XMarkIcon className="size-3 mr-1" />Reject
+            </Button>
+            <Button size="sm" variant="ghost"
+              onClick={() => { if (confirm(`Delete ${selected.size} quotes?`)) bulkAction("delete"); }}
+              className="h-7 text-xs text-destructive hover:bg-destructive/10">
+              <TrashIcon className="size-3 mr-1" />Delete
+            </Button>
+            <button onClick={() => setSelected(new Set())} className="text-xs text-muted-foreground hover:text-foreground ml-1">
+              Clear
+            </button>
+          </div>
+        )}
         <CardContent className="p-0">
           {loading ? (
             <div className="flex justify-center py-24"><Spinner /></div>
