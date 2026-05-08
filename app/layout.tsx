@@ -31,6 +31,9 @@ export const metadata: Metadata = {
     "Installateur",
     "Maler",
   ],
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     title: "AngebotPro — AI-Angebote in 2 Minuten",
     description:
