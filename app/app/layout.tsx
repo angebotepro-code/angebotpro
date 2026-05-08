@@ -9,7 +9,7 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { useI18n } from "@/lib/i18n/context";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import {
   HomeIcon,
@@ -24,6 +24,7 @@ import {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
   const router = useRouter();
+  const pathname = usePathname();
   const supabase = createClient();
   const [email, setEmail] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -46,13 +47,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         { href: "/app/angebote/neu", key: "sidebar.newQuote", icon: PlusIcon },
         { href: "/app/test", key: "sidebar.test", icon: BeakerIcon },
         { href: "/app/einstellungen", key: "sidebar.settings", icon: Cog6ToothIcon },
-      ].map(({ href, key, icon: Icon }) => (
+      ].map(({ href, key, icon: Icon }) => {
+        const isActive = pathname === href || (href !== "/app/dashboard" && pathname.startsWith(href));
+        return (
         <Link key={href} href={href} onClick={close}
-          className={buttonVariants({ variant: "ghost", className: "justify-start gap-2.5 text-muted-foreground hover:text-foreground" })}>
+          className={buttonVariants({ variant: isActive ? "secondary" : "ghost", className: `justify-start gap-2.5 ${isActive ? "bg-muted text-foreground font-medium" : "text-muted-foreground hover:text-foreground"}` })}>
           <Icon className="size-4 shrink-0" />
           {t(key)}
         </Link>
-      ))}
+      )})}
     </nav>
   );
 

@@ -10,14 +10,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/loading";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   MicrophoneIcon,
   StopCircleIcon,
   DocumentTextIcon,
   PencilSquareIcon,
   TrashIcon,
+  Squares2X2Icon,
 } from "@heroicons/react/24/outline";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Position {
   pos: number; beschreibung: string; menge: number; einheit: string;
@@ -144,6 +145,8 @@ export default function NeuesAngebotPage() {
                 <MicrophoneIcon className="size-3.5" />Voice</TabsTrigger>
               <TabsTrigger value="text" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-foreground rounded-none px-4 py-2 text-xs text-muted-foreground data-[state=active]:text-foreground flex items-center gap-1.5">
                 <PencilSquareIcon className="size-3.5" />Text</TabsTrigger>
+              <TabsTrigger value="build" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-foreground rounded-none px-4 py-2 text-xs text-muted-foreground data-[state=active]:text-foreground flex items-center gap-1.5">
+                <Squares2X2Icon className="size-3.5" />Build</TabsTrigger>
             </TabsList>
           </div>
 
@@ -197,6 +200,42 @@ export default function NeuesAngebotPage() {
               <Button onClick={handleGenerate} disabled={loading || inputText.trim().length < 10}
                 className="w-full h-10 bg-black dark:bg-white text-sm font-medium hover:bg-black dark:bg-white/90">
                 {loading ? "Generating..." : "Generate Angebot →"}
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="build" className="p-0 m-0">
+            <div className="p-6 space-y-4">
+              <p className="text-xs text-muted-foreground">Start from scratch — no AI. Title and introduction are optional. Add positions manually in the editor below.</p>
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Title (optional)</Label>
+                <Input placeholder="e.g. Bathroom Renovation" className="border-border bg-muted"
+                  onChange={(e) => {
+                    if (!angebot) {
+                      setAngebot({
+                        einleitung: "Sehr geehrte Damen und Herren,\n\nvielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:",
+                        positionen: [{ pos: 1, beschreibung: "Arbeitsleistung gemäß Beschreibung", menge: 1, einheit: "pauschal", einzelpreis: 0, gesamtpreis: 0 }],
+                        subtotalNet: 0, mwstRate: 20, mwstTotal: 0, totalGross: 0,
+                        zahlungsbedingungen: "30 Tage netto", gewaehrleistung: "3 Jahre gemäß § 933 ABGB",
+                        schlussformel: "Mit freundlichen Grüßen\n\nIhr Handwerksbetrieb",
+                      });
+                    }
+                  }} />
+              </div>
+              <Button
+                onClick={() => {
+                  if (!angebot) {
+                    setAngebot({
+                      einleitung: "Sehr geehrte Damen und Herren,\n\nvielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:",
+                      positionen: [{ pos: 1, beschreibung: "Arbeitsleistung gemäß Beschreibung", menge: 1, einheit: "pauschal", einzelpreis: 0, gesamtpreis: 0 }],
+                      subtotalNet: 0, mwstRate: 20, mwstTotal: 0, totalGross: 0,
+                      zahlungsbedingungen: "30 Tage netto", gewaehrleistung: "3 Jahre gemäß § 933 ABGB",
+                      schlussformel: "Mit freundlichen Grüßen\n\nIhr Handwerksbetrieb",
+                    });
+                  }
+                }}
+                className="w-full h-10 bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
+                Start Building
               </Button>
             </div>
           </TabsContent>
