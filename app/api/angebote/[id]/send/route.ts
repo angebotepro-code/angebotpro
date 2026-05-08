@@ -59,10 +59,10 @@ export async function POST(
 
     const positionsRows = positions.slice(0, 6).map((p: any) => `
       <tr>
-        <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#6b7280;">Pos.${p.pos}</td>
-        <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#111827;">${p.beschreibung?.slice(0, 80)}${p.beschreibung?.length > 80 ? "…" : ""}</td>
-        <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#6b7280;text-align:right;white-space:nowrap;">${p.menge} ${p.einheit}</td>
-        <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#111827;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;">€ ${p.gesamtpreis?.toFixed(2)}</td>
+        <td style="padding:12px 8px;border-bottom:1px solid #f3f4f6;font-size:13px;color:#6b7280;white-space:nowrap;">Pos.${p.pos}</td>
+        <td style="padding:12px 12px;border-bottom:1px solid #f3f4f6;font-size:13px;color:#111827;">${p.beschreibung?.slice(0, 80)}${p.beschreibung?.length > 80 ? "…" : ""}</td>
+        <td style="padding:12px 8px;border-bottom:1px solid #f3f4f6;font-size:13px;color:#6b7280;text-align:right;white-space:nowrap;">${p.menge} ${p.einheit}</td>
+        <td style="padding:12px 12px;border-bottom:1px solid #f3f4f6;font-size:13px;color:#111827;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;">€ ${p.gesamtpreis?.toFixed(2)}</td>
       </tr>
     `).join("");
 
@@ -110,10 +110,10 @@ export async function POST(
           <h3 style="margin:0 0 12px;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Positionen</h3>
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
             <tr>
-              <td style="padding:6px 0;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Pos.</td>
-              <td style="padding:6px 0;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Beschreibung</td>
-              <td style="padding:6px 0;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;text-align:right;">Menge</td>
-              <td style="padding:6px 0;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;text-align:right;">Gesamt</td>
+              <td style="padding:8px 8px;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Pos.</td>
+              <td style="padding:8px 12px;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Beschreibung</td>
+              <td style="padding:8px 8px;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;text-align:right;">Menge</td>
+              <td style="padding:8px 12px;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;text-align:right;">Gesamt</td>
             </tr>
             ${positionsRows}
             ${positions.length > 6 ? `<tr><td colspan="4" style="padding:10px 0;font-size:12px;color:#9ca3af;">+ ${positions.length - 6} weitere Positionen — siehe PDF-Anhang</td></tr>` : ""}
