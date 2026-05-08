@@ -77,7 +77,7 @@ export default function Home() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {features.map(f => (
-              <div key={f.t} className="group rounded-xl border border-zinc-800/50 bg-zinc-900/30 p-6 hover:border-zinc-700/50 hover:bg-zinc-900/50 transition-all duration-200">
+              <div key={f.t} className="group rounded-xl border border-zinc-800/50 bg-zinc-900/30 p-6 hover:border-zinc-700/50 hover:bg-zinc-900/50 transition-[border-color,background-color] duration-200">
                 <div className="mb-3 text-2xl">{f.e}</div>
                 <h3 className="text-sm font-semibold text-zinc-200">{f.t}</h3>
                 <p className="mt-1 text-xs text-zinc-500 leading-relaxed">{f.d}</p>

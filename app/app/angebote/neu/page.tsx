@@ -121,8 +121,8 @@ export default function NeuesAngebotPage() {
               {/* Recording area */}
               <div className="flex flex-col items-center gap-4 py-8">
                 <button onClick={listening ? stopListening : startListening}
-                  className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-all duration-200 ${
-                    listening ? "bg-red-500/20 text-red-400 ring-4 ring-red-500/20" : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
+                  className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-[transform,box-shadow,background-color] duration-200 ${
+                    listening ? "bg-red-500/20 text-red-400 ring-4 ring-red-500/20" : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 active:scale-[0.96]"
                   }`}>
                   <span className="text-2xl">{listening ? "⏹" : "🎤"}</span>
                   {listening && <span className="absolute inset-0 animate-ping rounded-full bg-red-500/20" />}
