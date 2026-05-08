@@ -35,6 +35,7 @@ const faqs = [
   { q: "Can I edit the AI output?", a: "Yes. Every position, price, and text is editable. You're always in control." },
   { q: "What trades is this for?", a: "Elektriker, Installateure, Maler, Tischler, Baugewerbe, and more. AI understands trade terminology." },
   { q: "Is my data secure?", a: "All data stored in EU data centers (Frankfurt). DSGVO-compliant. Never leaves Europe." },
+  { q: "Where do the prices come from?", a: "The AI generates price estimates based on your hourly rate (set in Settings) and Austrian market rates for materials. Labor costs are calculated as estimated hours × your hourly rate. Material costs are AI estimates based on current Austrian market prices. You can adjust every price before sending." },
   { q: "Can I try for free?", a: "Yes. 3 free Angebote per month. No credit card. Upgrade when needed." },
 ];
 

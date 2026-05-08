@@ -62,7 +62,7 @@ export default function SettingsPage() {
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
         <CardHeader>
           <CardTitle className="text-base">Defaults</CardTitle>
-          <CardDescription className="text-xs text-zinc-500">Pre-filled values for new quotes.</CardDescription>
+          <CardDescription className="text-xs text-zinc-500">Pre-filled values for new quotes. <span className="text-emerald-400">Your hourly rate is used by the AI to calculate labor costs.</span></CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-4">
           <div className="space-y-2"><Label className="text-xs text-zinc-400">Hourly Rate (€)</Label>

@@ -113,6 +113,12 @@ export default function NeuesAngebotPage() {
         <p className="mt-1 text-sm text-zinc-500">Speak or type your job description. AI generates the Angebot.</p>
       </div>
 
+      {/* Pricing info */}
+      <div className="rounded-lg border border-emerald-800/30 bg-emerald-950/10 px-4 py-3 text-xs text-zinc-400">
+        <span className="font-medium text-emerald-400">How pricing works:</span> The AI estimates <strong>labor</strong> (hours × your hourly rate from Settings) and <strong>material</strong> costs (Austrian market estimates). All prices are estimates — review and adjust before sending.
+        <a href="/app/einstellungen" className="ml-1 text-emerald-400 hover:underline">Set your hourly rate →</a>
+      </div>
+
       {/* Input card */}
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50 overflow-hidden">
         <Tabs defaultValue="voice" className="w-full">
