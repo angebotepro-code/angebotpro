@@ -29,11 +29,11 @@ interface Angebot {
 }
 
 const statusColors: Record<string, string> = {
-  draft: "text-zinc-400 border-zinc-700 bg-muted",
-  sent: "text-blue-300 border-blue-800 bg-blue-950",
-  accepted: "text-brand border-emerald-800 bg-brand/10",
-  rejected: "text-red-300 border-red-800 bg-destructive/10",
-  expired: "text-zinc-500 border-zinc-800 bg-card",
+  draft: "text-muted-foreground border-border bg-muted",
+  sent: "text-blue-600 dark:text-blue-300 border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-950",
+  accepted: "text-emerald-600 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950",
+  rejected: "text-red-600 dark:text-red-300 border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950",
+  expired: "text-muted-foreground border-border bg-card",
 };
 
 export default function DashboardPage() {
@@ -81,7 +81,7 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold tracking-tight text-foreground">{t("dashboard.welcome")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
         </div>
-        <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-black dark:bg-white hover:bg-black dark:bg-white/90 h-9 text-sm flex items-center gap-1.5" })}>
+        <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-foreground text-background hover:bg-foreground/80 h-9 text-sm flex items-center gap-1.5" })}>
           <PlusIcon className="size-4" />New Quote
         </Link>
       </div>
@@ -98,9 +98,9 @@ export default function DashboardPage() {
           };
           const colorKey = Object.keys(colorMap).find(k => s.label.toLowerCase().startsWith(k)) ?? "open";
           return (
-          <Card key={s.label} className="shadow-card bg-card/50">
+          <Card key={s.label} className="shadow-card bg-card">
             <CardContent className="flex items-center gap-4 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted/50">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
                 <Icon className={`size-5 ${colorMap[colorKey]}`} />
               </div>
               <div>
@@ -128,7 +128,7 @@ export default function DashboardPage() {
               <PencilSquareIcon className="mb-3 size-8 text-muted-foreground" />
               <p className="text-sm font-medium text-muted-foreground">{t("dashboard.noQuotes")}</p>
               <p className="mt-1 text-xs text-muted-foreground">Create your first quote to get started.</p>
-              <Link href="/app/angebote/neu" className={buttonVariants({ className: "mt-4 bg-black dark:bg-white hover:bg-black dark:bg-white/90 h-8 text-xs" })}>
+              <Link href="/app/angebote/neu" className={buttonVariants({ className: "mt-4 bg-foreground text-background hover:bg-foreground/80 h-8 text-xs" })}>
                 Create Quote
               </Link>
             </div>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
                 <div key={a.id} className="group flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-lg p-3 hover:bg-muted/30 transition-colors">
                   <Link href={`/app/angebote/${a.id}`} className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="truncate text-sm font-medium text-zinc-200 group-hover:text-foreground">{a.title || a.number}</span>
+                      <span className="truncate text-sm font-medium text-foreground group-hover:text-foreground">{a.title || a.number}</span>
                       <Badge className={`shrink-0 text-[10px] px-1.5 py-0 font-normal ${statusColors[a.status] ?? "text-muted-foreground"}`}>
                         {a.status}
                       </Badge>
@@ -151,9 +151,9 @@ export default function DashboardPage() {
                     <span className="text-sm font-medium tabular-nums text-foreground">€{(a.totalGross ?? 0).toFixed(2)}</span>
                     {(a.status === "draft" || a.status === "sent") && (
                       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-emerald-400 hover:text-brand hover:bg-brand/10"
+                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-emerald-600 dark:text-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-brand/10"
                           onClick={(e) => { e.preventDefault(); updateStatus(a.id, "accepted"); }}><CheckIcon className="size-4" /></Button>
-                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-destructive hover:text-red-300 hover:bg-destructive/10"
+                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-600 dark:text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-destructive/10"
                           onClick={(e) => { e.preventDefault(); updateStatus(a.id, "rejected"); }}><XMarkIcon className="size-4" /></Button>
                       </div>
                     )}

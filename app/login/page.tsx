@@ -55,8 +55,8 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8">
         {/* Brand */}
         <div className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-black dark:bg-white/10">
-            <span className="text-xl font-bold text-brand">A</span>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
+            <span className="text-xl font-bold text-foreground">A</span>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
             {t("login.title")}
@@ -94,7 +94,7 @@ export default function LoginPage() {
                   </div>
                   {error && <p className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-destructive">{error}</p>}
                   <Button type="submit" disabled={loading}
-                    className="h-10 w-full bg-black dark:bg-white text-sm font-medium hover:bg-black dark:bg-white/90">
+                    className="h-10 w-full bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
                     {loading ? "..." : t("login.loginButton")}
                   </Button>
                 </form>
@@ -123,7 +123,7 @@ export default function LoginPage() {
                   </div>
                   {error && <p className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-destructive">{error}</p>}
                   <Button type="submit" disabled={loading}
-                    className="h-10 w-full bg-black dark:bg-white text-sm font-medium hover:bg-black dark:bg-white/90">
+                    className="h-10 w-full bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
                     {loading ? "..." : t("login.signupButton")}
                   </Button>
                 </form>

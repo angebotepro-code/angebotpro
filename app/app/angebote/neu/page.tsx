@@ -232,7 +232,7 @@ export default function NeuesAngebotPage() {
                   <DocumentTextIcon className="size-3.5" />PDF
                 </a>
               )}
-              <Button size="sm" onClick={handleSave} disabled={saving} className="h-8 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-xs">
+              <Button size="sm" onClick={handleSave} disabled={saving} className="h-8 bg-foreground text-background hover:bg-black dark:bg-white/90 text-xs">
                 {saving ? "Saving..." : "Save"}
               </Button>
             </div>

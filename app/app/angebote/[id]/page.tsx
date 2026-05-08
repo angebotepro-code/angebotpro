@@ -143,11 +143,11 @@ export default function AngebotDetailPage() {
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <Button size="sm" onClick={handleSave} disabled={saving}
-            className="h-8 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-xs">
+            className="h-8 bg-foreground text-background hover:bg-black dark:bg-white/90 text-xs">
             {saving ? "..." : savedAt ? "✓ Saved" : "Save"}
           </Button>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <Button className="h-8 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-xs flex items-center gap-1" disabled={sent} onClick={() => setDialogOpen(true)}>
+            <Button className="h-8 bg-foreground text-background hover:bg-black dark:bg-white/90 text-xs flex items-center gap-1" disabled={sent} onClick={() => setDialogOpen(true)}>
               {sent ? <><CheckIcon className="size-3.5" />Sent</> : <><EnvelopeIcon className="size-3.5" />Send</>}
             </Button>
             <DialogContent className="bg-zinc-900 border-zinc-800">
@@ -157,7 +157,7 @@ export default function AngebotDetailPage() {
                   className="border-zinc-800 bg-muted/50 text-foreground" />
                 {sendError && <p className="text-xs text-destructive">{sendError}</p>}
                 <Button onClick={handleSend} disabled={sending || !sendEmail.includes("@")}
-                  className="w-full h-9 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-sm">Send</Button>
+                  className="w-full h-9 bg-foreground text-background hover:bg-black dark:bg-white/90 text-sm">Send</Button>
               </div>
             </DialogContent>
           </Dialog>
