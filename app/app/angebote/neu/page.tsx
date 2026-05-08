@@ -140,12 +140,12 @@ export default function NeuesAngebotPage() {
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-card overflow-hidden">
         <Tabs defaultValue="voice" className="w-full">
           <div className="px-3 sm:px-6 pt-4 sm:pt-5 pb-2">
-            <TabsList className="bg-muted p-1 rounded-lg w-full h-auto grid grid-cols-3">
-              <TabsTrigger value="voice" className="data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+            <TabsList className="bg-muted p-1 rounded-lg !flex w-full h-auto">
+              <TabsTrigger value="voice" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
                 <MicrophoneIcon className="size-5" />Voice</TabsTrigger>
-              <TabsTrigger value="text" className="data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+              <TabsTrigger value="text" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
                 <PencilSquareIcon className="size-5" />Text</TabsTrigger>
-              <TabsTrigger value="build" className="data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+              <TabsTrigger value="build" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
                 <Squares2X2Icon className="size-5" />Build</TabsTrigger>
             </TabsList>
           </div>
