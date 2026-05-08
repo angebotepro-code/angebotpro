@@ -9,158 +9,223 @@ import {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
+    padding: 56,
     fontFamily: "Helvetica",
     fontSize: 10,
-    color: "#1a1a1a",
+    color: "#111827",
+    lineHeight: 1.5,
   },
   header: {
-    marginBottom: 30,
+    marginBottom: 40,
+    paddingBottom: 24,
     borderBottom: "2px solid #111827",
-    paddingBottom: 15,
   },
   companyName: {
-    fontSize: 18,
+    fontSize: 22,
+    fontFamily: "Helvetica-Bold",
+    color: "#111827",
+    letterSpacing: -0.3,
+    marginBottom: 6,
+  },
+  companyInfo: {
+    fontSize: 9,
+    color: "#6b7280",
+    lineHeight: 1.6,
+  },
+  titleBlock: {
+    marginBottom: 32,
+  },
+  quoteLabel: {
+    fontSize: 8,
+    color: "#9ca3af",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: 6,
+    fontFamily: "Helvetica-Bold",
+  },
+  quoteNumber: {
+    fontSize: 20,
     fontFamily: "Helvetica-Bold",
     color: "#111827",
     marginBottom: 4,
   },
-  companyInfo: {
+  quoteMeta: {
     fontSize: 9,
-    color: "#666",
-    lineHeight: 1.4,
+    color: "#9ca3af",
+    marginBottom: 24,
   },
-  titleSection: {
-    marginBottom: 20,
+  customerBox: {
+    marginBottom: 32,
+    backgroundColor: "#f9fafb",
+    padding: 16,
+    borderRadius: 6,
+    border: "1px solid #e5e7eb",
   },
-  label: {
+  customerLabel: {
     fontSize: 8,
-    color: "#999",
+    color: "#9ca3af",
     textTransform: "uppercase",
-    marginBottom: 4,
-  },
-  quoteNumber: {
-    fontSize: 16,
+    letterSpacing: 1,
+    marginBottom: 6,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 2,
-  },
-  date: {
-    fontSize: 9,
-    color: "#666",
-    marginBottom: 20,
-  },
-  customerSection: {
-    marginBottom: 25,
-    padding: 12,
-    backgroundColor: "#f8fafc",
-    borderRadius: 4,
   },
   customerName: {
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 2,
-  },
-  customerAddress: {
-    fontSize: 9,
-    color: "#333",
+    color: "#111827",
+    marginBottom: 4,
   },
   greeting: {
-    fontSize: 10,
-    lineHeight: 1.6,
-    marginBottom: 20,
+    fontSize: 10.5,
+    lineHeight: 1.7,
+    color: "#374151",
+    marginBottom: 28,
   },
-  positionTable: {
-    marginBottom: 25,
+  sectionTitle: {
+    fontSize: 8,
+    fontFamily: "Helvetica-Bold",
+    color: "#9ca3af",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: 12,
+  },
+  table: {
+    marginBottom: 28,
   },
   tableHeader: {
     flexDirection: "row",
-    borderBottom: "1px solid #e2e8f0",
-    paddingBottom: 6,
-    marginBottom: 8,
+    backgroundColor: "#f9fafb",
+    borderBottom: "1px solid #e5e7eb",
+    borderTop: "1px solid #e5e7eb",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
   },
   tableHeaderCell: {
-    fontSize: 8,
+    fontSize: 7.5,
     fontFamily: "Helvetica-Bold",
-    color: "#999",
+    color: "#9ca3af",
     textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  tableRow: {
+    flexDirection: "row",
+    borderBottom: "1px solid #f3f4f6",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  tableRowAlt: {
+    flexDirection: "row",
+    borderBottom: "1px solid #f3f4f6",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: "#fafafa",
   },
   posCol: { width: 40 },
-  descCol: { flex: 1 },
+  descCol: { flex: 1, paddingRight: 12 },
   qtyCol: { width: 50, textAlign: "right" },
-  unitCol: { width: 60, textAlign: "center" },
-  priceCol: { width: 70, textAlign: "right" },
+  unitCol: { width: 64, textAlign: "center" },
+  priceCol: { width: 72, textAlign: "right" },
   totalCol: { width: 80, textAlign: "right" },
-  positionRow: {
-    flexDirection: "row",
-    paddingVertical: 8,
-    borderBottom: "1px solid #f1f5f9",
-  },
-  posText: { fontSize: 9, color: "#999" },
-  descText: { fontSize: 9, lineHeight: 1.4 },
-  qtyText: { fontSize: 9, textAlign: "right" },
-  unitText: { fontSize: 9, textAlign: "center", color: "#666" },
-  priceText: { fontSize: 9, textAlign: "right" },
+  posNum: { fontSize: 9, color: "#d1d5db", fontFamily: "Helvetica-Bold" },
+  posDesc: { fontSize: 9.5, lineHeight: 1.5, color: "#1f2937" },
+  posQty: { fontSize: 9, textAlign: "right", color: "#6b7280" },
+  posUnit: { fontSize: 8.5, textAlign: "center", color: "#9ca3af" },
+  posPrice: { fontSize: 9, textAlign: "right", color: "#1f2937" },
+  posTotal: { fontSize: 9, textAlign: "right", color: "#111827", fontFamily: "Helvetica-Bold" },
   totalsSection: {
-    marginBottom: 25,
+    marginBottom: 28,
     alignItems: "flex-end",
+  },
+  totalsBox: {
+    width: 260,
+    backgroundColor: "#f9fafb",
+    padding: 16,
+    borderRadius: 6,
+    border: "1px solid #e5e7eb",
   },
   totalRow: {
     flexDirection: "row",
-    width: 220,
     justifyContent: "space-between",
     paddingVertical: 3,
   },
   totalLabel: {
-    fontSize: 9,
-    color: "#666",
+    fontSize: 9.5,
+    color: "#6b7280",
   },
   totalValue: {
-    fontSize: 9,
+    fontSize: 9.5,
+    color: "#374151",
     fontFamily: "Helvetica-Bold",
   },
   grandTotal: {
     flexDirection: "row",
-    width: 220,
     justifyContent: "space-between",
-    paddingVertical: 6,
-    marginTop: 4,
-    borderTop: "2px solid #111827",
+    paddingTop: 10,
+    marginTop: 8,
+    borderTop: "1px solid #d1d5db",
   },
   grandTotalLabel: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: "Helvetica-Bold",
+    color: "#111827",
   },
   grandTotalValue: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: "Helvetica-Bold",
     color: "#111827",
   },
   legalSection: {
-    marginBottom: 20,
-    paddingTop: 12,
-    borderTop: "1px solid #e2e8f0",
+    marginBottom: 28,
+    padding: 14,
+    backgroundColor: "#f9fafb",
+    borderRadius: 6,
+    border: "1px solid #e5e7eb",
   },
-  legalText: {
-    fontSize: 8,
-    color: "#666",
-    lineHeight: 1.6,
+  legalRow: {
+    flexDirection: "row",
+    marginBottom: 6,
+  },
+  legalLabel: {
+    fontSize: 8.5,
+    color: "#9ca3af",
+    width: 130,
+    fontFamily: "Helvetica-Bold",
+  },
+  legalValue: {
+    fontSize: 8.5,
+    color: "#374151",
+    flex: 1,
   },
   closing: {
-    fontSize: 10,
-    lineHeight: 1.6,
-    marginBottom: 30,
+    fontSize: 10.5,
+    lineHeight: 1.7,
+    color: "#374151",
+    marginBottom: 48,
   },
   footer: {
     position: "absolute",
-    bottom: 30,
-    left: 50,
-    right: 50,
+    bottom: 36,
+    left: 56,
+    right: 56,
+    borderTop: "1px solid #e5e7eb",
+    paddingTop: 10,
+  },
+  footerText: {
     fontSize: 7,
-    color: "#ccc",
+    color: "#d1d5db",
     textAlign: "center",
-    borderTop: "1px solid #f1f5f9",
-    paddingTop: 8,
-    lineHeight: 1.4,
+  },
+  signatureSection: {
+    marginTop: 12,
+    padding: 14,
+    backgroundColor: "#f0fdf4",
+    borderRadius: 6,
+    border: "1px solid #bbf7d0",
+  },
+  signatureText: {
+    fontSize: 9,
+    color: "#166534",
+    lineHeight: 1.6,
   },
 });
 
@@ -192,9 +257,11 @@ interface AngebotPDFProps {
     gewaehrleistung: string;
     schlussformel: string;
   };
+  acceptedByName?: string;
+  acceptedAt?: string;
 }
 
-export function AngebotPDF({ company, angebot }: AngebotPDFProps) {
+export function AngebotPDF({ company, angebot, acceptedByName, acceptedAt }: AngebotPDFProps) {
   const c = company ?? {
     name: "Musterfirma GmbH",
     address: "Musterstraße 1, 4020 Linz",
@@ -211,110 +278,110 @@ export function AngebotPDF({ company, angebot }: AngebotPDFProps) {
           <Text style={styles.companyName}>{c.name}</Text>
           <Text style={styles.companyInfo}>
             {c.address}{"\n"}
-            Tel: {c.phone} | {c.email}{"\n"}
+            {c.phone} · {c.email}{"\n"}
             UID: {c.uidNumber}
           </Text>
         </View>
 
-        {/* Title */}
-        <View style={styles.titleSection}>
-          <Text style={styles.label}>Angebot</Text>
+        {/* Title Block */}
+        <View style={styles.titleBlock}>
+          <Text style={styles.quoteLabel}>Angebot</Text>
           <Text style={styles.quoteNumber}>Nr. {angebot.number}</Text>
-          <Text style={styles.date}>
-            Datum: {angebot.date} | Gültig bis: 30 Tage
+          <Text style={styles.quoteMeta}>
+            Erstellt am {angebot.date} · Gültig bis:{" "}
+            {new Date(new Date(angebot.date.split(".").reverse().join("-")).getTime() + 30 * 86400000).toLocaleDateString("de-AT")}
           </Text>
         </View>
 
-        {/* Customer address (placeholder for now) */}
-        <View style={styles.customerSection}>
-          <Text style={styles.customerName}>Kunde</Text>
-          <Text style={styles.customerAddress}>
-            Adresse wird hier eingefügt
-          </Text>
+        {/* Customer Box */}
+        <View style={styles.customerBox}>
+          <Text style={styles.customerLabel}>Kunde</Text>
+          <Text style={styles.customerName}>—</Text>
         </View>
 
         {/* Greeting */}
         <Text style={styles.greeting}>{angebot.einleitung}</Text>
 
-        {/* Position table */}
-        <View style={styles.positionTable}>
+        {/* Positions */}
+        <Text style={styles.sectionTitle}>Leistungsumfang</Text>
+        <View style={styles.table}>
           <View style={styles.tableHeader}>
-            <Text style={[styles.tableHeaderCell, styles.posCol]}>Pos.</Text>
-            <Text style={[styles.tableHeaderCell, styles.descCol]}>
-              Beschreibung
-            </Text>
-            <Text style={[styles.tableHeaderCell, styles.qtyCol]}>Menge</Text>
-            <Text style={[styles.tableHeaderCell, styles.unitCol]}>
-              Einheit
-            </Text>
-            <Text style={[styles.tableHeaderCell, styles.priceCol]}>
-              Einzel (€)
-            </Text>
-            <Text style={[styles.tableHeaderCell, styles.totalCol]}>
-              Gesamt (€)
-            </Text>
+            <Text style={[{ ...styles.tableHeaderCell }, styles.posCol]}>Pos.</Text>
+            <Text style={[{ ...styles.tableHeaderCell }, styles.descCol]}>Beschreibung</Text>
+            <Text style={[{ ...styles.tableHeaderCell }, styles.qtyCol]}>Menge</Text>
+            <Text style={[{ ...styles.tableHeaderCell }, styles.unitCol]}>Einheit</Text>
+            <Text style={[{ ...styles.tableHeaderCell }, styles.priceCol]}>E-Preis</Text>
+            <Text style={[{ ...styles.tableHeaderCell }, styles.totalCol]}>G-Preis</Text>
           </View>
-          {(angebot.positionen ?? []).map((p) => (
-            <View style={styles.positionRow} key={p.pos} wrap={false}>
-              <Text style={[styles.posText, styles.posCol]}>{p.pos}</Text>
-              <Text style={[styles.descText, styles.descCol]}>
-                {p.beschreibung}
-              </Text>
-              <Text style={[styles.qtyText, styles.qtyCol]}>{p.menge}</Text>
-              <Text style={[styles.unitText, styles.unitCol]}>{p.einheit}</Text>
-              <Text style={[styles.priceText, styles.priceCol]}>
-                {p.einzelpreis.toFixed(2)}
-              </Text>
-              <Text style={[styles.priceText, styles.totalCol]}>
-                {p.gesamtpreis.toFixed(2)}
-              </Text>
+          {(angebot.positionen ?? []).map((p, i) => (
+            <View style={i % 2 === 0 ? styles.tableRow : styles.tableRowAlt} key={p.pos} wrap={false}>
+              <Text style={[{ ...styles.posNum }, styles.posCol]}>{p.pos}</Text>
+              <Text style={[{ ...styles.posDesc }, styles.descCol]}>{p.beschreibung}</Text>
+              <Text style={[{ ...styles.posQty }, styles.qtyCol]}>{p.menge}</Text>
+              <Text style={[{ ...styles.posUnit }, styles.unitCol]}>{p.einheit}</Text>
+              <Text style={[{ ...styles.posPrice }, styles.priceCol]}>{p.einzelpreis.toFixed(2)}</Text>
+              <Text style={[{ ...styles.posTotal }, styles.totalCol]}>{p.gesamtpreis.toFixed(2)}</Text>
             </View>
           ))}
         </View>
 
         {/* Totals */}
         <View style={styles.totalsSection}>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Zwischensumme netto</Text>
-            <Text style={styles.totalValue}>
-              € {angebot.subtotalNet.toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>
-              + {angebot.mwstRate}% MwSt
-            </Text>
-            <Text style={styles.totalValue}>
-              € {angebot.mwstTotal.toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.grandTotal}>
-            <Text style={styles.grandTotalLabel}>Gesamtbetrag brutto</Text>
-            <Text style={styles.grandTotalValue}>
-              € {angebot.totalGross.toFixed(2)}
-            </Text>
+          <View style={styles.totalsBox}>
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Zwischensumme (netto)</Text>
+              <Text style={styles.totalValue}>€ {angebot.subtotalNet.toFixed(2)}</Text>
+            </View>
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>+ {angebot.mwstRate}% Umsatzsteuer</Text>
+              <Text style={styles.totalValue}>€ {angebot.mwstTotal.toFixed(2)}</Text>
+            </View>
+            <View style={styles.grandTotal}>
+              <Text style={styles.grandTotalLabel}>Gesamtbetrag brutto</Text>
+              <Text style={styles.grandTotalValue}>€ {angebot.totalGross.toFixed(2)}</Text>
+            </View>
           </View>
         </View>
 
         {/* Legal */}
         <View style={styles.legalSection}>
-          <Text style={styles.legalText}>
-            Zahlungsbedingungen: {angebot.zahlungsbedingungen}
-            {"\n"}
-            Gewährleistung: {angebot.gewaehrleistung}
-            {"\n"}
-            Dieses Angebot ist unverbindlich und 30 Tage gültig.
-          </Text>
+          <View style={styles.legalRow}>
+            <Text style={styles.legalLabel}>Zahlungsbedingungen</Text>
+            <Text style={styles.legalValue}>{angebot.zahlungsbedingungen ?? "30 Tage netto"}</Text>
+          </View>
+          <View style={styles.legalRow}>
+            <Text style={styles.legalLabel}>Gewährleistung</Text>
+            <Text style={styles.legalValue}>{angebot.gewaehrleistung ?? "3 Jahre gemäß § 933 ABGB"}</Text>
+          </View>
+          <View style={styles.legalRow}>
+            <Text style={styles.legalLabel}>Gültigkeit</Text>
+            <Text style={styles.legalValue}>30 Tage ab Angebotsdatum</Text>
+          </View>
+          <View style={styles.legalRow}>
+            <Text style={styles.legalLabel}>Angebotstyp</Text>
+            <Text style={styles.legalValue}>Unverbindliches Angebot</Text>
+          </View>
         </View>
+
+        {/* Acceptance */}
+        {acceptedByName && (
+          <View style={styles.signatureSection}>
+            <Text style={styles.signatureText}>
+              ✓ Dieses Angebot wurde angenommen von: {acceptedByName}
+              {acceptedAt ? ` am ${new Date(acceptedAt).toLocaleDateString("de-AT")}` : ""}
+            </Text>
+          </View>
+        )}
 
         {/* Closing */}
         <Text style={styles.closing}>{angebot.schlussformel}</Text>
 
         {/* Footer */}
-        <Text style={styles.footer}>
-          Erstellt mit AngebotPro — KI-gestützte Angebotserstellung{"\n"}
-          Dieses Dokument wurde mit KI-Unterstützung erstellt und vor dem Versand vom Ersteller geprüft.
-        </Text>
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>
+            Erstellt mit AngebotPro · KI-unterstützt erstellt und vom Ersteller geprüft
+          </Text>
+        </View>
       </Page>
     </Document>
   );

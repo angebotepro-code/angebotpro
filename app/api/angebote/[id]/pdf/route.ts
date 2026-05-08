@@ -58,6 +58,8 @@ export async function GET(
         gewaehrleistung: angebot.gewaehrleistung ?? "",
         schlussformel: angebot.schlussformel ?? "",
       },
+      acceptedByName: angebot.acceptedByName ?? undefined,
+      acceptedAt: angebot.acceptedAt ?? undefined,
     });
 
     return new NextResponse(pdfBuffer as unknown as BodyInit, {

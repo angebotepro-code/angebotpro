@@ -85,19 +85,19 @@ export async function POST(
 <body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;padding:40px 0;">
     <tr><td align="center">
-      <table width="640" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;">
+      <table width="680" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;">
 
         <!-- Header -->
-        <tr><td style="padding:36px 44px 24px;">
+        <tr><td style="padding:40px 48px 28px;">
           <div style="font-size:22px;font-weight:700;color:#111827;letter-spacing:-0.3px;">${companyName}</div>
           <div style="margin-top:4px;font-size:13px;color:#9ca3af;">ANGBOT ${angebot.number} · ${new Date(angebot.createdAt).toLocaleDateString("de-AT")}</div>
         </td></tr>
 
         <!-- Divider -->
-        <tr><td style="padding:0 44px;"><div style="border-bottom:1px solid #f3f4f6;"></div></td></tr>
+        <tr><td style="padding:0 48px;"><div style="border-bottom:1px solid #f3f4f6;"></div></td></tr>
 
         <!-- Body -->
-        <tr><td style="padding:28px 44px 36px;">
+        <tr><td style="padding:32px 48px 40px;">
 
           <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.7;">Sehr geehrte Damen und Herren,</p>
           <p style="margin:0 0 24px;font-size:15px;color:#374151;line-height:1.7;">${isAck
@@ -157,7 +157,7 @@ export async function POST(
         </td></tr>
 
         <!-- Footer -->
-        <tr><td style="padding:16px 44px;background:#f9fafb;border-top:1px solid #e5e7eb;">
+        <tr><td style="padding:16px 48px;background:#f9fafb;border-top:1px solid #e5e7eb;">
           <p style="margin:0;font-size:11px;color:#d1d5db;">Erstellt mit AngebotPro — KI-gestützte Angebotserstellung</p>
         </td></tr>
 
