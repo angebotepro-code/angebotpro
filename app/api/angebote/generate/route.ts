@@ -28,12 +28,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate Angebot via AI
-    const angebot = await generateAngebot({
-      inputText: input_text,
-      trade,
-    });
-
     // Get or create user's company
     const adminClient = createAdminClient();
 
@@ -44,7 +38,7 @@ export async function POST(request: Request) {
       .eq("email", user.email!)
       .maybeSingle();
 
-    let companyId = userRecord?.companyId;
+    let companyId = (userRecord as any)?.companyId as string | undefined;
 
     // Auto-create Company + User if first-time user
     if (!userRecord) {
@@ -63,6 +57,26 @@ export async function POST(request: Request) {
         });
       }
     }
+
+    // Fetch company settings for context
+    let companyContext = "";
+    if (companyId) {
+      const { data: comp } = await adminClient
+        .from("Company")
+        .select("*")
+        .eq("id", companyId)
+        .single();
+      if (comp) {
+        companyContext = `Der Betrieb heißt "${comp.name}". Standard-Stundensatz: €${comp.defaultHourlyRate}/Std.`;
+      }
+    }
+
+    // Generate Angebot via AI
+    const angebot = await generateAngebot({
+      inputText: input_text,
+      trade,
+      companyContext,
+    });
 
     // Generate Angebot number: YYYY-NNNN
     const year = new Date().getFullYear();

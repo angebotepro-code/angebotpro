@@ -39,6 +39,7 @@ const angebotSchema = z.object({
 export interface GenerateAngebotInput {
   inputText: string;
   trade?: string;
+  companyContext?: string;
 }
 
 export interface GeneratedAngebot {
@@ -64,6 +65,7 @@ export interface GeneratedAngebot {
 export async function generateAngebot({
   inputText,
   trade,
+  companyContext,
 }: GenerateAngebotInput): Promise<GeneratedAngebot> {
   // 1. Deterministic MwSt (NEVER trust the LLM for tax)
   const mwstResult = getMwstRate(inputText, trade);
@@ -71,6 +73,8 @@ export async function generateAngebot({
   const tradeContext = trade
     ? `\nDer Handwerker ist vom Typ: ${trade}. Verwende fachspezifische Terminologie.`
     : "";
+
+  const companyInfo = companyContext ? `\n${companyContext}` : "";
 
   // 2. Generate structured Angebot via LLM
   const { object } = await generateObject({
@@ -92,7 +96,7 @@ REGELN:
 - Standard-Gewährleistung: '3 Jahre gemäß § 933 ABGB'
 - Gültigkeitsdauer: erwähne im Angebotstext, dass das Angebot 30 Tage gültig ist
 - Erwähne, dass es sich um ein unverbindliches Angebot handelt
-- Schlussformel: höflicher, professioneller Abschluss${tradeContext}`,
+- Schlussformel: höflicher, professioneller Abschluss${tradeContext}${companyInfo}`,
     prompt: inputText,
   });
 
