@@ -362,15 +362,61 @@ export default function AngebotDetailPage() {
           <CardHeader><CardTitle className="text-base text-foreground">Revision History</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {[...a.revisions].reverse().map((rev, i) => (
+              {[...a.revisions].reverse().map((rev, i) => {
+                const prev = i < a.revisions!.length - 1
+                  ? [...a.revisions!].reverse()[i + 1]?.snapshot
+                  : null;
+                const changes: string[] = [];
+                if (prev) {
+                  if (rev.snapshot?.title !== prev.title) changes.push("Title changed");
+                  if (rev.snapshot?.einleitung !== prev.einleitung) changes.push("Introduction edited");
+                  const pLen = rev.snapshot?.positions?.length ?? 0;
+                  const prevPLen = prev.positions?.length ?? 0;
+                  if (pLen !== prevPLen) changes.push(`Positions: ${prevPLen} → ${pLen}`);
+                  else if (JSON.stringify(rev.snapshot?.positions) !== JSON.stringify(prev.positions)) changes.push("Positions updated");
+                  if (rev.snapshot?.subtotalNet !== prev.subtotalNet) changes.push("Pricing changed");
+                  if (rev.snapshot?.zahlungsbedingungen !== prev.zahlungsbedingungen) changes.push("Payment terms updated");
+                  if (rev.snapshot?.gewaehrleistung !== prev.gewaehrleistung) changes.push("Warranty updated");
+                } else {
+                  changes.push("Initial creation");
+                }
+                if (changes.length === 0) changes.push("Minor edits");
+                return (
                 <div key={i} className="flex items-start justify-between gap-4 rounded-lg border border-border p-3 text-xs">
-                  <div>
-                    <p className="font-medium text-foreground">{rev.editor}</p>
-                    <p className="text-muted-foreground mt-0.5">Saved {new Date(rev.timestamp).toLocaleString("de-AT")}</p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-foreground">{rev.editor}</span>
+                      <span className="text-muted-foreground">·</span>
+                      <span className="text-muted-foreground">v{a.revisions!.length - i}</span>
+                    </div>
+                    <p className="text-muted-foreground mt-0.5">
+                      {new Date(rev.timestamp).toLocaleString("de-AT")} — {changes.join(", ")}
+                    </p>
                   </div>
-                  <span className="text-muted-foreground shrink-0">v{a.revisions!.length - i}</span>
+                  {a.status === "draft" && (
+                    <Button size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground hover:text-foreground shrink-0"
+                      onClick={() => {
+                        if (!rev.snapshot) return;
+                        setA((prev) => prev ? {
+                          ...prev,
+                          title: rev.snapshot.title ?? prev.title,
+                          einleitung: rev.snapshot.einleitung ?? prev.einleitung,
+                          schlussformel: rev.snapshot.schlussformel ?? prev.schlussformel,
+                          positions: rev.snapshot.positions ?? prev.positions,
+                          subtotalNet: rev.snapshot.subtotalNet ?? prev.subtotalNet,
+                          mwstRate: rev.snapshot.mwstRate ?? prev.mwstRate,
+                          mwstTotal: rev.snapshot.mwstTotal ?? prev.mwstTotal,
+                          totalGross: rev.snapshot.totalGross ?? prev.totalGross,
+                          zahlungsbedingungen: rev.snapshot.zahlungsbedingungen ?? prev.zahlungsbedingungen,
+                          gewaehrleistung: rev.snapshot.gewaehrleistung ?? prev.gewaehrleistung,
+                        } : null);
+                        mutate();
+                      }}>
+                      Restore
+                    </Button>
+                  )}
                 </div>
-              ))}
+              )})}
             </div>
           </CardContent>
         </Card>
