@@ -28,9 +28,8 @@ import {
 import { useTheme } from "@/components/theme-provider";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const { t } = useI18n();
+  const { t, lang, setLang } = useI18n();
   const { theme, toggle: toggleTheme } = useTheme();
-  const { lang, setLang } = useI18n();
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
@@ -77,27 +76,27 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
       <Separator />
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center gap-3 w-full rounded-lg p-2 hover:bg-muted transition-colors text-left">
-          <Avatar className="h-8 w-8 shrink-0">
-            <AvatarFallback className="bg-primary text-primary-foreground text-xs">{initials}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="truncate text-sm text-foreground">{email}</p>
-          </div>
+        <DropdownMenuTrigger className="flex items-center gap-3 w-full rounded-lg p-2 hover:bg-muted transition-colors text-left cursor-pointer" aria-label="User menu">
+            <Avatar className="h-8 w-8 shrink-0">
+              <AvatarFallback className="bg-primary text-primary-foreground text-xs">{initials}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <p className="truncate text-sm text-foreground">{email}</p>
+            </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" side="top" className="w-56">
+        <DropdownMenuContent align="start" className="w-56">
           <DropdownMenuLabel>{email}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={toggleTheme} className="flex items-center justify-between cursor-pointer">
+          <DropdownMenuItem onSelect={toggleTheme} className="flex items-center justify-between cursor-pointer">
             Theme
             <span className="text-xs text-muted-foreground">{theme === "dark" ? "☀️ Light" : "🌙 Dark"}</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setLang(lang === "en" ? "de" : "en")} className="flex items-center justify-between cursor-pointer">
+          <DropdownMenuItem onSelect={() => setLang(lang === "en" ? "de" : "en")} className="flex items-center justify-between cursor-pointer">
             Language
             <span className="text-xs text-muted-foreground">{lang === "en" ? "DE" : "EN"}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout} className="text-destructive cursor-pointer">
+          <DropdownMenuItem onSelect={handleLogout} className="text-destructive cursor-pointer">
             {t("sidebar.logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>
