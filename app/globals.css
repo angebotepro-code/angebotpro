@@ -153,13 +153,13 @@
 
 @layer utilities {
   .shadow-card {
-    box-shadow: 0 0 0 1px var(--border);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
   }
   .dark .shadow-card {
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
   }
   .shadow-card-hover {
-    box-shadow: 0 0 0 1px var(--ring);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   }
   .dark .shadow-card-hover {
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.13);

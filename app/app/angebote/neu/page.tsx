@@ -152,7 +152,7 @@ export default function NeuesAngebotPage() {
               <div className="flex flex-col items-center gap-4 py-8">
                 <button onClick={listening ? stopListening : startListening}
                   className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-[transform,box-shadow,background-color] duration-200 ${
-                    listening ? "bg-red-500/20 text-destructive ring-4 ring-red-500/20" : "bg-primary/10 text-emerald-400 hover:bg-primary/20 active:scale-[0.96]"
+                    listening ? "bg-red-500/20 text-destructive ring-4 ring-red-500/20" : "bg-black dark:bg-white/10 text-emerald-400 hover:bg-black dark:bg-white/20 active:scale-[0.96]"
                   }`}>
                   {listening ? <StopCircleIcon className="size-8" /> : <MicrophoneIcon className="size-8" />}
                   {listening && <span className="absolute inset-0 animate-ping rounded-full bg-red-500/20" />}
@@ -175,7 +175,7 @@ export default function NeuesAngebotPage() {
                   <Textarea value={inputText} onChange={(e) => setInputText(e.target.value)} rows={4}
                     className="border-zinc-800 bg-muted/50 text-sm text-zinc-200 placeholder:text-zinc-600 resize-none" />
                   <Button onClick={handleGenerate} disabled={loading}
-                    className="w-full h-10 bg-primary text-sm font-medium hover:bg-primary/90">
+                    className="w-full h-10 bg-black dark:bg-white text-sm font-medium hover:bg-black dark:bg-white/90">
                     {loading ? "Generating..." : "Generate Angebot →"}
                   </Button>
                 </div>
@@ -194,7 +194,7 @@ export default function NeuesAngebotPage() {
                 className="border-zinc-800 bg-muted/50 text-sm text-zinc-200 placeholder:text-zinc-600 resize-none"
                 placeholder="Describe the job — rooms, materials, measurements, customer... (in German)" />
               <Button onClick={handleGenerate} disabled={loading || inputText.trim().length < 10}
-                className="w-full h-10 bg-primary text-sm font-medium hover:bg-primary/90">
+                className="w-full h-10 bg-black dark:bg-white text-sm font-medium hover:bg-black dark:bg-white/90">
                 {loading ? "Generating..." : "Generate Angebot →"}
               </Button>
             </div>
@@ -232,7 +232,7 @@ export default function NeuesAngebotPage() {
                   <DocumentTextIcon className="size-3.5" />PDF
                 </a>
               )}
-              <Button size="sm" onClick={handleSave} disabled={saving} className="h-8 bg-primary hover:bg-primary/90 text-xs">
+              <Button size="sm" onClick={handleSave} disabled={saving} className="h-8 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-xs">
                 {saving ? "Saving..." : "Save"}
               </Button>
             </div>

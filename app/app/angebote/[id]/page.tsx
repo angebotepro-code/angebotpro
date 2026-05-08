@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +17,7 @@ import {
   TrashIcon,
   CheckIcon,
   PlusIcon,
+  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 
 interface AngebotDetail {
@@ -129,6 +131,9 @@ export default function AngebotDetailPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div className="flex-1">
+          <Link href="/app/angebote" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-2">
+            <ArrowLeftIcon className="size-3" />Back to Quotes
+          </Link>
           <div className="flex items-center gap-3">
             <Input value={a.title} onChange={(e) => updateField("title", e.target.value)}
               className="h-8 border-zinc-800 bg-muted/50 text-xl font-bold text-zinc-50 w-auto min-w-[200px]" />
@@ -138,11 +143,11 @@ export default function AngebotDetailPage() {
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <Button size="sm" onClick={handleSave} disabled={saving}
-            className="h-8 bg-primary hover:bg-primary/90 text-xs">
+            className="h-8 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-xs">
             {saving ? "..." : savedAt ? "✓ Saved" : "Save"}
           </Button>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <Button className="h-8 bg-primary hover:bg-primary/90 text-xs flex items-center gap-1" disabled={sent} onClick={() => setDialogOpen(true)}>
+            <Button className="h-8 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-xs flex items-center gap-1" disabled={sent} onClick={() => setDialogOpen(true)}>
               {sent ? <><CheckIcon className="size-3.5" />Sent</> : <><EnvelopeIcon className="size-3.5" />Send</>}
             </Button>
             <DialogContent className="bg-zinc-900 border-zinc-800">
@@ -152,7 +157,7 @@ export default function AngebotDetailPage() {
                   className="border-zinc-800 bg-muted/50 text-foreground" />
                 {sendError && <p className="text-xs text-destructive">{sendError}</p>}
                 <Button onClick={handleSend} disabled={sending || !sendEmail.includes("@")}
-                  className="w-full h-9 bg-primary hover:bg-primary/90 text-sm">Send</Button>
+                  className="w-full h-9 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-sm">Send</Button>
               </div>
             </DialogContent>
           </Dialog>

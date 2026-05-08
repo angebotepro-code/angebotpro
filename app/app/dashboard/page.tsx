@@ -81,7 +81,7 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold tracking-tight text-foreground">{t("dashboard.welcome")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
         </div>
-        <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-primary hover:bg-primary/90 h-9 text-sm flex items-center gap-1.5" })}>
+        <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-black dark:bg-white hover:bg-black dark:bg-white/90 h-9 text-sm flex items-center gap-1.5" })}>
           <PlusIcon className="size-4" />New Quote
         </Link>
       </div>
@@ -128,7 +128,7 @@ export default function DashboardPage() {
               <PencilSquareIcon className="mb-3 size-8 text-muted-foreground" />
               <p className="text-sm font-medium text-muted-foreground">{t("dashboard.noQuotes")}</p>
               <p className="mt-1 text-xs text-muted-foreground">Create your first quote to get started.</p>
-              <Link href="/app/angebote/neu" className={buttonVariants({ className: "mt-4 bg-primary hover:bg-primary/90 h-8 text-xs" })}>
+              <Link href="/app/angebote/neu" className={buttonVariants({ className: "mt-4 bg-black dark:bg-white hover:bg-black dark:bg-white/90 h-8 text-xs" })}>
                 Create Quote
               </Link>
             </div>

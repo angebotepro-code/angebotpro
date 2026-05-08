@@ -46,31 +46,31 @@ export default function Home() {
       <nav className="sticky top-0 z-30 border-b border-border/50 bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10"><span className="text-sm font-bold text-emerald-400">A</span></div>
-            <span className="text-lg font-bold tracking-tight">Angebot<span className="text-emerald-400">Pro</span></span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black dark:bg-white/10"><span className="text-sm font-bold text-black dark:text-white">A</span></div>
+            <span className="text-lg font-bold tracking-tight">Angebot<span className="text-black dark:text-white">Pro</span></span>
           </Link>
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
             <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Login</Link>
-            <Link href="/login" className={buttonVariants({ size:"sm", className:"h-8 bg-emerald-500 hover:bg-emerald-600 text-xs" })}>Free Trial</Link>
+            <Link href="/login" className={buttonVariants({ size:"sm", className:"h-8 bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 text-xs" })}>Free Trial</Link>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
       <section className="relative px-6 py-32 sm:py-40 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-500/5 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black/5 dark:from-white/5 via-transparent to-transparent" />
         <div className="relative mx-auto max-w-3xl">
-          <Badge className="mb-6 bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-xs">AI-Powered · Austrian-Made</Badge>
+          <Badge className="mb-6 bg-black dark:bg-white/10 text-black dark:text-white border-black/20 dark:border-white/20 text-xs">AI-Powered · Austrian-Made</Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-            Angebote in <span className="text-emerald-400">2 Minuten</span><br />
+            Angebote in <span className="text-black dark:text-white">2 Minuten</span><br />
             <span className="text-muted-foreground">statt 3 Stunden</span>
           </h1>
           <p className="mt-6 text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
             KI-gestützte Angebotserstellung für österreichische Handwerker. Sprich dein Angebot ein — wir schreiben den Rest. Korrekte MwSt, professionelles PDF, in Sekunden versendet.
           </p>
           <div className="mt-10 flex justify-center gap-4">
-            <Link href="/login" className={buttonVariants({ size:"lg", className:"h-11 bg-emerald-500 hover:bg-emerald-600 text-sm px-8" })}>Kostenlos starten →</Link>
+            <Link href="/login" className={buttonVariants({ size:"lg", className:"h-11 bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 text-sm px-8" })}>Kostenlos starten →</Link>
             <a href="#how" className={buttonVariants({ variant:"outline", size:"lg", className:"h-11 border-border text-foreground hover:text-foreground text-sm px-8" })}>Wie funktioniert&apos;s?</a>
           </div>
           <p className="mt-6 text-xs text-muted-foreground">3 Angebote gratis. Keine Kreditkarte. DSGVO-konform.</p>
@@ -78,18 +78,18 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="px-6 py-24 bg-muted/10 dark:bg-muted">
+      <section className="px-6 py-24 bg-muted/50 dark:bg-muted/10">
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-16">
-            <h2 className="text-2xl font-bold sm:text-3xl">Built for Austrian <span className="text-emerald-400">Tradespeople</span></h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">Built for Austrian <span className="text-black dark:text-white">Tradespeople</span></h2>
             <p className="mt-2 text-sm text-muted-foreground">Everything you need to create professional quotes — fast.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {features.map(f => {
               const Icon = f.icon;
               return (
-              <div key={f.t} className="group rounded-xl shadow-card bg-zinc-900/30 p-6 hover:shadow-card-hover hover:bg-muted/10 dark:bg-muted transition-[border-color,background-color,box-shadow] duration-200">
-                <Icon className="mb-3 size-6 text-emerald-400" />
+              <div key={f.t} className="group rounded-xl shadow-card bg-card dark:bg-card p-6 hover:shadow-card-hover hover:bg-muted/50 dark:bg-muted/10 transition-[border-color,background-color,box-shadow] duration-200">
+                <Icon className="mb-3 size-6 text-black dark:text-white" />
                 <h3 className="text-sm font-semibold text-foreground">{f.t}</h3>
                 <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{f.d}</p>
               </div>
@@ -105,8 +105,8 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-6">
             {steps.map((s, i) => (
               <div key={s.n} className="relative flex-1">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 text-lg font-bold text-emerald-400 ring-1 ring-emerald-500/20">{s.n}</div>
-                {i < 2 && <div className="hidden sm:block absolute top-6 left-[60%] w-[calc(100%-2rem)] h-px bg-gradient-to-r from-emerald-500/20 to-transparent" />}
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-black dark:bg-white/10 text-lg font-bold text-black dark:text-white ring-1 ring-black/20 dark:ring-white/20">{s.n}</div>
+                {i < 2 && <div className="hidden sm:block absolute top-6 left-[60%] w-[calc(100%-2rem)] h-px bg-gradient-to-r from-black/10 dark:from-white/10 to-transparent" />}
                 <h3 className="mt-4 font-semibold text-foreground">{s.t}</h3>
                 <p className="mt-1 text-xs text-muted-foreground">{s.d}</p>
               </div>
@@ -116,7 +116,7 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section className="px-6 py-24 bg-muted/10 dark:bg-muted">
+      <section className="px-6 py-24 bg-muted/50 dark:bg-muted/10">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-2xl font-bold sm:text-3xl mb-4">Simple pricing</h2>
           <p className="text-sm text-muted-foreground mb-12">Start free. Upgrade when you need more.</p>
@@ -126,8 +126,8 @@ export default function Home() {
               { n: "Basis", p: "€39", q: "20/mo", f: ["20 Angebote","No Watermark","PDF + Email","Dashboard","VAT Engine"], hl: true },
               { n: "Pro", p: "€79", q: "50/mo", f: ["50 Angebote","Multi-User (2)","Templates","CSV Export","Priority Support"] },
             ].map(plan => (
-              <Card key={plan.n} className={`relative border-border/50 bg-zinc-900/30 ${plan.hl ? "ring-2 ring-emerald-500/30" : ""}`}>
-                {plan.hl && <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-emerald-500 text-zinc-950 text-[10px] border-0">Popular</Badge>}
+              <Card key={plan.n} className={`relative border-border/50 bg-card dark:bg-card ${plan.hl ? "ring-2 ring-black/20 dark:ring-white/20" : ""}`}>
+                {plan.hl && <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-black dark:bg-white text-white dark:text-black text-[10px] border-0">Popular</Badge>}
                 <CardContent className="p-6 pt-8 space-y-4 text-left">
                   <h3 className="font-semibold text-foreground">{plan.n}</h3>
                   <div><span className="text-2xl font-bold text-foreground">{plan.p}</span><span className="text-xs text-muted-foreground">/month</span></div>
@@ -153,11 +153,11 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 py-24 bg-muted/10 dark:bg-muted text-center">
+      <section className="px-6 py-24 bg-muted/50 dark:bg-muted/10 text-center">
         <div className="mx-auto max-w-md">
           <h2 className="text-2xl font-bold">Ready to save time?</h2>
           <p className="mt-2 text-sm text-muted-foreground">Three free Angebote. No credit card. Just faster quotes.</p>
-          <Link href="/login" className={buttonVariants({ size:"lg", className:"mt-8 h-11 bg-emerald-500 hover:bg-emerald-600 text-sm px-10" })}>Start free →</Link>
+          <Link href="/login" className={buttonVariants({ size:"lg", className:"mt-8 h-11 bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 text-sm px-10" })}>Start free →</Link>
         </div>
       </section>
 

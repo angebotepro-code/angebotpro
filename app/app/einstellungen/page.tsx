@@ -102,7 +102,7 @@ export default function SettingsPage() {
       </Card>
 
       <div className="flex items-center gap-3">
-        <Button onClick={handleSave} disabled={saving} className="h-9 bg-primary hover:bg-primary/90 text-sm">
+        <Button onClick={handleSave} disabled={saving} className="h-9 bg-black dark:bg-white hover:bg-black dark:bg-white/90 text-sm">
           {saving ? "Saving..." : saved ? "✓ Saved!" : "Save Changes"}
         </Button>
         {saved && <span className="text-xs text-brand">Settings updated</span>}

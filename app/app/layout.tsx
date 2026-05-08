@@ -69,12 +69,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-border bg-sidebar p-4">
-        <Link href="/app/dashboard" className="mb-6 text-xl font-bold text-foreground" onClick={close}>
-          Angebot<span className="text-brand">Pro</span>
+      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-border bg-sidebar h-screen sticky top-0 overflow-hidden p-4">
+        <Link href="/app/dashboard" className="mb-6 text-xl font-bold text-foreground shrink-0" onClick={close}>
+          Angebot<span className="text-black dark:text-white">Pro</span>
         </Link>
-        {navLinks}
-        <div className="mt-auto">{sidebarFooter}</div>
+        <div className="flex-1 overflow-y-auto pr-2 -mr-2">
+          {navLinks}
+        </div>
+        <div className="shrink-0 pt-2">{sidebarFooter}</div>
       </aside>
 
       {sidebarOpen && (

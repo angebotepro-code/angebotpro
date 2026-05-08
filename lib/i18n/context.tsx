@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import type { Language } from "./translations";
 import { t as getTranslation } from "./translations";
 
@@ -14,15 +14,15 @@ const I18nContext = createContext<I18nContextType | null>(null);
 
 const STORAGE_KEY = "angebotpro-lang";
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Language>("en");
+function getInitialLang(): Language {
+  if (typeof window === "undefined") return "en";
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved === "en" || saved === "de") return saved;
+  return "en";
+}
 
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY) as Language | null;
-    if (saved === "en" || saved === "de") {
-      setLangState(saved);
-    }
-  }, []);
+export function I18nProvider({ children }: { children: ReactNode }) {
+  const [lang, setLangState] = useState<Language>(getInitialLang);
 
   function setLang(l: Language) {
     setLangState(l);
