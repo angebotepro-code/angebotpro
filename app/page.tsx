@@ -49,44 +49,44 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
       <nav className="sticky top-0 z-30 border-b border-border/50 bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted"><span className="text-sm font-bold text-foreground">A</span></div>
-            <span className="text-lg font-bold tracking-tight">Angebot<span className="text-foreground">Pro</span></span>
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 py-3">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-muted"><span className="text-xs sm:text-sm font-bold text-foreground">A</span></div>
+            <span className="text-base sm:text-lg font-bold tracking-tight">Angebot<span className="text-foreground">Pro</span></span>
           </Link>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Login</Link>
-            <Link href="/login" className={buttonVariants({ size:"sm", className:"h-8 bg-foreground text-background hover:bg-foreground/80 text-xs" })}>Free Trial</Link>
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            <span className="hidden xs:block"><LanguageSwitcher /></span>
+            <Link href="/login" className="hidden sm:inline text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0">Login</Link>
+            <Link href="/login" className={buttonVariants({ size:"sm", className:"h-7 sm:h-8 text-[11px] sm:text-xs bg-foreground text-background hover:bg-foreground/80 shrink-0" })}>Free Trial</Link>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="relative px-6 py-32 sm:py-40 text-center overflow-hidden">
+      <section className="relative px-4 sm:px-4 sm:px-6 py-16 sm:py-24 sm:py-32 lg:py-40 text-center overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black/5 dark:from-white/5 via-transparent to-transparent" />
         <div className="relative mx-auto max-w-3xl">
-          <Badge className="mb-6 bg-muted text-foreground border-border text-xs">AI-Powered · Austrian-Made</Badge>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-            Angebote in <span className="text-black dark:text-white">2 Minuten</span><br />
+          <Badge className="mb-4 sm:mb-6 bg-muted text-foreground border-border text-[10px] sm:text-xs">AI-Powered · Austrian-Made</Badge>
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold tracking-tight">
+            Angebote in <span className="text-foreground">2 Minuten</span><br />
             <span className="text-muted-foreground">statt 3 Stunden</span>
           </h1>
-          <p className="mt-6 text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed px-2">
             KI-gestützte Angebotserstellung für österreichische Handwerker. Sprich dein Angebot ein — wir schreiben den Rest. Korrekte MwSt, professionelles PDF, in Sekunden versendet.
           </p>
-          <div className="mt-10 flex justify-center gap-4">
-            <Link href="/login" className={buttonVariants({ size:"lg", className:"h-11 bg-foreground text-background hover:bg-foreground/80 text-sm px-8" })}>Kostenlos starten →</Link>
-            <a href="#how" className={buttonVariants({ variant:"outline", size:"lg", className:"h-11 border-border text-foreground hover:text-foreground text-sm px-8" })}>Wie funktioniert&apos;s?</a>
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4">
+            <Link href="/login" className={buttonVariants({ size:"lg", className:"h-10 sm:h-11 bg-foreground text-background hover:bg-foreground/80 text-sm px-6 sm:px-8" })}>Kostenlos starten →</Link>
+            <a href="#how" className={buttonVariants({ variant:"outline", size:"lg", className:"h-10 sm:h-11 border-border text-foreground hover:text-foreground text-sm px-6 sm:px-8" })}>Wie funktioniert&apos;s?</a>
           </div>
-          <p className="mt-6 text-xs text-muted-foreground">3 Angebote gratis. Keine Kreditkarte. DSGVO-konform.</p>
+          <p className="mt-4 sm:mt-6 text-xs text-muted-foreground">3 Angebote gratis. Keine Kreditkarte. DSGVO-konform.</p>
         </div>
       </section>
 
       {/* Features */}
-      <section className="px-6 py-24 bg-muted/50 dark:bg-muted/10">
+      <section className="px-4 sm:px-6 py-16 sm:py-24 bg-muted/50 dark:bg-muted/10">
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-16">
-            <h2 className="text-2xl font-bold sm:text-3xl">Built for Austrian <span className="text-black dark:text-white">Tradespeople</span></h2>
+            <h2 className="text-xl sm:text-2xl font-bold">Built for Austrian <span className="text-black dark:text-white">Tradespeople</span></h2>
             <p className="mt-2 text-sm text-muted-foreground">Everything you need to create professional quotes — fast.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -104,9 +104,9 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section id="how" className="px-6 py-24">
+      <section id="how" className="px-4 sm:px-6 py-16 sm:py-24">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-bold sm:text-3xl mb-16">How it works</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-16">How it works</h2>
           <div className="flex flex-col sm:flex-row gap-6">
             {steps.map((s, i) => (
               <div key={s.n} className="relative flex-1">
@@ -121,9 +121,9 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section className="px-6 py-24 bg-muted/50 dark:bg-muted/10">
+      <section className="px-4 sm:px-6 py-16 sm:py-24 bg-muted/50 dark:bg-muted/10">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-2xl font-bold sm:text-3xl mb-4">Simple pricing</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">Simple pricing</h2>
           <p className="text-sm text-muted-foreground mb-12">Start free. Upgrade when you need more.</p>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
@@ -148,7 +148,7 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section className="px-6 py-24">
+      <section className="px-4 sm:px-6 py-16 sm:py-24">
         <div className="mx-auto max-w-2xl">
           <h2 className="text-2xl font-bold text-center mb-12">FAQ</h2>
           <div className="space-y-2">
@@ -158,7 +158,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 py-24 bg-muted/50 dark:bg-muted/10 text-center">
+      <section className="px-4 sm:px-6 py-16 sm:py-24 bg-muted/50 dark:bg-muted/10 text-center">
         <div className="mx-auto max-w-md">
           <h2 className="text-2xl font-bold">Ready to save time?</h2>
           <p className="mt-2 text-sm text-muted-foreground">Three free Angebote. No credit card. Just faster quotes.</p>

@@ -73,11 +73,11 @@ export default function AngebotePage() {
   const filters = ["all", "draft", "sent", "accepted", "rejected"];
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-3 sm:space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Quotes</h1>
-          <p className="text-sm text-muted-foreground">{angebote.length} quotes total</p>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Quotes</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground">{angebote.length} quotes total</p>
         </div>
         <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-foreground text-background hover:bg-foreground/80 h-9 text-sm" })}>
           + New Quote

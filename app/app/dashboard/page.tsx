@@ -78,7 +78,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">{t("dashboard.welcome")}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{t("dashboard.welcome")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
         </div>
         <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-foreground text-background hover:bg-foreground/80 h-9 text-sm flex items-center gap-1.5" })}>
