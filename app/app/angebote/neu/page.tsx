@@ -139,14 +139,14 @@ export default function NeuesAngebotPage() {
       {/* Input card */}
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-card overflow-hidden">
         <Tabs defaultValue="voice" className="w-full">
-          <div className="flex items-center justify-between border-b border-border/50 px-6 pt-4">
-            <TabsList className="bg-transparent h-auto p-0 gap-0">
-              <TabsTrigger value="voice" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-foreground rounded-none px-4 py-2 text-xs text-muted-foreground data-[state=active]:text-foreground flex items-center gap-1.5">
-                <MicrophoneIcon className="size-3.5" />Voice</TabsTrigger>
-              <TabsTrigger value="text" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-foreground rounded-none px-4 py-2 text-xs text-muted-foreground data-[state=active]:text-foreground flex items-center gap-1.5">
-                <PencilSquareIcon className="size-3.5" />Text</TabsTrigger>
-              <TabsTrigger value="build" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-foreground rounded-none px-4 py-2 text-xs text-muted-foreground data-[state=active]:text-foreground flex items-center gap-1.5">
-                <Squares2X2Icon className="size-3.5" />Build</TabsTrigger>
+          <div className="px-3 sm:px-6 pt-4 sm:pt-5 pb-2">
+            <TabsList className="bg-muted p-1 rounded-lg w-full h-auto grid grid-cols-3">
+              <TabsTrigger value="voice" className="data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                <MicrophoneIcon className="size-5" />Voice</TabsTrigger>
+              <TabsTrigger value="text" className="data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                <PencilSquareIcon className="size-5" />Text</TabsTrigger>
+              <TabsTrigger value="build" className="data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                <Squares2X2Icon className="size-5" />Build</TabsTrigger>
             </TabsList>
           </div>
 
