@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -75,17 +76,17 @@ export default function LoginPage() {
               <TabsContent value="login">
                 <form onSubmit={handleLogin} className="mt-6 space-y-4">
                   <div className="space-y-2">
-                    <label htmlFor="login-email" className="text-xs font-medium text-muted-foreground">{t("login.email")}</label>
+                    <Label htmlFor="login-email" className="text-xs">{t("login.email")}</Label>
                     <Input id="login-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                       placeholder="name@company.at" required autoFocus
-                      className="h-10 border-zinc-800 bg-muted/50 text-zinc-100 placeholder:text-muted-foreground" />
+                      className="h-10" />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="login-password" className="text-xs font-medium text-muted-foreground">{t("login.password")}</label>
+                    <Label htmlFor="login-password" className="text-xs">{t("login.password")}</Label>
                     <div className="relative">
                       <Input id="login-password" type={showPassword ? "text" : "password"}
                         value={password} onChange={(e) => setPassword(e.target.value)} required
-                        className="h-10 border-zinc-800 bg-muted/50 text-zinc-100 pr-10" />
+                        className="h-10 pr-10" />
                       <button type="button" onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500 hover:text-foreground">
                         {showPassword ? "Hide" : "Show"}
@@ -103,19 +104,19 @@ export default function LoginPage() {
               <TabsContent value="signup">
                 <form onSubmit={handleSignUp} className="mt-6 space-y-4">
                   <div className="space-y-2">
-                    <label htmlFor="signup-email" className="text-xs font-medium text-muted-foreground">{t("login.email")}</label>
+                    <Label htmlFor="signup-email" className="text-xs">{t("login.email")}</Label>
                     <Input id="signup-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                       placeholder="name@company.at" required autoFocus
-                      className="h-10 border-zinc-800 bg-muted/50 text-zinc-100 placeholder:text-muted-foreground" />
+                      className="h-10" />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="signup-password" className="text-xs font-medium text-muted-foreground">{t("login.password")}</label>
+                    <Label htmlFor="signup-password" className="text-xs">{t("login.password")}</Label>
                     <div className="relative">
                       <Input id="signup-password" type={showPassword ? "text" : "password"}
                         value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6}
-                        className="h-10 border-zinc-800 bg-muted/50 text-zinc-100 pr-10" />
+                        className="h-10 pr-10" />
                       <button type="button" onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500 hover:text-foreground">
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground">
                         {showPassword ? "Hide" : "Show"}
                       </button>
                     </div>

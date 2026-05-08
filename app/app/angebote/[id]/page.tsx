@@ -19,6 +19,7 @@ import {
   PlusIcon,
   ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface AngebotDetail {
   id:string;number:string;title:string;status:string;einleitung:string;
@@ -227,16 +228,23 @@ export default function AngebotDetailPage() {
             <div className="flex justify-between text-sm"><span className="text-muted-foreground">Subtotal (net)</span><span className="text-zinc-200 tabular-nums">€{a.subtotalNet?.toFixed(2)}</span></div>
             <div className="flex justify-between text-sm items-center gap-2">
               <span className="text-muted-foreground">VAT rate</span>
-              <select value={a.mwstRate ?? 20} onChange={(e) => {
-                const rate = Number(e.target.value);
+              <Select value={String(a.mwstRate ?? 20)} onValueChange={(v) => {
+                const rate = Number(v);
                 const sub = a.subtotalNet ?? 0;
                 const tax = Math.round(sub * (rate / 100) * 100) / 100;
                 setA({ ...a, mwstRate: rate, mwstTotal: tax, totalGross: Math.round((sub + tax) * 100) / 100 });
                 setSavedAt(null);
-              }} className="h-8 rounded-md border border-zinc-800 bg-muted/50 text-sm text-zinc-200 px-2">
-                <option value={20}>20%</option><option value={10}>10%</option><option value={0}>0%</option>
-              </select>
-              <span className="text-zinc-200 tabular-nums">€{a.mwstTotal?.toFixed(2)}</span>
+              }}>
+                <SelectTrigger className="h-8 w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="20">20%</SelectItem>
+                  <SelectItem value="10">10%</SelectItem>
+                  <SelectItem value="0">0%</SelectItem>
+                </SelectContent>
+              </Select>
+              <span className="text-foreground tabular-nums">€{a.mwstTotal?.toFixed(2)}</span>
             </div>
             <div className="flex justify-between font-semibold text-base pt-2 border-t border-zinc-800"><span className="text-foreground">Total</span><span className="text-emerald-400 tabular-nums">€{a.totalGross?.toFixed(2)}</span></div>
           </div>

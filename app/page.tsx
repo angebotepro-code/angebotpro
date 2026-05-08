@@ -5,6 +5,11 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import {
   MicrophoneIcon,
@@ -179,11 +184,15 @@ export default function Home() {
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [o, setO] = useState(false);
   return (
-    <div className="rounded-lg border border-border/50 overflow-hidden">
-      <button onClick={()=>setO(!o)} className="w-full flex items-center justify-between px-5 py-4 text-left text-sm font-medium text-foreground hover:text-foreground transition-colors">
-        {q}<span className={`text-muted-foreground transition-transform duration-200 ${o?"rotate-45":""}`}>+</span>
-      </button>
-      {o && <div className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">{a}</div>}
-    </div>
+    <Collapsible open={o} onOpenChange={setO}>
+      <div className="rounded-lg border border-border overflow-hidden">
+        <CollapsibleTrigger className="w-full flex items-center justify-between px-5 py-4 text-left text-sm font-medium text-foreground hover:bg-muted/50 transition-colors">
+          {q}<span className={`text-muted-foreground transition-transform duration-200 ${o ? "rotate-45" : ""}`}>+</span>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">
+          {a}
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
   );
 }
