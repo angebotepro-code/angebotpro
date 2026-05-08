@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
 
 interface AngebotDetail {
   id: string;
@@ -27,6 +28,7 @@ interface AngebotDetail {
 
 export default function AngebotDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const [angebot, setAngebot] = useState<AngebotDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [sendEmail, setSendEmail] = useState("");
@@ -34,6 +36,7 @@ export default function AngebotDetailPage() {
   const [sendError, setSendError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     fetch(`/api/angebote/${params.id}`)
@@ -72,6 +75,13 @@ export default function AngebotDetailPage() {
       setSendError("Network error. Please try again.");
     }
     setSending(false);
+  }
+
+  async function handleDelete() {
+    if (!confirm("Delete this quote permanently?")) return;
+    setDeleting(true);
+    await fetch(`/api/angebote/${angebot!.id}`, { method: "DELETE" });
+    router.push("/app/dashboard");
   }
 
   return (
@@ -122,6 +132,15 @@ export default function AngebotDetailPage() {
           <a href={`/api/angebote/${angebot.id}/pdf`} target="_blank">
             <Button className="bg-zinc-700 hover:bg-zinc-600">📄 PDF</Button>
           </a>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleDelete}
+            disabled={deleting}
+            className="text-zinc-600 hover:text-red-400"
+          >
+            🗑
+          </Button>
         </div>
       </div>
 
