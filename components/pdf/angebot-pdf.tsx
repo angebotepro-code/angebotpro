@@ -9,15 +9,15 @@ import {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 56,
+    padding: 40,
     fontFamily: "Helvetica",
     fontSize: 10,
     color: "#111827",
     lineHeight: 1.5,
   },
   header: {
-    marginBottom: 40,
-    paddingBottom: 24,
+    marginBottom: 16,
+    paddingBottom: 18,
     borderBottom: "2px solid #111827",
   },
   companyName: {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.6,
   },
   titleBlock: {
-    marginBottom: 32,
+    marginBottom: 22,
   },
   quoteLabel: {
     fontSize: 8,
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
   quoteMeta: {
     fontSize: 9,
     color: "#9ca3af",
-    marginBottom: 24,
+    marginBottom: 16,
   },
   customerBox: {
-    marginBottom: 32,
+    marginBottom: 22,
     backgroundColor: "#f9fafb",
-    padding: 16,
+    padding: 12,
     borderRadius: 6,
     border: "1px solid #e5e7eb",
   },
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     fontSize: 10.5,
     lineHeight: 1.7,
     color: "#374151",
-    marginBottom: 28,
+    marginBottom: 20,
   },
   sectionTitle: {
     fontSize: 8,
@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   table: {
-    marginBottom: 28,
+    marginBottom: 20,
   },
   tableHeader: {
     flexDirection: "row",
     backgroundColor: "#f9fafb",
     borderBottom: "1px solid #e5e7eb",
     borderTop: "1px solid #e5e7eb",
-    paddingVertical: 8,
+    paddingVertical: 6,
     paddingHorizontal: 12,
   },
   tableHeaderCell: {
@@ -110,13 +110,13 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: "row",
     borderBottom: "1px solid #f3f4f6",
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 12,
   },
   tableRowAlt: {
     flexDirection: "row",
     borderBottom: "1px solid #f3f4f6",
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 12,
     backgroundColor: "#fafafa",
   },
@@ -133,13 +133,13 @@ const styles = StyleSheet.create({
   posPrice: { fontSize: 9, textAlign: "right", color: "#1f2937" },
   posTotal: { fontSize: 9, textAlign: "right", color: "#111827", fontFamily: "Helvetica-Bold" },
   totalsSection: {
-    marginBottom: 28,
+    marginBottom: 20,
     alignItems: "flex-end",
   },
   totalsBox: {
-    width: 260,
+    width: 240,
     backgroundColor: "#f9fafb",
-    padding: 16,
+    padding: 12,
     borderRadius: 6,
     border: "1px solid #e5e7eb",
   },
@@ -175,8 +175,8 @@ const styles = StyleSheet.create({
     color: "#111827",
   },
   legalSection: {
-    marginBottom: 28,
-    padding: 14,
+    marginBottom: 20,
+    padding: 10,
     backgroundColor: "#f9fafb",
     borderRadius: 6,
     border: "1px solid #e5e7eb",
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   signatureSection: {
     marginTop: 12,
-    padding: 14,
+    padding: 10,
     backgroundColor: "#f0fdf4",
     borderRadius: 6,
     border: "1px solid #bbf7d0",
@@ -274,7 +274,7 @@ export function AngebotPDF({ company, angebot, acceptedByName, acceptedAt }: Ang
     <Document>
       <Page size="A4" style={styles.page}>
         {/* Header */}
-        <View style={styles.header}>
+        <View style={styles.header} wrap={false}>
           <Text style={styles.companyName}>{c.name}</Text>
           <Text style={styles.companyInfo}>
             {c.address}{"\n"}
@@ -283,8 +283,7 @@ export function AngebotPDF({ company, angebot, acceptedByName, acceptedAt }: Ang
           </Text>
         </View>
 
-        {/* Title Block */}
-        <View style={styles.titleBlock}>
+        <View style={styles.titleBlock} wrap={false}>
           <Text style={styles.quoteLabel}>Angebot</Text>
           <Text style={styles.quoteNumber}>Nr. {angebot.number}</Text>
           <Text style={styles.quoteMeta}>
@@ -293,8 +292,7 @@ export function AngebotPDF({ company, angebot, acceptedByName, acceptedAt }: Ang
           </Text>
         </View>
 
-        {/* Customer Box */}
-        <View style={styles.customerBox}>
+        <View style={styles.customerBox} wrap={false}>
           <Text style={styles.customerLabel}>Kunde</Text>
           <Text style={styles.customerName}>—</Text>
         </View>
@@ -326,7 +324,7 @@ export function AngebotPDF({ company, angebot, acceptedByName, acceptedAt }: Ang
         </View>
 
         {/* Totals */}
-        <View style={styles.totalsSection}>
+        <View style={styles.totalsSection} wrap={false}>
           <View style={styles.totalsBox}>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Zwischensumme (netto)</Text>
@@ -343,8 +341,7 @@ export function AngebotPDF({ company, angebot, acceptedByName, acceptedAt }: Ang
           </View>
         </View>
 
-        {/* Legal */}
-        <View style={styles.legalSection}>
+        <View style={styles.legalSection} wrap={false}>
           <View style={styles.legalRow}>
             <Text style={styles.legalLabel}>Zahlungsbedingungen</Text>
             <Text style={styles.legalValue}>{angebot.zahlungsbedingungen ?? "30 Tage netto"}</Text>
