@@ -11,6 +11,13 @@ import { useI18n } from "@/lib/i18n/context";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
+import {
+  HomeIcon,
+  DocumentTextIcon,
+  PlusIcon,
+  BeakerIcon,
+  Cog6ToothIcon,
+} from "@heroicons/react/24/outline";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
@@ -32,14 +39,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const navLinks = (
     <nav className="flex flex-col gap-1">
       {[
-        { href: "/app/dashboard", key: "sidebar.dashboard" },
-        { href: "/app/angebote", key: "sidebar.quotes" },
-        { href: "/app/angebote/neu", key: "sidebar.newQuote" },
-        { href: "/app/test", key: "sidebar.test" },
-        { href: "/app/einstellungen", key: "sidebar.settings" },
-      ].map(({ href, key }) => (
+        { href: "/app/dashboard", key: "sidebar.dashboard", icon: HomeIcon },
+        { href: "/app/angebote", key: "sidebar.quotes", icon: DocumentTextIcon },
+        { href: "/app/angebote/neu", key: "sidebar.newQuote", icon: PlusIcon },
+        { href: "/app/test", key: "sidebar.test", icon: BeakerIcon },
+        { href: "/app/einstellungen", key: "sidebar.settings", icon: Cog6ToothIcon },
+      ].map(({ href, key, icon: Icon }) => (
         <Link key={href} href={href} onClick={close}
-          className={buttonVariants({ variant: "ghost", className: "justify-start text-muted-foreground hover:text-foreground" })}>
+          className={buttonVariants({ variant: "ghost", className: "justify-start gap-2.5 text-muted-foreground hover:text-foreground" })}>
+          <Icon className="size-4 shrink-0" />
           {t(key)}
         </Link>
       ))}
