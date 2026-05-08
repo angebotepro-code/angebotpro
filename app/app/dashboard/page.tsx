@@ -30,12 +30,25 @@ export default function DashboardPage() {
   const [angebote, setAngebote] = useState<Angebot[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  function loadQuotes() {
     fetch("/api/angebote")
       .then((r) => r.json())
-      .then((data) => setAngebote(Array.isArray(data) ? data : []))
-      .finally(() => setLoading(false));
+      .then((data) => setAngebote(Array.isArray(data) ? data : []));
+  }
+
+  useEffect(() => {
+    loadQuotes();
+    setLoading(false);
   }, []);
+
+  async function updateStatus(id: string, status: string) {
+    await fetch(`/api/angebote/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(status === "accepted" ? { status, acceptedAt: new Date().toISOString() } : { status }),
+    });
+    loadQuotes();
+  }
 
   const counts = {
     sent: angebote.filter((a) => a.status === "sent").length,
@@ -118,31 +131,54 @@ export default function DashboardPage() {
           ) : (
             <div className="space-y-2">
               {angebote.map((a) => (
-                <Link
+                <div
                   key={a.id}
-                  href={`/app/angebote/${a.id}`}
-                  className="flex items-center justify-between rounded-lg border border-zinc-800 p-4 hover:bg-zinc-800/50 transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between rounded-lg border border-zinc-800 p-4 gap-3"
                 >
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-zinc-200">
-                        {a.title || a.number}
-                      </span>
-                      <Badge
-                        variant="outline"
-                        className={`text-xs ${statusColors[a.status] ?? "border-zinc-700 text-zinc-400"}`}
-                      >
-                        {a.status}
-                      </Badge>
+                  <Link href={`/app/angebote/${a.id}`} className="flex-1 min-w-0 hover:opacity-80">
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-sm font-medium text-zinc-200 truncate">
+                          {a.title || a.number}
+                        </span>
+                        <Badge
+                          variant="outline"
+                          className={`text-xs ${statusColors[a.status] ?? "border-zinc-700 text-zinc-400"}`}
+                        >
+                          {a.status}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-zinc-500 mt-1">
+                        {a.number} · {new Date(a.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
-                    <p className="text-xs text-zinc-500 mt-1">
-                      {a.number} · {new Date(a.createdAt).toLocaleDateString()}
-                    </p>
+                  </Link>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-zinc-100 tabular-nums">
+                      € {a.totalGross?.toFixed(2) ?? "0.00"}
+                    </span>
+                    {(a.status === "draft" || a.status === "sent") && (
+                      <div className="flex gap-1 ml-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-7 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950"
+                          onClick={(e) => { e.preventDefault(); updateStatus(a.id, "accepted"); }}
+                        >
+                          ✓
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-7 text-red-400 hover:text-red-300 hover:bg-red-950"
+                          onClick={(e) => { e.preventDefault(); updateStatus(a.id, "rejected"); }}
+                        >
+                          ✗
+                        </Button>
+                      </div>
+                    )}
                   </div>
-                  <span className="text-sm font-medium text-zinc-100">
-                    € {a.totalGross?.toFixed(2) ?? "0.00"}
-                  </span>
-                </Link>
+                </div>
               ))}
             </div>
           )}
