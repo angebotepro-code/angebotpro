@@ -1,240 +1,96 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Spinner } from "@/components/ui/loading";
 
-interface CompanyData {
-  id: string;
-  name: string;
-  address: string;
-  uidNumber: string;
-  defaultHourlyRate: number;
-  defaultMwst: number;
-  phone: string;
-  email: string;
-  website: string;
-  agbText: string;
-}
+interface CompanyData { id?:string;name:string;address:string;uidNumber:string;defaultHourlyRate:number;defaultMwst:number;phone:string;email:string;website:string;agbText:string; }
 
-export default function EinstellungenPage() {
-  const { t } = useI18n();
+export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [company, setCompany] = useState<Partial<CompanyData>>({
-    name: "",
-    address: "",
-    uidNumber: "",
-    defaultHourlyRate: 95,
-    defaultMwst: 20,
-    phone: "",
-    email: "",
-    website: "",
-    agbText: "Zahlbar innerhalb von 30 Tagen netto.\nGewährleistung: 3 Jahre gemäß § 933 ABGB.\nGerichtsstand: Linz.",
-  });
+  const [c, setC] = useState<CompanyData>({ name:"",address:"",uidNumber:"",defaultHourlyRate:95,defaultMwst:20,phone:"",email:"",website:"",agbText:"" });
 
-  useEffect(() => {
-    fetch("/api/company")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data && data.id) {
-          setCompany(data);
-        }
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  useEffect(() => { fetch("/api/company").then(r=>r.json()).then(d=>{ if(d?.id)setC(d); }).finally(()=>setLoading(false)); }, []);
 
-  async function handleSave() {
-    setSaving(true);
-    setSaved(false);
-    try {
-      await fetch("/api/company", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(company),
-      });
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-    } catch {}
-    setSaving(false);
-  }
+  async function handleSave() { setSaving(true); setSaved(false);
+    await fetch("/api/company", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(c) });
+    setSaved(true); setTimeout(()=>setSaved(false),2000); setSaving(false); }
 
-  function update(field: string, value: string | number) {
-    setCompany((prev) => ({ ...prev, [field]: value }));
-    setSaved(false);
-  }
+  function update(f:string,v:string|number){ setC(p=>({...p,[f]:v})); setSaved(false); }
 
-  if (loading) {
-    return <p className="text-zinc-400">Loading...</p>;
-  }
+  if (loading) return <div className="flex justify-center py-24"><Spinner /></div>;
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="mx-auto max-w-2xl space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-zinc-50">{t("settings.title")}</h1>
-        <p className="mt-1 text-zinc-400">Manage your company profile and Angebot defaults.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-zinc-50">Settings</h1>
+        <p className="mt-1 text-sm text-zinc-500">Company profile, defaults, and legal text.</p>
       </div>
 
-      <Tabs defaultValue="company">
-        <TabsList className="bg-zinc-800">
-          <TabsTrigger value="company">Company</TabsTrigger>
-          <TabsTrigger value="defaults">Defaults</TabsTrigger>
-          <TabsTrigger value="legal">Legal</TabsTrigger>
-        </TabsList>
+      <Card className="border-zinc-800/50 bg-zinc-900/50">
+        <CardHeader>
+          <CardTitle className="text-base">Company Profile</CardTitle>
+          <CardDescription className="text-xs text-zinc-500">Appears on your Angebot PDFs and emails.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2"><Label className="text-xs text-zinc-400">Company Name</Label>
+            <Input value={c.name} onChange={e=>update("name",e.target.value)} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" placeholder="Your Company GmbH" /></div>
+          <div className="space-y-2"><Label className="text-xs text-zinc-400">Address</Label>
+            <Input value={c.address} onChange={e=>update("address",e.target.value)} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" placeholder="Musterstraße 1, 4020 Linz" /></div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2"><Label className="text-xs text-zinc-400">Phone</Label>
+              <Input value={c.phone} onChange={e=>update("phone",e.target.value)} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" placeholder="+43 732..." /></div>
+            <div className="space-y-2"><Label className="text-xs text-zinc-400">Email</Label>
+              <Input value={c.email} onChange={e=>update("email",e.target.value)} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" placeholder="office@company.at" /></div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2"><Label className="text-xs text-zinc-400">UID Number</Label>
+              <Input value={c.uidNumber} onChange={e=>update("uidNumber",e.target.value)} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" placeholder="ATU12345678" /></div>
+            <div className="space-y-2"><Label className="text-xs text-zinc-400">Website</Label>
+              <Input value={c.website} onChange={e=>update("website",e.target.value)} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" placeholder="www.company.at" /></div>
+          </div>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="company" className="mt-4">
-          <Card className="border-zinc-800 bg-zinc-900">
-            <CardHeader>
-              <CardTitle className="text-zinc-50">Company Profile</CardTitle>
-              <CardDescription className="text-zinc-400">
-                This appears on your Angebot PDFs and emails.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label className="text-zinc-300">Company Name</Label>
-                <Input
-                  value={company.name}
-                  onChange={(e) => update("name", e.target.value)}
-                  className="border-zinc-700 bg-zinc-800 text-zinc-100"
-                  placeholder="Musterfirma GmbH"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-zinc-300">Address</Label>
-                <Input
-                  value={company.address}
-                  onChange={(e) => update("address", e.target.value)}
-                  className="border-zinc-700 bg-zinc-800 text-zinc-100"
-                  placeholder="Musterstraße 1, 4020 Linz"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-zinc-300">Phone</Label>
-                  <Input
-                    value={company.phone}
-                    onChange={(e) => update("phone", e.target.value)}
-                    className="border-zinc-700 bg-zinc-800 text-zinc-100"
-                    placeholder="+43 732 123456"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-zinc-300">Email</Label>
-                  <Input
-                    value={company.email}
-                    onChange={(e) => update("email", e.target.value)}
-                    className="border-zinc-700 bg-zinc-800 text-zinc-100"
-                    placeholder="office@company.at"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-zinc-300">UID Number</Label>
-                  <Input
-                    value={company.uidNumber}
-                    onChange={(e) => update("uidNumber", e.target.value)}
-                    className="border-zinc-700 bg-zinc-800 text-zinc-100"
-                    placeholder="ATU12345678"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-zinc-300">Website</Label>
-                  <Input
-                    value={company.website}
-                    onChange={(e) => update("website", e.target.value)}
-                    className="border-zinc-700 bg-zinc-800 text-zinc-100"
-                    placeholder="www.company.at"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+      <Card className="border-zinc-800/50 bg-zinc-900/50">
+        <CardHeader>
+          <CardTitle className="text-base">Defaults</CardTitle>
+          <CardDescription className="text-xs text-zinc-500">Pre-filled values for new quotes.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 gap-4">
+          <div className="space-y-2"><Label className="text-xs text-zinc-400">Hourly Rate (€)</Label>
+            <Input type="number" value={c.defaultHourlyRate} onChange={e=>update("defaultHourlyRate",Number(e.target.value))} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" /></div>
+          <div className="space-y-2"><Label className="text-xs text-zinc-400">Default VAT</Label>
+            <Select value={String(c.defaultMwst)} onValueChange={v=>update("defaultMwst",Number(v))}>
+              <SelectTrigger className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200"><SelectValue /></SelectTrigger>
+              <SelectContent className="bg-zinc-900 border-zinc-800"><SelectItem value="20">20% — Standard</SelectItem><SelectItem value="10">10% — Reduced</SelectItem><SelectItem value="0">0% — Exempt</SelectItem></SelectContent>
+            </Select></div>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="defaults" className="mt-4">
-          <Card className="border-zinc-800 bg-zinc-900">
-            <CardHeader>
-              <CardTitle className="text-zinc-50">Default Settings</CardTitle>
-              <CardDescription className="text-zinc-400">
-                Pre-filled values for new Angebote.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label className="text-zinc-300">Default Hourly Rate (€)</Label>
-                <Input
-                  type="number"
-                  value={company.defaultHourlyRate}
-                  onChange={(e) => update("defaultHourlyRate", Number(e.target.value))}
-                  className="border-zinc-700 bg-zinc-800 text-zinc-100"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-zinc-300">Default VAT Rate</Label>
-                <Select
-                  value={String(company.defaultMwst)}
-                  onValueChange={(v) => update("defaultMwst", Number(v))}
-                >
-                  <SelectTrigger className="border-zinc-700 bg-zinc-800 text-zinc-100">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-zinc-800 border-zinc-700">
-                    <SelectItem value="20">20% — Standard</SelectItem>
-                    <SelectItem value="10">10% — Reduced (renovation/repair)</SelectItem>
-                    <SelectItem value="0">0% — Tax exempt</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+      <Card className="border-zinc-800/50 bg-zinc-900/50">
+        <CardHeader>
+          <CardTitle className="text-base">Legal Text</CardTitle>
+          <CardDescription className="text-xs text-zinc-500">Payment terms and warranty included in every Angebot.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <Textarea value={c.agbText} onChange={e=>update("agbText",e.target.value)} rows={5}
+            className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 resize-none" />
+        </CardContent>
+      </Card>
 
-        <TabsContent value="legal" className="mt-4">
-          <Card className="border-zinc-800 bg-zinc-900">
-            <CardHeader>
-              <CardTitle className="text-zinc-50">Legal Text</CardTitle>
-              <CardDescription className="text-zinc-400">
-                Payment terms and legal boilerplate included in every Angebot.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label className="text-zinc-300">Payment Terms & Warranty</Label>
-                <Textarea
-                  value={company.agbText}
-                  onChange={(e) => update("agbText", e.target.value)}
-                  rows={6}
-                  className="border-zinc-700 bg-zinc-800 text-zinc-100"
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-
-      <div className="flex items-center gap-4">
-        <Button
-          onClick={handleSave}
-          disabled={saving}
-          className="bg-emerald-500 hover:bg-emerald-600"
-        >
-          {saving ? "Saving..." : saved ? "✓ Saved" : "Save Settings"}
+      <div className="flex items-center gap-3">
+        <Button onClick={handleSave} disabled={saving} className="h-9 bg-emerald-500 hover:bg-emerald-600 text-sm">
+          {saving ? "Saving..." : saved ? "✓ Saved!" : "Save Changes"}
         </Button>
+        {saved && <span className="text-xs text-emerald-400">Settings updated</span>}
       </div>
     </div>
   );
