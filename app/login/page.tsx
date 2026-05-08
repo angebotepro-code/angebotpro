@@ -88,7 +88,7 @@ export default function LoginPage() {
                         value={password} onChange={(e) => setPassword(e.target.value)} required
                         className="h-10 pr-10" />
                       <button type="button" onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500 hover:text-foreground">
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground">
                         {showPassword ? "Hide" : "Show"}
                       </button>
                     </div>
@@ -133,7 +133,7 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex-col gap-2 pb-6">
             <Separator className="bg-muted" />
-            <p className="text-[11px] text-zinc-600 text-center">
+            <p className="text-[11px] text-muted-foreground text-center">
               By continuing, you agree to our{" "}
               <a href="/agb" className="underline hover:text-muted-foreground">Terms</a> and{" "}
               <a href="/datenschutz" className="underline hover:text-muted-foreground">Privacy Policy</a>.
