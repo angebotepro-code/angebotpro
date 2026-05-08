@@ -8,6 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/loading";
+import {
+  EnvelopeIcon,
+  DocumentTextIcon,
+  TrashIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
 
 interface AngebotDetail {
   id:string;number:string;title:string;status:string;einleitung:string;
@@ -66,8 +72,8 @@ export default function AngebotDetailPage() {
         </div>
         <div className="flex items-center gap-2">
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <Button className="h-8 bg-emerald-500 hover:bg-emerald-600 text-xs" disabled={sent} onClick={() => setDialogOpen(true)}>
-              {sent ? "✓ Sent" : "📧 Send"}
+            <Button className="h-8 bg-emerald-500 hover:bg-emerald-600 text-xs flex items-center gap-1" disabled={sent} onClick={() => setDialogOpen(true)}>
+              {sent ? <><CheckIcon className="size-3.5" />Sent</> : <><EnvelopeIcon className="size-3.5" />Send</>}
             </Button>
             <DialogContent className="bg-zinc-900 border-zinc-800">
               <DialogHeader><DialogTitle className="text-zinc-50">Send via Email</DialogTitle></DialogHeader>
@@ -80,8 +86,10 @@ export default function AngebotDetailPage() {
               </div>
             </DialogContent>
           </Dialog>
-          <a href={`/api/angebote/${a.id}/pdf`} target="_blank" className={buttonVariants({ size:"sm", className:"h-8 bg-zinc-800 hover:bg-zinc-700 text-xs" })}>📄 PDF</a>
-          <Button size="sm" variant="ghost" onClick={handleDelete} disabled={deleting} className="h-8 text-zinc-600 hover:text-red-400">🗑</Button>
+          <a href={`/api/angebote/${a.id}/pdf`} target="_blank" className={buttonVariants({ size:"sm", className:"h-8 bg-zinc-800 hover:bg-zinc-700 text-xs flex items-center gap-1" })}>
+            <DocumentTextIcon className="size-3.5" />PDF</a>
+          <Button size="sm" variant="ghost" onClick={handleDelete} disabled={deleting} className="h-8 text-zinc-600 hover:text-red-400">
+            <TrashIcon className="size-4" /></Button>
         </div>
       </div>
 

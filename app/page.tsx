@@ -6,14 +6,22 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import {
+  MicrophoneIcon,
+  GlobeAltIcon,
+  DocumentTextIcon,
+  EnvelopeIcon,
+  BoltIcon,
+  ShieldCheckIcon,
+} from "@heroicons/react/24/outline";
 
 const features = [
-  { e: "🎤", t: "Voice to Quote", d: "Describe the job. AI writes the full Angebot in seconds." },
-  { e: "🇦🇹", t: "Austrian Compliant", d: "Correct MwSt, ÖNORM, Zahlungsbedingungen, Gewährleistung." },
-  { e: "📄", t: "Professional PDF", d: "Branded, print-ready PDF with company logo and UID." },
-  { e: "📧", t: "Send Instantly", d: "Email the Angebot directly to your customer." },
-  { e: "⚡", t: "2 Min per Quote", d: "What took 3 hours now takes under 2 minutes." },
-  { e: "🔒", t: "EU Hosted", d: "DSGVO-compliant. Your data stays in Frankfurt." },
+  { icon: MicrophoneIcon, t: "Voice to Quote", d: "Describe the job. AI writes the full Angebot in seconds." },
+  { icon: GlobeAltIcon, t: "Austrian Compliant", d: "Correct MwSt, ÖNORM, Zahlungsbedingungen, Gewährleistung." },
+  { icon: DocumentTextIcon, t: "Professional PDF", d: "Branded, print-ready PDF with company logo and UID." },
+  { icon: EnvelopeIcon, t: "Send Instantly", d: "Email the Angebot directly to your customer." },
+  { icon: BoltIcon, t: "2 Min per Quote", d: "What took 3 hours now takes under 2 minutes." },
+  { icon: ShieldCheckIcon, t: "EU Hosted", d: "DSGVO-compliant. Your data stays in Frankfurt." },
 ];
 
 const steps = [
@@ -76,13 +84,15 @@ export default function Home() {
             <p className="mt-2 text-sm text-zinc-500">Everything you need to create professional quotes — fast.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map(f => (
-              <div key={f.t} className="group rounded-xl border border-zinc-800/50 bg-zinc-900/30 p-6 hover:border-zinc-700/50 hover:bg-zinc-900/50 transition-[border-color,background-color] duration-200">
-                <div className="mb-3 text-2xl">{f.e}</div>
+            {features.map(f => {
+              const Icon = f.icon;
+              return (
+              <div key={f.t} className="group rounded-xl shadow-card bg-zinc-900/30 p-6 hover:shadow-card-hover hover:bg-zinc-900/50 transition-[border-color,background-color,box-shadow] duration-200">
+                <Icon className="mb-3 size-6 text-emerald-400" />
                 <h3 className="text-sm font-semibold text-zinc-200">{f.t}</h3>
                 <p className="mt-1 text-xs text-zinc-500 leading-relaxed">{f.d}</p>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </section>

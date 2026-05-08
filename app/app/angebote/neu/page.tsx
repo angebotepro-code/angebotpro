@@ -10,6 +10,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/loading";
+import {
+  MicrophoneIcon,
+  StopCircleIcon,
+  DocumentTextIcon,
+  PlusIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 
 interface Position {
   pos: number; beschreibung: string; menge: number; einheit: string;
@@ -111,8 +118,10 @@ export default function NeuesAngebotPage() {
         <Tabs defaultValue="voice" className="w-full">
           <div className="flex items-center justify-between border-b border-zinc-800/50 px-6 pt-4">
             <TabsList className="bg-transparent h-auto p-0 gap-0">
-              <TabsTrigger value="voice" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-emerald-400 rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100">🎤 Voice</TabsTrigger>
-              <TabsTrigger value="text" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-emerald-400 rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100">📝 Text</TabsTrigger>
+              <TabsTrigger value="voice" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-emerald-400 rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100 flex items-center gap-1.5">
+                <MicrophoneIcon className="size-3.5" />Voice</TabsTrigger>
+              <TabsTrigger value="text" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-emerald-400 rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100 flex items-center gap-1.5">
+                <PencilSquareIcon className="size-3.5" />Text</TabsTrigger>
             </TabsList>
           </div>
 
@@ -124,7 +133,7 @@ export default function NeuesAngebotPage() {
                   className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-[transform,box-shadow,background-color] duration-200 ${
                     listening ? "bg-red-500/20 text-red-400 ring-4 ring-red-500/20" : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 active:scale-[0.96]"
                   }`}>
-                  <span className="text-2xl">{listening ? "⏹" : "🎤"}</span>
+                  {listening ? <StopCircleIcon className="size-8" /> : <MicrophoneIcon className="size-8" />}
                   {listening && <span className="absolute inset-0 animate-ping rounded-full bg-red-500/20" />}
                 </button>
                 <div className="text-center">
@@ -198,8 +207,8 @@ export default function NeuesAngebotPage() {
             </div>
             <div className="flex gap-2">
               {savedId && (
-                <a href={`/api/angebote/${savedId}/pdf`} target="_blank" className={buttonVariants({ size: "sm", className: "h-8 bg-zinc-800 hover:bg-zinc-700 text-xs" })}>
-                  📄 PDF
+                <a href={`/api/angebote/${savedId}/pdf`} target="_blank" className={buttonVariants({ size: "sm", className: "h-8 bg-zinc-800 hover:bg-zinc-700 text-xs flex items-center gap-1" })}>
+                  <DocumentTextIcon className="size-3.5" />PDF
                 </a>
               )}
               <Button size="sm" onClick={handleSave} disabled={saving} className="h-8 bg-emerald-500 hover:bg-emerald-600 text-xs">

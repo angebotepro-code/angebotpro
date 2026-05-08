@@ -7,6 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/loading";
+import {
+  PaperAirplaneIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  PencilSquareIcon,
+  PlusIcon,
+  CheckIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { Separator } from "@/components/ui/separator";
 
 interface Angebot {
@@ -58,10 +67,10 @@ export default function DashboardPage() {
   };
 
   const statCards = [
-    { label: t("dashboard.sent"), count: counts.sent, icon: "📤", color: "text-blue-400" },
-    { label: t("dashboard.accepted"), count: counts.accepted, icon: "✅", color: "text-emerald-400" },
-    { label: t("dashboard.rejected"), count: counts.rejected, icon: "❌", color: "text-red-400" },
-    { label: t("dashboard.open"), count: counts.draft, icon: "📝", color: "text-zinc-400" },
+    { label: t("dashboard.sent"), count: counts.sent, icon: PaperAirplaneIcon },
+    { label: t("dashboard.accepted"), count: counts.accepted, icon: CheckCircleIcon },
+    { label: t("dashboard.rejected"), count: counts.rejected, icon: XCircleIcon },
+    { label: t("dashboard.open"), count: counts.draft, icon: PencilSquareIcon },
   ];
 
   return (
@@ -72,24 +81,35 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold tracking-tight text-zinc-50">{t("dashboard.welcome")}</h1>
           <p className="mt-1 text-sm text-zinc-400">{t("dashboard.subtitle")}</p>
         </div>
-        <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-emerald-500 hover:bg-emerald-600 h-9 text-sm" })}>
-          + New Quote
+        <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-emerald-500 hover:bg-emerald-600 h-9 text-sm flex items-center gap-1.5" })}>
+          <PlusIcon className="size-4" />New Quote
         </Link>
       </div>
 
       {/* Stat cards */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((s) => (
-          <Card key={s.label} className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
+        {statCards.map((s) => {
+          const Icon = s.icon;
+          const colorMap: Record<string, string> = {
+            sent: "text-blue-400",
+            accepted: "text-emerald-400",
+            rejected: "text-red-400",
+            open: "text-zinc-400",
+          };
+          const colorKey = Object.keys(colorMap).find(k => s.label.toLowerCase().startsWith(k)) ?? "open";
+          return (
+          <Card key={s.label} className="shadow-card bg-zinc-900/50">
             <CardContent className="flex items-center gap-4 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800/50 text-lg">{s.icon}</div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800/50">
+                <Icon className={`size-5 ${colorMap[colorKey]}`} />
+              </div>
               <div>
                 <p className="text-xs font-medium text-zinc-500">{s.label}</p>
-                <p className={`text-xl font-bold ${s.color}`}>{s.count}</p>
+                <p className={`text-xl font-bold ${colorMap[colorKey]}`}>{s.count}</p>
               </div>
             </CardContent>
           </Card>
-        ))}
+        )})}
       </div>
 
       {/* Quote list */}
@@ -102,7 +122,7 @@ export default function DashboardPage() {
             <div className="flex justify-center py-12"><Spinner /></div>
           ) : angebote.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
-              <div className="mb-3 text-3xl">📋</div>
+              <PencilSquareIcon className="mb-3 size-8 text-zinc-600" />
               <p className="text-sm font-medium text-zinc-400">{t("dashboard.noQuotes")}</p>
               <p className="mt-1 text-xs text-zinc-600">Create your first quote to get started.</p>
               <Link href="/app/angebote/neu" className={buttonVariants({ className: "mt-4 bg-emerald-500 hover:bg-emerald-600 h-8 text-xs" })}>
@@ -129,9 +149,9 @@ export default function DashboardPage() {
                     {(a.status === "draft" || a.status === "sent") && (
                       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                         <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950"
-                          onClick={(e) => { e.preventDefault(); updateStatus(a.id, "accepted"); }}>✓</Button>
+                          onClick={(e) => { e.preventDefault(); updateStatus(a.id, "accepted"); }}><CheckIcon className="size-4" /></Button>
                         <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-400 hover:text-red-300 hover:bg-red-950"
-                          onClick={(e) => { e.preventDefault(); updateStatus(a.id, "rejected"); }}>✗</Button>
+                          onClick={(e) => { e.preventDefault(); updateStatus(a.id, "rejected"); }}><XMarkIcon className="size-4" /></Button>
                       </div>
                     )}
                   </div>
