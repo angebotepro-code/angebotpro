@@ -124,20 +124,20 @@ export default function NeuesAngebotPage() {
     <div className="mx-auto max-w-3xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-50">New Quote</h1>
-        <p className="mt-1 text-sm text-zinc-500">Speak or type your job description. AI generates the Angebot.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">New Quote</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Speak or type your job description. AI generates the Angebot.</p>
       </div>
 
       {/* Pricing info */}
-      <div className="rounded-lg border border-emerald-800/30 bg-emerald-950/10 px-4 py-3 text-xs text-zinc-400">
-        <span className="font-medium text-emerald-400">How pricing works:</span> The AI estimates <strong>labor</strong> (hours × your hourly rate from Settings) and <strong>material</strong> costs (Austrian market estimates). All prices are estimates — review and adjust before sending.
+      <div className="rounded-lg border border-brand/30 bg-brand/10/10 px-4 py-3 text-xs text-muted-foreground">
+        <span className="font-medium text-brand">How pricing works:</span> The AI estimates <strong>labor</strong> (hours × your hourly rate from Settings) and <strong>material</strong> costs (Austrian market estimates). All prices are estimates — review and adjust before sending.
         <a href="/app/einstellungen" className="ml-1 text-emerald-400 hover:underline">Set your hourly rate →</a>
       </div>
 
       {/* Input card */}
-      <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50 overflow-hidden">
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50 overflow-hidden">
         <Tabs defaultValue="voice" className="w-full">
-          <div className="flex items-center justify-between border-b border-zinc-800/50 px-6 pt-4">
+          <div className="flex items-center justify-between border-b border-border/50 px-6 pt-4">
             <TabsList className="bg-transparent h-auto p-0 gap-0">
               <TabsTrigger value="voice" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-emerald-400 rounded-none px-4 py-2 text-xs text-zinc-400 data-[state=active]:text-zinc-100 flex items-center gap-1.5">
                 <MicrophoneIcon className="size-3.5" />Voice</TabsTrigger>
@@ -152,16 +152,16 @@ export default function NeuesAngebotPage() {
               <div className="flex flex-col items-center gap-4 py-8">
                 <button onClick={listening ? stopListening : startListening}
                   className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-[transform,box-shadow,background-color] duration-200 ${
-                    listening ? "bg-red-500/20 text-red-400 ring-4 ring-red-500/20" : "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 active:scale-[0.96]"
+                    listening ? "bg-red-500/20 text-destructive ring-4 ring-red-500/20" : "bg-primary/10 text-emerald-400 hover:bg-primary/20 active:scale-[0.96]"
                   }`}>
                   {listening ? <StopCircleIcon className="size-8" /> : <MicrophoneIcon className="size-8" />}
                   {listening && <span className="absolute inset-0 animate-ping rounded-full bg-red-500/20" />}
                 </button>
                 <div className="text-center">
                   {listening ? (
-                    <p className="text-sm font-medium text-red-400">Recording... tap to stop</p>
+                    <p className="text-sm font-medium text-destructive">Recording... tap to stop</p>
                   ) : (
-                    <p className="text-sm text-zinc-500">Tap the mic and describe the job in German</p>
+                    <p className="text-sm text-muted-foreground">Tap the mic and describe the job in German</p>
                   )}
                   {listening && interimText && (
                     <p className="mt-2 text-sm italic text-zinc-600 max-w-sm">{interimText}</p>
@@ -173,16 +173,16 @@ export default function NeuesAngebotPage() {
               {inputText && !listening && (
                 <div className="space-y-3">
                   <Textarea value={inputText} onChange={(e) => setInputText(e.target.value)} rows={4}
-                    className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 placeholder:text-zinc-600 resize-none" />
+                    className="border-zinc-800 bg-muted/50 text-sm text-zinc-200 placeholder:text-zinc-600 resize-none" />
                   <Button onClick={handleGenerate} disabled={loading}
-                    className="w-full h-10 bg-emerald-500 text-sm font-medium hover:bg-emerald-600">
+                    className="w-full h-10 bg-primary text-sm font-medium hover:bg-primary/90">
                     {loading ? "Generating..." : "Generate Angebot →"}
                   </Button>
                 </div>
               )}
               {!inputText && !listening && (
                 <div className="text-center py-4">
-                  <p className="text-xs text-zinc-600">Recording will appear here</p>
+                  <p className="text-xs text-muted-foreground">Recording will appear here</p>
                 </div>
               )}
             </div>
@@ -191,10 +191,10 @@ export default function NeuesAngebotPage() {
           <TabsContent value="text" className="p-0 m-0">
             <div className="p-6 space-y-4">
               <Textarea value={inputText} onChange={(e) => setInputText(e.target.value)} rows={8}
-                className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 placeholder:text-zinc-600 resize-none"
+                className="border-zinc-800 bg-muted/50 text-sm text-zinc-200 placeholder:text-zinc-600 resize-none"
                 placeholder="Describe the job — rooms, materials, measurements, customer... (in German)" />
               <Button onClick={handleGenerate} disabled={loading || inputText.trim().length < 10}
-                className="w-full h-10 bg-emerald-500 text-sm font-medium hover:bg-emerald-600">
+                className="w-full h-10 bg-primary text-sm font-medium hover:bg-primary/90">
                 {loading ? "Generating..." : "Generate Angebot →"}
               </Button>
             </div>
@@ -204,26 +204,26 @@ export default function NeuesAngebotPage() {
 
       {/* Loading */}
       {loading && (
-        <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
+        <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
           <CardContent className="flex flex-col items-center justify-center py-16 gap-3">
             <Spinner />
-            <p className="text-sm text-zinc-500">AI is writing your Angebot...</p>
+            <p className="text-sm text-muted-foreground">AI is writing your Angebot...</p>
           </CardContent>
         </Card>
       )}
 
       {error && (
-        <Card className="border-red-800/50 bg-red-950/30">
-          <CardContent className="py-4"><p className="text-sm text-red-400">{error}</p></CardContent>
+        <Card className="border-red-800/50 bg-destructive/10/30">
+          <CardContent className="py-4"><p className="text-sm text-destructive">{error}</p></CardContent>
         </Card>
       )}
 
       {/* Angebot Preview */}
       {angebot && (
-        <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
+        <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
-              <CardTitle className="text-base font-semibold text-zinc-100">Generated Quote</CardTitle>
+              <CardTitle className="text-base font-semibold text-foreground">Generated Quote</CardTitle>
               <p className="text-xs text-zinc-500 mt-0.5">Review and edit before saving</p>
             </div>
             <div className="flex gap-2">
@@ -232,7 +232,7 @@ export default function NeuesAngebotPage() {
                   <DocumentTextIcon className="size-3.5" />PDF
                 </a>
               )}
-              <Button size="sm" onClick={handleSave} disabled={saving} className="h-8 bg-emerald-500 hover:bg-emerald-600 text-xs">
+              <Button size="sm" onClick={handleSave} disabled={saving} className="h-8 bg-primary hover:bg-primary/90 text-xs">
                 {saving ? "Saving..." : "Save"}
               </Button>
             </div>
@@ -244,21 +244,21 @@ export default function NeuesAngebotPage() {
               <Input
                 value={angebot.positionen[0]?.beschreibung?.slice(0, 80) ?? "Angebot"}
                 onChange={(e) => updateField("title", e.target.value)}
-                className="h-8 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 font-medium" />
+                className="h-8 border-zinc-800 bg-muted/50 text-sm text-zinc-200 font-medium" />
             </div>
 
             {/* Einleitung */}
             <div className="space-y-1">
               <Label className="text-[10px] text-zinc-500 uppercase tracking-wider">Introduction</Label>
               <Textarea value={angebot.einleitung} onChange={(e) => updateField("einleitung", e.target.value)}
-                rows={3} className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 resize-none" />
+                rows={3} className="border-zinc-800 bg-muted/50 text-sm text-zinc-200 resize-none" />
             </div>
 
             {/* Positions */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Positions</h4>
-                <Button size="sm" variant="ghost" className="h-6 text-[10px] text-zinc-500 hover:text-zinc-300"
+                <Button size="sm" variant="ghost" className="h-6 text-[10px] text-zinc-500 hover:text-foreground"
                   onClick={() => {
                     const newPos = { pos: (angebot.positionen?.length ?? 0) + 1, beschreibung: "", menge: 1, einheit: "pauschal", einzelpreis: 0, gesamtpreis: 0 };
                     setAngebot({ ...angebot, positionen: [...(angebot.positionen ?? []), newPos] });
@@ -267,10 +267,10 @@ export default function NeuesAngebotPage() {
                 </Button>
               </div>
               {angebot.positionen.map((pos, i) => (
-                <div key={pos.pos} className="rounded-lg shadow-card transition-[box-shadow] duration-150 bg-zinc-900/30 p-4 space-y-3">
+                <div key={pos.pos} className="rounded-lg shadow-card transition-[box-shadow] duration-150 bg-card/30 p-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <Badge className="h-5 px-1.5 text-[10px] bg-zinc-800 text-zinc-400 border-0">Pos. {pos.pos}</Badge>
-                    <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-zinc-600 hover:text-red-400"
+                    <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-zinc-600 hover:text-destructive"
                       onClick={() => {
                         const p = angebot.positionen.filter((_, j) => j !== i).map((x, idx) => ({ ...x, pos: idx + 1 }));
                         const sub = p.reduce((s, x) => s + x.gesamtpreis, 0);
@@ -281,18 +281,18 @@ export default function NeuesAngebotPage() {
                     </Button>
                   </div>
                   <Textarea value={pos.beschreibung} onChange={(e) => updatePosition(i, "beschreibung", e.target.value)}
-                    rows={2} className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 resize-none" />
+                    rows={2} className="border-zinc-800 bg-muted/50 text-sm text-zinc-200 resize-none" />
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div><Label className="text-[10px] text-zinc-500">Qty</Label>
+                    <div><Label className="text-[10px] text-muted-foreground">Qty</Label>
                       <Input type="number" value={pos.menge} onChange={(e) => updatePosition(i, "menge", Number(e.target.value))}
-                        className="h-8 border-zinc-800 bg-zinc-800/50 text-sm mt-1" /></div>
-                    <div><Label className="text-[10px] text-zinc-500">Unit</Label>
+                        className="h-8 border-zinc-800 bg-muted/50 text-sm mt-1" /></div>
+                    <div><Label className="text-[10px] text-muted-foreground">Unit</Label>
                       <Input value={pos.einheit} onChange={(e) => updatePosition(i, "einheit", e.target.value)}
-                        className="h-8 border-zinc-800 bg-zinc-800/50 text-sm mt-1" /></div>
-                    <div><Label className="text-[10px] text-zinc-500">Price (€)</Label>
+                        className="h-8 border-zinc-800 bg-muted/50 text-sm mt-1" /></div>
+                    <div><Label className="text-[10px] text-muted-foreground">Price (€)</Label>
                       <Input type="number" value={pos.einzelpreis} onChange={(e) => updatePosition(i, "einzelpreis", Number(e.target.value))}
-                        className="h-8 border-zinc-800 bg-zinc-800/50 text-sm mt-1" /></div>
-                    <div><Label className="text-[10px] text-zinc-500">Total (€)</Label>
+                        className="h-8 border-zinc-800 bg-muted/50 text-sm mt-1" /></div>
+                    <div><Label className="text-[10px] text-muted-foreground">Total (€)</Label>
                       <Input type="number" value={pos.gesamtpreis} disabled
                         className="h-8 border-zinc-800 bg-zinc-900 text-zinc-500 text-sm mt-1" /></div>
                   </div>
@@ -301,34 +301,34 @@ export default function NeuesAngebotPage() {
             </div>
 
             {/* Totals */}
-            <div className="rounded-lg border border-emerald-800/30 bg-emerald-950/10 p-4 space-y-2">
-              <div className="flex justify-between text-sm"><span className="text-zinc-400">Subtotal (net)</span><span className="text-zinc-200 tabular-nums">€{angebot.subtotalNet.toFixed(2)}</span></div>
+            <div className="rounded-lg border border-brand/30 bg-brand/10/10 p-4 space-y-2">
+              <div className="flex justify-between text-sm"><span className="text-muted-foreground">Subtotal (net)</span><span className="text-zinc-200 tabular-nums">€{angebot.subtotalNet.toFixed(2)}</span></div>
               <div className="flex justify-between text-sm items-center gap-2">
-                <span className="text-zinc-400">VAT rate</span>
+                <span className="text-muted-foreground">VAT rate</span>
                 <select value={angebot.mwstRate} onChange={(e) => {
                   const rate = Number(e.target.value);
                   const tax = Math.round(angebot.subtotalNet * (rate / 100) * 100) / 100;
                   setAngebot({ ...angebot, mwstRate: rate, mwstTotal: tax, totalGross: Math.round((angebot.subtotalNet + tax) * 100) / 100 });
-                }} className="h-8 rounded-md border border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 px-2">
+                }} className="h-8 rounded-md border border-zinc-800 bg-muted/50 text-sm text-zinc-200 px-2">
                   <option value={20}>20%</option><option value={10}>10%</option><option value={0}>0%</option>
                 </select>
                 <span className="text-zinc-200 tabular-nums">€{angebot.mwstTotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between font-semibold text-base pt-2 border-t border-zinc-800"><span className="text-zinc-100">Total</span><span className="text-emerald-400 tabular-nums">€{angebot.totalGross.toFixed(2)}</span></div>
+              <div className="flex justify-between font-semibold text-base pt-2 border-t border-zinc-800"><span className="text-foreground">Total</span><span className="text-emerald-400 tabular-nums">€{angebot.totalGross.toFixed(2)}</span></div>
               {angebot.mwstReason && <p className="text-[10px] text-zinc-600 pt-1">{angebot.mwstReason}</p>}
             </div>
 
             {/* Legal */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
-                <Label className="text-[10px] text-zinc-500">Payment Terms</Label>
+                <Label className="text-[10px] text-muted-foreground">Payment Terms</Label>
                 <Input value={angebot.zahlungsbedingungen} onChange={(e) => updateField("zahlungsbedingungen", e.target.value)}
-                  className="h-8 border-zinc-800 bg-zinc-800/50 text-xs text-zinc-200" />
+                  className="h-8 border-zinc-800 bg-muted/50 text-xs text-foreground" />
               </div>
               <div className="space-y-1">
-                <Label className="text-[10px] text-zinc-500">Warranty</Label>
+                <Label className="text-[10px] text-muted-foreground">Warranty</Label>
                 <Input value={angebot.gewaehrleistung} onChange={(e) => updateField("gewaehrleistung", e.target.value)}
-                  className="h-8 border-zinc-800 bg-zinc-800/50 text-xs text-zinc-200" />
+                  className="h-8 border-zinc-800 bg-muted/50 text-xs text-foreground" />
               </div>
             </div>
 
@@ -339,7 +339,7 @@ export default function NeuesAngebotPage() {
             <div className="space-y-1">
               <Label className="text-[10px] text-zinc-500 uppercase tracking-wider">Closing</Label>
               <Textarea value={angebot.schlussformel} onChange={(e) => updateField("schlussformel", e.target.value)}
-                rows={3} className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 resize-none" />
+                rows={3} className="border-zinc-800 bg-muted/50 text-sm text-zinc-200 resize-none" />
             </div>
           </CardContent>
         </Card>

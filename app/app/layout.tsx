@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { LogoutButton } from "./logout-button";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { useI18n } from "@/lib/i18n/context";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -20,11 +21,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user) {
-        router.push("/login");
-      } else {
-        setEmail(user.email ?? null);
-      }
+      if (!user) router.push("/login");
+      else setEmail(user.email ?? null);
     });
   }, []);
 
@@ -35,19 +33,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <nav className="flex flex-col gap-1">
       {[
         { href: "/app/dashboard", key: "sidebar.dashboard" },
+        { href: "/app/angebote", key: "sidebar.quotes" },
         { href: "/app/angebote/neu", key: "sidebar.newQuote" },
         { href: "/app/test", key: "sidebar.test" },
         { href: "/app/einstellungen", key: "sidebar.settings" },
       ].map(({ href, key }) => (
-        <Link
-          key={href}
-          href={href}
-          onClick={close}
-          className={buttonVariants({
-            variant: "ghost",
-            className: "justify-start text-zinc-300 hover:text-zinc-100",
-          })}
-        >
+        <Link key={href} href={href} onClick={close}
+          className={buttonVariants({ variant: "ghost", className: "justify-start text-muted-foreground hover:text-foreground" })}>
           {t(key)}
         </Link>
       ))}
@@ -56,50 +48,42 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   const sidebarFooter = (
     <>
-      <Separator className="my-4 bg-zinc-800" />
+      <Separator />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 min-w-0 flex-1">
           <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-emerald-800 text-emerald-200 text-xs">
-              {initials}
-            </AvatarFallback>
+            <AvatarFallback className="bg-primary text-primary-foreground text-xs">{initials}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="truncate text-sm text-zinc-300">{email}</p>
+            <p className="truncate text-sm text-muted-foreground">{email}</p>
           </div>
         </div>
-        <LanguageSwitcher />
+        <div className="flex items-center gap-1">
+          <ThemeSwitcher />
+          <LanguageSwitcher />
+        </div>
       </div>
       <LogoutButton />
     </>
   );
 
   return (
-    <div className="flex min-h-screen bg-zinc-950">
-      {/* Desktop sidebar */}
-      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-zinc-800 bg-zinc-900 p-4">
-        <Link href="/app/dashboard" className="mb-6 text-xl font-bold text-zinc-50" onClick={close}>
-          {t("general.appName")}
+    <div className="flex min-h-screen bg-background">
+      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-border bg-sidebar p-4">
+        <Link href="/app/dashboard" className="mb-6 text-xl font-bold text-foreground" onClick={close}>
+          Angebot<span className="text-brand">Pro</span>
         </Link>
         {navLinks}
         <div className="mt-auto">{sidebarFooter}</div>
       </aside>
 
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div className="md:hidden fixed inset-0 z-40" onClick={close}>
           <div className="absolute inset-0 bg-black/60" />
-          <aside
-            className="absolute left-0 top-0 bottom-0 w-64 bg-zinc-900 border-r border-zinc-800 p-4 flex flex-col z-50"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <aside className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar border-r border-border p-4 flex flex-col z-50" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
-              <Link href="/app/dashboard" className="text-xl font-bold text-zinc-50" onClick={close}>
-                {t("general.appName")}
-              </Link>
-              <button onClick={close} className="text-zinc-400 hover:text-zinc-200 text-xl leading-none p-1">
-                ✕
-              </button>
+              <Link href="/app/dashboard" className="text-xl font-bold text-foreground" onClick={close}>Angebot<span className="text-brand">Pro</span></Link>
+              <button onClick={close} className="text-muted-foreground hover:text-foreground text-xl leading-none p-1">✕</button>
             </div>
             {navLinks}
             <div className="mt-auto">{sidebarFooter}</div>
@@ -107,21 +91,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      {/* Main */}
       <div className="flex flex-col flex-1 min-w-0">
-        {/* Mobile header */}
-        <div className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-zinc-800 bg-zinc-900">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="text-zinc-300 hover:text-zinc-100 text-xl leading-none p-1"
-          >
-            ☰
-          </button>
-          <span className="font-bold text-zinc-50 text-lg">
-            {t("general.appName")}
-          </span>
+        <div className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-border bg-sidebar">
+          <button onClick={() => setSidebarOpen(true)} className="text-muted-foreground hover:text-foreground text-xl leading-none p-1">☰</button>
+          <span className="font-bold text-foreground text-lg">Angebot<span className="text-brand">Pro</span></span>
         </div>
-
         <main className="flex-1 p-4 md:p-6 overflow-x-hidden">{children}</main>
       </div>
     </div>

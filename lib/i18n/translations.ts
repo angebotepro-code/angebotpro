@@ -6,6 +6,7 @@ export const translations = {
     sidebar: {
       dashboard: "Dashboard",
       newQuote: "New Quote",
+      quotes: "Quotes",
       settings: "Settings",
       test: "🧪 Test",
       logout: "Logout",
