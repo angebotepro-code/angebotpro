@@ -145,8 +145,8 @@ export default function NeuesAngebotPage() {
                 <MicrophoneIcon className="size-5" />Voice</TabsTrigger>
               <TabsTrigger value="text" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
                 <PencilSquareIcon className="size-5" />Text</TabsTrigger>
-              <TabsTrigger value="build" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
-                <Squares2X2Icon className="size-5" />Build</TabsTrigger>
+              <TabsTrigger value="manual" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                <Squares2X2Icon className="size-5" />Manual</TabsTrigger>
             </TabsList>
           </div>
 
@@ -204,7 +204,7 @@ export default function NeuesAngebotPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="build" className="p-0 m-0">
+          <TabsContent value="manual" className="p-0 m-0">
             <div className="p-6 space-y-4">
               <p className="text-xs text-muted-foreground">Start from scratch — no AI. Title and introduction are optional. Add positions manually in the editor below.</p>
               <div className="space-y-2">
