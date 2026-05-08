@@ -59,10 +59,10 @@ export async function POST(
 
     const positionsRows = positions.slice(0, 6).map((p: any) => `
       <tr>
-        <td style="padding:8px 0;border-bottom:1px solid #27272a;font-size:13px;color:#d4d4d8;">Pos.${p.pos}</td>
-        <td style="padding:8px 0;border-bottom:1px solid #27272a;font-size:13px;color:#fafafa;">${p.beschreibung?.slice(0, 80)}${p.beschreibung?.length > 80 ? "..." : ""}</td>
-        <td style="padding:8px 0;border-bottom:1px solid #27272a;font-size:13px;color:#d4d4d8;text-align:right;white-space:nowrap;">${p.menge} ${p.einheit}</td>
-        <td style="padding:8px 0;border-bottom:1px solid #27272a;font-size:13px;color:#fafafa;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;">€ ${p.gesamtpreis?.toFixed(2)}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#6b7280;">Pos.${p.pos}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#111827;">${p.beschreibung?.slice(0, 80)}${p.beschreibung?.length > 80 ? "…" : ""}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#6b7280;text-align:right;white-space:nowrap;">${p.menge} ${p.einheit}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#111827;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;">€ ${p.gesamtpreis?.toFixed(2)}</td>
       </tr>
     `).join("");
 
@@ -82,78 +82,83 @@ export async function POST(
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#09090b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090b;padding:32px 0;">
+<body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;padding:40px 0;">
     <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="background:#18181b;border-radius:12px;overflow:hidden;border:1px solid #27272a;">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
 
         <!-- Header -->
-        <tr><td style="padding:28px 32px 20px;background:#18181b;">
-          <div style="font-size:20px;font-weight:700;color:#fafafa;letter-spacing:-0.3px;">${companyName}</div>
-          <div style="margin-top:4px;font-size:12px;color:#a1a1aa;">ANGBOT ${angebot.number} · ${new Date(angebot.createdAt).toLocaleDateString("de-AT")}</div>
+        <tr><td style="padding:32px 36px 24px;">
+          <div style="font-size:22px;font-weight:700;color:#111827;letter-spacing:-0.3px;">${companyName}</div>
+          <div style="margin-top:4px;font-size:13px;color:#9ca3af;">ANGBOT ${angebot.number} · ${new Date(angebot.createdAt).toLocaleDateString("de-AT")}</div>
         </td></tr>
 
-        <!-- Body -->
-        <tr><td style="padding:0 32px 28px;background:#18181b;">
+        <!-- Divider -->
+        <tr><td style="padding:0 36px;"><div style="border-bottom:1px solid #f3f4f6;"></div></td></tr>
 
-          <p style="margin:0 0 20px;font-size:14px;color:#d4d4d8;line-height:1.6;">Sehr geehrte Damen und Herren,</p>
-          <p style="margin:0 0 24px;font-size:14px;color:#d4d4d8;line-height:1.6;">${isAck
-            ? `vielen Dank für die Annahme unseres Angebots <strong style="color:#fafafa;">Nr. ${angebot.number}</strong>. Wir bestätigen hiermit den Auftrag und werden die Arbeiten wie besprochen durchführen.`
-            : `vielen Dank für Ihre Anfrage. Anbei übermitteln wir Ihnen unser Angebot <strong style="color:#fafafa;">Nr. ${angebot.number}</strong> mit einer detaillierten Aufstellung der Leistungen.`
+        <!-- Body -->
+        <tr><td style="padding:24px 36px 32px;">
+
+          <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.7;">Sehr geehrte Damen und Herren,</p>
+          <p style="margin:0 0 24px;font-size:15px;color:#374151;line-height:1.7;">${isAck
+            ? `vielen Dank für die Annahme unseres Angebots <strong style="color:#111827;">Nr. ${angebot.number}</strong>. Wir bestätigen hiermit den Auftrag und werden die Arbeiten wie besprochen durchführen.`
+            : `vielen Dank für Ihre Anfrage. Anbei übermitteln wir Ihnen unser Angebot <strong style="color:#111827;">Nr. ${angebot.number}</strong> mit einer detaillierten Aufstellung der Leistungen.`
           }</p>
 
           <!-- Positions -->
           ${positions && positions.length > 0 ? `
-          <h3 style="margin:0 0 12px;font-size:11px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.5px;">Positionen</h3>
+          <h3 style="margin:0 0 12px;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Positionen</h3>
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
             <tr>
-              <td style="padding:6px 0;font-size:10px;color:#71717a;text-transform:uppercase;letter-spacing:0.5px;">Pos.</td>
-              <td style="padding:6px 0;font-size:10px;color:#71717a;text-transform:uppercase;letter-spacing:0.5px;">Beschreibung</td>
-              <td style="padding:6px 0;font-size:10px;color:#71717a;text-transform:uppercase;letter-spacing:0.5px;text-align:right;">Menge</td>
-              <td style="padding:6px 0;font-size:10px;color:#71717a;text-transform:uppercase;letter-spacing:0.5px;text-align:right;">Gesamt</td>
+              <td style="padding:6px 0;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Pos.</td>
+              <td style="padding:6px 0;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;">Beschreibung</td>
+              <td style="padding:6px 0;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;text-align:right;">Menge</td>
+              <td style="padding:6px 0;font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;text-align:right;">Gesamt</td>
             </tr>
             ${positionsRows}
-            ${positions.length > 6 ? `<tr><td colspan="4" style="padding:8px 0;font-size:11px;color:#71717a;">+ ${positions.length - 6} weitere Positionen — siehe PDF-Anhang</td></tr>` : ""}
+            ${positions.length > 6 ? `<tr><td colspan="4" style="padding:10px 0;font-size:12px;color:#9ca3af;">+ ${positions.length - 6} weitere Positionen — siehe PDF-Anhang</td></tr>` : ""}
           </table>
           ` : ""}
 
-          <!-- Total -->
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090b;border-radius:8px;padding:16px;margin-bottom:20px;">
-            <tr><td>
+          <!-- Total Card -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border-radius:8px;margin-bottom:20px;">
+            <tr><td style="padding:16px 20px;">
               <table width="100%" cellpadding="0" cellspacing="0">
-                <tr><td style="padding:3px 16px;font-size:13px;color:#a1a1aa;">Zwischensumme (netto)</td><td style="padding:3px 16px;font-size:13px;color:#d4d4d8;text-align:right;font-variant-numeric:tabular-nums;">€ ${angebot.subtotalNet?.toFixed(2)}</td></tr>
-                <tr><td style="padding:3px 16px;font-size:13px;color:#a1a1aa;">+ ${angebot.mwstRate}% MwSt</td><td style="padding:3px 16px;font-size:13px;color:#d4d4d8;text-align:right;font-variant-numeric:tabular-nums;">€ ${angebot.mwstTotal?.toFixed(2)}</td></tr>
-                <tr><td colspan="2" style="padding:8px 16px 0;"><hr style="border:none;border-top:1px solid #27272a;margin:0;"></td></tr>
-                <tr><td style="padding:8px 16px 3px;font-size:16px;font-weight:700;color:#fafafa;">Gesamtbetrag</td><td style="padding:8px 16px 3px;font-size:16px;font-weight:700;color:#fafafa;text-align:right;font-variant-numeric:tabular-nums;">€ ${angebot.totalGross?.toFixed(2)}</td></tr>
+                <tr><td style="padding:3px 0;font-size:14px;color:#6b7280;">Zwischensumme (netto)</td><td style="padding:3px 0;font-size:14px;color:#374151;text-align:right;font-variant-numeric:tabular-nums;">€ ${angebot.subtotalNet?.toFixed(2)}</td></tr>
+                <tr><td style="padding:3px 0;font-size:14px;color:#6b7280;">+ ${angebot.mwstRate}% MwSt</td><td style="padding:3px 0;font-size:14px;color:#374151;text-align:right;font-variant-numeric:tabular-nums;">€ ${angebot.mwstTotal?.toFixed(2)}</td></tr>
+                <tr><td colspan="2" style="padding:10px 0 0;"><hr style="border:none;border-top:1px solid #e5e7eb;margin:0;"></td></tr>
+                <tr><td style="padding:10px 0 0;font-size:18px;font-weight:700;color:#111827;">Gesamtbetrag</td><td style="padding:10px 0 0;font-size:18px;font-weight:700;color:#111827;text-align:right;font-variant-numeric:tabular-nums;">€ ${angebot.totalGross?.toFixed(2)}</td></tr>
               </table>
             </td></tr>
           </table>
 
           <!-- Legal -->
-          <div style="margin-bottom:20px;font-size:11px;color:#71717a;line-height:1.6;">
-            <strong style="color:#a1a1aa;">Zahlungsbedingungen:</strong> ${angebot.zahlungsbedingungen ?? "30 Tage netto"}<br>
-            <strong style="color:#a1a1aa;">Gewährleistung:</strong> ${angebot.gewaehrleistung ?? "3 Jahre gemäß § 933 ABGB"}<br>
-            <strong style="color:#a1a1aa;">Gültigkeit:</strong> 30 Tage
+          <div style="margin-bottom:20px;font-size:12px;color:#9ca3af;line-height:1.8;">
+            <strong style="color:#6b7280;">Zahlungsbedingungen:</strong> ${angebot.zahlungsbedingungen ?? "30 Tage netto"}<br>
+            <strong style="color:#6b7280;">Gewährleistung:</strong> ${angebot.gewaehrleistung ?? "3 Jahre gemäß § 933 ABGB"}<br>
+            <strong style="color:#6b7280;">Gültigkeit:</strong> 30 Tage
           </div>
 
-          <p style="margin:0 0 4px;font-size:14px;color:#d4d4d8;line-height:1.6;">Das vollständige Angebot finden Sie im <strong style="color:#fafafa;">PDF-Anhang</strong>.</p>
-          <p style="margin:0 0 20px;font-size:14px;color:#d4d4d8;line-height:1.6;">Bei Fragen stehen wir gerne zur Verfügung.</p>
+          <p style="margin:0 0 4px;font-size:14px;color:#6b7280;line-height:1.7;">Das vollständige Angebot finden Sie im <strong style="color:#111827;">PDF-Anhang</strong>.</p>
+          <p style="margin:0 0 20px;font-size:14px;color:#6b7280;line-height:1.7;">Bei Fragen stehen wir gerne zur Verfügung.</p>
 
           <!-- Signing CTA -->
+          ${!isAck ? `
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
-            <tr><td align="center" style="background:#052e16;border-radius:10px;padding:20px 24px;border:1px solid #166534;">
-              <p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#4ade80;">Angebot annehmen</p>
-              <p style="margin:0 0 16px;font-size:12px;color:#86efac;line-height:1.5;">Sie können dieses Angebot direkt online annehmen. Kein Ausdrucken, kein Scannen — einfach klicken und unterschreiben.</p>
-              <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://angebotpro.vercel.app"}/sign/${angebot.id}" style="display:inline-block;background:#16a34a;color:#fff;padding:12px 32px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">Angebot annehmen →</a>
+            <tr><td align="center" style="background:#ecfdf5;border-radius:10px;padding:20px 24px;border:1px solid #a7f3d0;">
+              <p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#059669;">Angebot online annehmen</p>
+              <p style="margin:0 0 16px;font-size:12px;color:#6ee7b7;line-height:1.5;">Kein Ausdrucken, kein Scannen — einfach klicken und digital unterschreiben.</p>
+              <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://angebotpro.vercel.app"}/sign/${angebot.id}" style="display:inline-block;background:#059669;color:#fff;padding:12px 32px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">Angebot annehmen →</a>
             </td></tr>
           </table>
+          ` : ""}
 
-          <p style="margin:0;font-size:14px;color:#d4d4d8;">Mit freundlichen Grüßen<br><strong style="color:#fafafa;">${companyName}</strong></p>
+          <p style="margin:0;font-size:14px;color:#374151;">Mit freundlichen Grüßen<br><strong style="color:#111827;">${companyName}</strong></p>
         </td></tr>
 
         <!-- Footer -->
-        <tr><td style="padding:16px 32px;background:#09090b;border-top:1px solid #27272a;">
-          <p style="margin:0;font-size:10px;color:#52525b;">Erstellt mit AngebotPro — KI-gestützte Angebotserstellung</p>
+        <tr><td style="padding:16px 36px;background:#f9fafb;border-top:1px solid #e5e7eb;">
+          <p style="margin:0;font-size:11px;color:#d1d5db;">Erstellt mit AngebotPro — KI-gestützte Angebotserstellung</p>
         </td></tr>
 
       </table>

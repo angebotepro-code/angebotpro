@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 30,
-    borderBottom: "2px solid #059669",
+    borderBottom: "2px solid #111827",
     paddingBottom: 15,
   },
   companyName: {
     fontSize: 18,
     fontFamily: "Helvetica-Bold",
-    color: "#059669",
+    color: "#111827",
     marginBottom: 4,
   },
   companyInfo: {
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 6,
     marginTop: 4,
-    borderTop: "2px solid #059669",
+    borderTop: "2px solid #111827",
   },
   grandTotalLabel: {
     fontSize: 12,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   grandTotalValue: {
     fontSize: 12,
     fontFamily: "Helvetica-Bold",
-    color: "#059669",
+    color: "#111827",
   },
   legalSection: {
     marginBottom: 20,
