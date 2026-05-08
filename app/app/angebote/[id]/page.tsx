@@ -265,7 +265,7 @@ export default function AngebotDetailPage() {
             className="h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
             <EyeIcon className="size-3.5" />Preview</Button>
           {/* PDF */}
-          <a href={`/api/angebote/${a.id}/pdf`} target="_blank" className={buttonVariants({ size:"sm", className:"h-8 bg-muted hover:bg-muted/80 text-xs flex items-center gap-1" })}>
+          <a href={`/api/angebote/${a.id}/pdf`} className={buttonVariants({ size:"sm", variant:"ghost", className:"h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1" })}>
             <DocumentTextIcon className="size-3.5" />PDF</a>
           {/* Duplicate */}
           <Button size="sm" variant="ghost" onClick={handleDuplicate} disabled={duplicating}
@@ -451,8 +451,8 @@ export default function AngebotDetailPage() {
             <a href={`/api/angebote/${a.id}/pdf`} download className={buttonVariants({ size:"sm", className:"h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1" })}>
               <ArrowDownTrayIcon className="size-3.5" />Download PDF</a>
           </DialogHeader>
-          <div className="flex-1 min-h-0">
-            <iframe src={`/api/angebote/${a.id}/pdf`} className="w-full h-full border-0" title="PDF Preview" />
+          <div className="flex-1 min-h-0 bg-zinc-100 dark:bg-zinc-800">
+            <iframe src={`/api/angebote/${a.id}/pdf?preview=true`} className="w-full h-full border-0" title="PDF Preview" />
           </div>
         </DialogContent>
       </Dialog>

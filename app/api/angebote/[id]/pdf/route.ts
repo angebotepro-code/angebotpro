@@ -18,6 +18,8 @@ export async function GET(
     }
 
     const { id } = await params;
+    const { searchParams } = new URL(request.url);
+    const isPreview = searchParams.get("preview") === "true";
     const adminClient = createAdminClient();
 
     const { data: angebot, error } = await adminClient
@@ -65,7 +67,9 @@ export async function GET(
     return new NextResponse(pdfBuffer as unknown as BodyInit, {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="Angebot_${angebot.number}.pdf"`,
+        "Content-Disposition": isPreview
+          ? `inline; filename="Angebot_${angebot.number}.pdf"`
+          : `attachment; filename="Angebot_${angebot.number}.pdf"`,
       },
     });
   } catch (error) {

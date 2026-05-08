@@ -166,7 +166,7 @@ export default function AngebotePage() {
                     <TableCell className="text-sm text-muted-foreground">{new Date(a.createdAt).toLocaleDateString("de-AT")}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1">
-                        <button onClick={() => window.open(`/api/angebote/${a.id}/pdf`, "_blank")} className={buttonVariants({ size: "sm", variant: "ghost", className: "h-7 w-7 p-0" })} title="Preview">
+                        <button onClick={() => window.open(`/api/angebote/${a.id}/pdf?preview=true`, "_blank")} className={buttonVariants({ size: "sm", variant: "ghost", className: "h-7 w-7 p-0" })} title="Preview">
                           <EyeIcon className="size-3.5" />
                         </button>
                         <Link href={`/app/angebote/${a.id}`} className={buttonVariants({ size: "sm", variant: "ghost", className: "h-7 w-7 p-0" })}>
