@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -19,6 +19,8 @@ import {
   PlusIcon,
   ArrowLeftIcon,
   XMarkIcon,
+  DocumentDuplicateIcon,
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -27,6 +29,7 @@ interface AngebotDetail {
   positions:{pos:number;beschreibung:string;menge:number;einheit:string;einzelpreis:number;gesamtpreis:number}[];
   subtotalNet:number;mwstRate:number;mwstTotal:number;totalGross:number;
   zahlungsbedingungen:string;gewaehrleistung:string;schlussformel:string;createdAt:string;
+  acceptedByName?:string;acceptedAt?:string;
   revisions?: { timestamp: string; editor: string; snapshot: any }[];
 }
 
@@ -49,17 +52,42 @@ export default function AngebotDetailPage() {
   const [sendError, setSendError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [duplicating, setDuplicating] = useState(false);
+  const changedRef = useRef(false);
+  const aRef = useRef(a);
+
+  useEffect(() => { aRef.current = a; }, [a]);
 
   useEffect(() => { fetch(`/api/angebote/${id}`).then(r => r.json()).then(d => setA(d)).finally(() => setLoading(false)); }, [id]);
+
+  // Autosave for drafts
+  useEffect(() => {
+    if (!a || a.status !== "draft" || !changedRef.current) return;
+    const t = setTimeout(async () => {
+      changedRef.current = false;
+      await fetch(`/api/angebote/${a.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: a.title, einleitung: a.einleitung, schlussformel: a.schlussformel,
+          zahlungsbedingungen: a.zahlungsbedingungen, gewaehrleistung: a.gewaehrleistung,
+          mwstRate: a.mwstRate, positions: a.positions,
+          subtotalNet: a.subtotalNet, mwstTotal: a.mwstTotal, totalGross: a.totalGross
+        }) });
+      setSavedAt(new Date());
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [a]);
 
   if (loading) return <div className="flex justify-center py-24"><Spinner /></div>;
   if (!a) return <div className="flex justify-center py-24"><p className="text-muted-foreground">Quote not found.</p></div>;
 
-  // --- Edit helpers ---
+  const editable = a.status === "draft" || a.status === "rejected";
+
+  function mutate() { changedRef.current = true; setSavedAt(null); }
+
   function updateField(field: string, value: string | number) {
-    setA((prev) => prev ? { ...prev, [field]: value } : null);
-    setSavedAt(null);
+    setA((prev) => prev ? { ...prev, [field]: value } : null); mutate();
   }
 
   function updatePosition(i: number, f: string, v: string | number) {
@@ -69,18 +97,16 @@ export default function AngebotDetailPage() {
       if (f === "einzelpreis" || f === "menge") p[i].gesamtpreis = p[i].menge * p[i].einzelpreis;
       const sub = p.reduce((s, x) => s + x.gesamtpreis, 0);
       const tax = Math.round(sub * ((prev.mwstRate ?? 20) / 100) * 100) / 100;
-      return { ...prev, positions: p, subtotalNet: sub, mwstTotal: tax, totalGross: Math.round((sub + tax) * 100) / 100, [f]: v };
-    });
-    setSavedAt(null);
+      return { ...prev, positions: p, subtotalNet: sub, mwstTotal: tax, totalGross: Math.round((sub + tax) * 100) / 100 };
+    }); mutate();
   }
 
   function addPosition() {
     setA((prev) => {
       if (!prev) return null;
-      const newPos = { pos: (prev.positions?.length ?? 0) + 1, beschreibung: "", menge: 1, einheit: "pauschal", einzelpreis: 0, gesamtpreis: 0 };
-      return { ...prev, positions: [...(prev.positions ?? []), newPos] };
-    });
-    setSavedAt(null);
+      const np = { pos: (prev.positions?.length ?? 0) + 1, beschreibung: "", menge: 1, einheit: "pauschal", einzelpreis: 0, gesamtpreis: 0 };
+      return { ...prev, positions: [...(prev.positions ?? []), np] };
+    }); mutate();
   }
 
   function deletePosition(i: number) {
@@ -90,31 +116,22 @@ export default function AngebotDetailPage() {
       const sub = p.reduce((s, x) => s + x.gesamtpreis, 0);
       const tax = Math.round(sub * ((prev.mwstRate ?? 20) / 100) * 100) / 100;
       return { ...prev, positions: p, subtotalNet: sub, mwstTotal: tax, totalGross: Math.round((sub + tax) * 100) / 100 };
-    });
-    setSavedAt(null);
+    }); mutate();
   }
 
-  // --- Save ---
   async function handleSave() {
     if (!a) return; setSaving(true);
     await fetch(`/api/angebote/${a.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title: a.title,
-        einleitung: a.einleitung,
-        schlussformel: a.schlussformel,
-        zahlungsbedingungen: a.zahlungsbedingungen,
-        gewaehrleistung: a.gewaehrleistung,
-        mwstRate: a.mwstRate,
-        positions: a.positions,
-        subtotalNet: a.subtotalNet,
-        mwstTotal: a.mwstTotal,
-        totalGross: a.totalGross
+        title: a.title, einleitung: a.einleitung, schlussformel: a.schlussformel,
+        zahlungsbedingungen: a.zahlungsbedingungen, gewaehrleistung: a.gewaehrleistung,
+        mwstRate: a.mwstRate, positions: a.positions,
+        subtotalNet: a.subtotalNet, mwstTotal: a.mwstTotal, totalGross: a.totalGross
       }) });
-    setSavedAt(new Date());
-    setSaving(false);
+    changedRef.current = false;
+    setSavedAt(new Date()); setSaving(false);
   }
 
-  // --- Send ---
   async function handleSend() { setSending(true); setSendError(null);
     try { const res = await fetch(`/api/angebote/${a!.id}/send`, { method:"POST", headers:{"Content-Type":"application/json"}, credentials:"include", body:JSON.stringify({to:sendEmail}) });
       const data = await res.json();
@@ -123,13 +140,41 @@ export default function AngebotDetailPage() {
     } catch { setSendError("Network error."); }
     setSending(false); }
 
-  async function handleDelete() { if (!confirm("Delete this quote permanently?")) return; setDeleting(true);
+  async function handleSendAcknowledgment() { setSending(true);
+    try { await fetch(`/api/angebote/${a!.id}/send`, { method:"POST", headers:{"Content-Type":"application/json"}, credentials:"include", body:JSON.stringify({to:sendEmail, acknowledgment:true}) }); }
+    catch {};
+    setSending(false); setDialogOpen(false); }
+
+  async function handleDelete() { setDeleting(true);
     await fetch(`/api/angebote/${a!.id}`, { method:"DELETE" }); router.push("/app/dashboard"); }
+
+  async function handleDuplicate() { setDuplicating(true);
+    const res = await fetch("/api/angebote/generate", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({input_text:`Duplicate of ${a!.number}`, trade:""}) });
+    const data = await res.json();
+    if (data.id) { await fetch(`/api/angebote/${data.id}`, { method:"PATCH", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ title: `${a!.title} (Copy)`, einleitung: a!.einleitung, positions: a!.positions, subtotalNet: a!.subtotalNet, mwstRate: a!.mwstRate, mwstTotal: a!.mwstTotal, totalGross: a!.totalGross, zahlungsbedingungen: a!.zahlungsbedingungen, gewaehrleistung: a!.gewaehrleistung, schlussformel: a!.schlussformel }) });
+      router.push(`/app/angebote/${data.id}`); }
+    setDuplicating(false); }
 
   const sc = statusConfig[a.status] ?? { label: a.status, className: "text-muted-foreground" };
 
+  const inputClass = (ed: boolean) => `border-border bg-muted text-sm ${ed ? "text-foreground" : "text-muted-foreground"} resize-none ${!ed ? "pointer-events-none opacity-70" : ""}`;
+  const fieldClass = (ed: boolean) => `border-border bg-muted ${ed ? "text-foreground" : "text-muted-foreground"} ${!ed ? "pointer-events-none opacity-70" : ""}`;
+
   return (
     <div className="mx-auto max-w-3xl space-y-6">
+      {/* Delete confirmation dialog */}
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent className="bg-card border-border max-w-sm">
+          <DialogHeader><DialogTitle className="text-foreground">Delete Quote?</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground">This action cannot be undone. The quote <strong className="text-foreground">{a.number}</strong> will be permanently deleted.</p>
+          <div className="flex gap-2 justify-end pt-2">
+            <Button variant="ghost" size="sm" onClick={() => setDeleteOpen(false)} className="text-muted-foreground">Cancel</Button>
+            <Button size="sm" onClick={handleDelete} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white">{deleting?"Deleting…":"Delete"}</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div className="flex-1">
@@ -137,44 +182,82 @@ export default function AngebotDetailPage() {
             <ArrowLeftIcon className="size-3" />Back to Quotes
           </Link>
           <div className="flex items-center gap-3">
-            <Input value={a.title} onChange={(e) => updateField("title", e.target.value)}
-              className="h-8 border-border bg-muted text-xl font-bold text-foreground w-auto min-w-[200px]" />
+            <Input value={a.title} onChange={(e) => editable && updateField("title", e.target.value)}
+              className={`h-8 border-border bg-muted text-xl font-bold ${editable ? "text-foreground" : "text-muted-foreground pointer-events-none opacity-70"} w-auto min-w-[200px]`} />
             <Badge className={sc.className}>{sc.label}</Badge>
           </div>
-          <p className="mt-1 text-xs text-muted-foreground">{a.number} · {new Date(a.createdAt).toLocaleDateString("de-AT")}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{a.number} · {new Date(a.createdAt).toLocaleDateString("de-AT")}{a.acceptedByName ? ` · Signed by ${a.acceptedByName}` : ""}</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <Button size="sm" onClick={handleSave} disabled={saving}
-            className="h-8 bg-foreground text-background hover:bg-foreground/80 text-xs">
-            {saving ? "..." : savedAt ? "✓ Saved" : "Save"}
-          </Button>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <Button className="h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1" disabled={sent} onClick={() => setDialogOpen(true)}>
-              {sent ? <><CheckIcon className="size-3.5" />Sent</> : <><EnvelopeIcon className="size-3.5" />Send</>}
-            </Button>
-            <DialogContent className="bg-card border-border">
-              <DialogHeader><DialogTitle className="text-foreground">Send via Email</DialogTitle></DialogHeader>
-              <div className="space-y-4 pt-4">
-                <Input type="email" placeholder="customer@example.com" value={sendEmail} onChange={e => setSendEmail(e.target.value)}
-                  className="border-border bg-muted text-foreground" />
-                {sendError && <p className="text-xs text-destructive">{sendError}</p>}
-                <Button onClick={handleSend} disabled={sending || !sendEmail.includes("@")}
-                  className="w-full h-9 bg-foreground text-background hover:bg-foreground/80 text-sm">Send</Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+          {/* Send / Send Again / Send Acknowledgment */}
+          {a.status !== "accepted" && (
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <Button size="sm" onClick={() => setDialogOpen(true)} disabled={sent}
+                className="h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1">
+                {sent ? <><CheckIcon className="size-3.5" />Sent</> : a.status === "sent" || a.status === "rejected" ? <><EnvelopeIcon className="size-3.5" />Send Again</> : <><EnvelopeIcon className="size-3.5" />Send</>}
+              </Button>
+              <DialogContent className="bg-card border-border">
+                <DialogHeader><DialogTitle className="text-foreground">Send via Email</DialogTitle></DialogHeader>
+                <div className="space-y-4 pt-4">
+                  <Input type="email" placeholder="customer@example.com" value={sendEmail} onChange={e => setSendEmail(e.target.value)}
+                    className="border-border bg-muted text-foreground" />
+                  {sendError && <p className="text-xs text-destructive">{sendError}</p>}
+                  <Button onClick={handleSend} disabled={sending || !sendEmail.includes("@")}
+                    className="w-full h-9 bg-foreground text-background hover:bg-foreground/80 text-sm">Send</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+          {/* Send Acknowledgment (Accepted) */}
+          {a.status === "accepted" && (
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <Button size="sm" onClick={() => setDialogOpen(true)}
+                className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white text-xs flex items-center gap-1">
+                <PaperAirplaneIcon className="size-3.5" />Send Acknowledgment
+              </Button>
+              <DialogContent className="bg-card border-border">
+                <DialogHeader><DialogTitle className="text-foreground">Send Acknowledgment</DialogTitle></DialogHeader>
+                <div className="space-y-4 pt-4">
+                  <Input type="email" placeholder="customer@example.com" value={sendEmail} onChange={e => setSendEmail(e.target.value)}
+                    className="border-border bg-muted text-foreground" />
+                  <Button onClick={handleSendAcknowledgment} disabled={sending || !sendEmail.includes("@")}
+                    className="w-full h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-sm">Send</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+          {/* PDF */}
           <a href={`/api/angebote/${a.id}/pdf`} target="_blank" className={buttonVariants({ size:"sm", className:"h-8 bg-muted hover:bg-muted/80 text-xs flex items-center gap-1" })}>
             <DocumentTextIcon className="size-3.5" />PDF</a>
-          <Button size="sm" variant="ghost" onClick={handleDelete} disabled={deleting} className="h-8 text-muted-foreground hover:text-destructive" aria-label="Delete quote">
+          {/* Duplicate */}
+          <Button size="sm" variant="ghost" onClick={handleDuplicate} disabled={duplicating}
+            className="h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+            <DocumentDuplicateIcon className="size-3.5" />{duplicating ? "..." : "Duplicate"}</Button>
+          {/* Save (only for rejected) */}
+          {a.status === "rejected" && (
+            <Button size="sm" onClick={handleSave} disabled={saving}
+              className="h-8 bg-foreground text-background hover:bg-foreground/80 text-xs">
+              {saving ? "..." : savedAt ? "✓ Saved" : "Save"}
+            </Button>
+          )}
+          {/* Delete */}
+          <Button size="sm" variant="ghost" onClick={() => setDeleteOpen(true)} disabled={deleting} className="h-8 text-muted-foreground hover:text-destructive" aria-label="Delete quote">
             <TrashIcon className="size-4" /></Button>
         </div>
       </div>
 
-      {/* Content */}
-      {savedAt && (
-        <div className="rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950 px-4 py-2 text-xs text-emerald-600 dark:text-emerald-400 flex items-center justify-between">
-          <span>Saved at {savedAt.toLocaleTimeString("de-AT")}</span>
+      {/* Autosave indicator */}
+      {a.status === "draft" && savedAt && (
+        <div className="rounded-lg border border-border bg-muted px-4 py-2 text-xs text-muted-foreground flex items-center justify-between">
+          <span>Autosaved at {savedAt.toLocaleTimeString("de-AT")}</span>
           <button onClick={() => setSavedAt(null)} className="text-muted-foreground hover:text-foreground"><XMarkIcon className="size-3.5" /></button>
+        </div>
+      )}
+
+      {/* Accepted info */}
+      {a.status === "accepted" && a.acceptedByName && (
+        <div className="rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950 px-4 py-2 text-xs text-emerald-600 dark:text-emerald-400">
+          ✓ Accepted by <strong>{a.acceptedByName}</strong> on {a.acceptedAt ? new Date(a.acceptedAt).toLocaleDateString("de-AT") : "unknown date"}
         </div>
       )}
 
@@ -183,39 +266,40 @@ export default function AngebotDetailPage() {
           {/* Einleitung */}
           <div className="space-y-1">
             <Label className="text-[10px] text-muted-foreground uppercase tracking-wider">Introduction</Label>
-            <Textarea value={a.einleitung} onChange={(e) => updateField("einleitung", e.target.value)}
-              rows={3} className="border-border bg-muted text-sm text-foreground resize-none" />
+            <Textarea value={a.einleitung} onChange={(e) => editable && updateField("einleitung", e.target.value)}
+              rows={3} className={inputClass(editable)} />
           </div>
 
           {/* Positions */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Positions</h4>
-              <Button size="sm" variant="ghost" className="h-6 text-[10px] text-muted-foreground hover:text-foreground flex items-center gap-1"
-                onClick={addPosition}>
-                <PlusIcon className="size-3" />Add position
-              </Button>
+              {editable && (
+                <Button size="sm" variant="ghost" className="h-6 text-[10px] text-muted-foreground hover:text-foreground flex items-center gap-1"
+                  onClick={addPosition}><PlusIcon className="size-3" />Add position</Button>
+              )}
             </div>
             {a.positions?.map((p, i) => (
               <div key={p.pos} className="rounded-lg shadow-card transition-[box-shadow] duration-150 bg-card p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <Badge className="h-5 px-1.5 text-[10px] bg-muted text-muted-foreground border-0">Pos. {p.pos}</Badge>
-                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" onClick={() => deletePosition(i)} aria-label="Remove position">
-                    <TrashIcon className="size-3" />
-                  </Button>
+                  {editable && (
+                    <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" onClick={() => deletePosition(i)} aria-label="Remove position">
+                      <TrashIcon className="size-3" /></Button>
+                  )}
                 </div>
-                <Textarea value={p.beschreibung} onChange={(e) => updatePosition(i, "beschreibung", e.target.value)}
-                  rows={2} className="border-border bg-muted text-sm text-foreground resize-none" />
+                <Textarea value={p.beschreibung} onChange={(e) => editable && updatePosition(i, "beschreibung", e.target.value)}
+                  rows={2} className={inputClass(editable)} />
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div><Label className="text-[10px] text-muted-foreground">Qty</Label>
-                    <Input type="number" value={p.menge} onChange={(e) => updatePosition(i, "menge", Number(e.target.value))}
-                      className="h-8 border-border bg-muted text-sm mt-1" /></div>
+                    <Input type="number" value={p.menge} onChange={(e) => editable && updatePosition(i, "menge", Number(e.target.value))}
+                      className={`h-8 mt-1 ${fieldClass(editable)}`} /></div>
                   <div><Label className="text-[10px] text-muted-foreground">Unit</Label>
-                    <Input value={p.einheit} onChange={(e) => updatePosition(i, "einheit", e.target.value)}
-                      className="h-8 border-border bg-muted text-sm mt-1" /></div>
+                    <Input value={p.einheit} onChange={(e) => editable && updatePosition(i, "einheit", e.target.value)}
+                      className={`h-8 mt-1 ${fieldClass(editable)}`} /></div>
                   <div><Label className="text-[10px] text-muted-foreground">Price (€)</Label>
-                    <Input type="number" value={p.einzelpreis} onChange={(e) => updatePosition(i, "einzelpreis", Number(e.target.value))}
-                      className="h-8 border-border bg-muted text-sm mt-1" /></div>
+                    <Input type="number" value={p.einzelpreis} onChange={(e) => editable && updatePosition(i, "einzelpreis", Number(e.target.value))}
+                      className={`h-8 mt-1 ${fieldClass(editable)}`} /></div>
                   <div><Label className="text-[10px] text-muted-foreground">Total (€)</Label>
                     <Input type="number" value={p.gesamtpreis} disabled
                       className="h-8 border-border bg-muted text-muted-foreground text-sm mt-1" /></div>
@@ -224,54 +308,50 @@ export default function AngebotDetailPage() {
             ))}
           </div>
 
-          {/* Totals */}
           <div className="rounded-lg border border-border bg-muted p-4 space-y-2">
             <div className="flex justify-between text-sm"><span className="text-muted-foreground">Subtotal (net)</span><span className="text-foreground tabular-nums">€{a.subtotalNet?.toFixed(2)}</span></div>
             <div className="flex justify-between text-sm items-center gap-2">
               <span className="text-muted-foreground">VAT rate</span>
-              <Select value={String(a.mwstRate ?? 20)} onValueChange={(v) => {
-                const rate = Number(v);
-                const sub = a.subtotalNet ?? 0;
-                const tax = Math.round(sub * (rate / 100) * 100) / 100;
-                setA({ ...a, mwstRate: rate, mwstTotal: tax, totalGross: Math.round((sub + tax) * 100) / 100 });
-                setSavedAt(null);
-              }}>
-                <SelectTrigger className="h-8 w-20">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="20">20%</SelectItem>
-                  <SelectItem value="10">10%</SelectItem>
-                  <SelectItem value="0">0%</SelectItem>
-                </SelectContent>
-              </Select>
+              {editable ? (
+                <Select value={String(a.mwstRate ?? 20)} onValueChange={(v) => {
+                  const rate = Number(v); const sub = a.subtotalNet ?? 0;
+                  const tax = Math.round(sub * (rate / 100) * 100) / 100;
+                  setA({ ...a, mwstRate: rate, mwstTotal: tax, totalGross: Math.round((sub + tax) * 100) / 100 }); mutate();
+                }}>
+                  <SelectTrigger className="h-8 w-20"><SelectValue /></SelectTrigger>
+                  <SelectContent><SelectItem value="20">20%</SelectItem><SelectItem value="10">10%</SelectItem><SelectItem value="0">0%</SelectItem></SelectContent>
+                </Select>
+              ) : (
+                <span className="text-foreground">{a.mwstRate}%</span>
+              )}
               <span className="text-foreground tabular-nums">€{a.mwstTotal?.toFixed(2)}</span>
             </div>
             <div className="flex justify-between font-semibold text-base pt-2 border-t border-border"><span className="text-foreground">Total</span><span className="text-foreground tabular-nums">€{a.totalGross?.toFixed(2)}</span></div>
           </div>
 
-          {/* Legal */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label className="text-[10px] text-muted-foreground">Payment Terms</Label>
-              <Input value={a.zahlungsbedingungen} onChange={(e) => updateField("zahlungsbedingungen", e.target.value)}
-                className="h-8 border-border bg-muted text-xs text-foreground" />
+              <Input value={a.zahlungsbedingungen} onChange={(e) => editable && updateField("zahlungsbedingungen", e.target.value)}
+                className={`h-8 text-xs ${fieldClass(editable)}`} />
             </div>
             <div className="space-y-1">
               <Label className="text-[10px] text-muted-foreground">Warranty</Label>
-              <Input value={a.gewaehrleistung} onChange={(e) => updateField("gewaehrleistung", e.target.value)}
-                className="h-8 border-border bg-muted text-xs text-foreground" />
+              <Input value={a.gewaehrleistung} onChange={(e) => editable && updateField("gewaehrleistung", e.target.value)}
+                className={`h-8 text-xs ${fieldClass(editable)}`} />
             </div>
           </div>
 
-          {/* AI disclaimer */}
-          <p className="text-[11px] text-muted-foreground text-center">Review all fields. Save before leaving.</p>
+          <p className="text-[11px] text-muted-foreground text-center">
+            {a.status === "draft" ? "Autosave enabled — changes are saved automatically." :
+             a.status === "accepted" ? "This quote has been accepted and is locked." :
+             "Review all fields. Save before leaving."}
+          </p>
 
-          {/* Schlussformel */}
           <div className="space-y-1">
             <Label className="text-[10px] text-muted-foreground uppercase tracking-wider">Closing</Label>
-            <Textarea value={a.schlussformel} onChange={(e) => updateField("schlussformel", e.target.value)}
-              rows={3} className="border-border bg-muted text-sm text-foreground resize-none" />
+            <Textarea value={a.schlussformel} onChange={(e) => editable && updateField("schlussformel", e.target.value)}
+              rows={3} className={inputClass(editable)} />
           </div>
         </CardContent>
       </Card>
@@ -279,18 +359,14 @@ export default function AngebotDetailPage() {
       {/* Revision History */}
       {a.revisions && a.revisions.length > 0 && (
         <Card className="shadow-card bg-card">
-          <CardHeader>
-            <CardTitle className="text-base text-foreground">Revision History</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle className="text-base text-foreground">Revision History</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-2">
               {[...a.revisions].reverse().map((rev, i) => (
                 <div key={i} className="flex items-start justify-between gap-4 rounded-lg border border-border p-3 text-xs">
                   <div>
                     <p className="font-medium text-foreground">{rev.editor}</p>
-                    <p className="text-muted-foreground mt-0.5">
-                      Saved {new Date(rev.timestamp).toLocaleString("de-AT")}
-                    </p>
+                    <p className="text-muted-foreground mt-0.5">Saved {new Date(rev.timestamp).toLocaleString("de-AT")}</p>
                   </div>
                   <span className="text-muted-foreground shrink-0">v{a.revisions!.length - i}</span>
                 </div>

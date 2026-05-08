@@ -14,7 +14,7 @@ export async function POST(
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { id } = await params;
-    const { to } = await request.json();
+    const { to, acknowledgment } = await request.json();
     if (!to?.includes("@")) return NextResponse.json({ error: "Valid recipient email required" }, { status: 422 });
 
     const adminClient = createAdminClient();
@@ -66,10 +66,14 @@ export async function POST(
       </tr>
     `).join("");
 
+    const isAck = !!acknowledgment;
+
     const { data: sendData, error: sendError } = await resend.emails.send({
       from: `${companyName} <onboarding@resend.dev>`,
       to: [to],
-      subject: `Angebot ${angebot.number} — ${companyName}`,
+      subject: isAck
+        ? `Auftragsbestätigung — Angebot ${angebot.number} wurde angenommen`
+        : `Angebot ${angebot.number} — ${companyName}`,
       attachments: [{
         filename: `Angebot_${angebot.number}.pdf`,
         content: pdfBase64,
@@ -93,7 +97,10 @@ export async function POST(
         <tr><td style="padding:0 32px 28px;background:#18181b;">
 
           <p style="margin:0 0 20px;font-size:14px;color:#d4d4d8;line-height:1.6;">Sehr geehrte Damen und Herren,</p>
-          <p style="margin:0 0 24px;font-size:14px;color:#d4d4d8;line-height:1.6;">vielen Dank für Ihre Anfrage. Anbei übermitteln wir Ihnen unser Angebot <strong style="color:#fafafa;">Nr. ${angebot.number}</strong> mit einer detaillierten Aufstellung der Leistungen.</p>
+          <p style="margin:0 0 24px;font-size:14px;color:#d4d4d8;line-height:1.6;">${isAck
+            ? `vielen Dank für die Annahme unseres Angebots <strong style="color:#fafafa;">Nr. ${angebot.number}</strong>. Wir bestätigen hiermit den Auftrag und werden die Arbeiten wie besprochen durchführen.`
+            : `vielen Dank für Ihre Anfrage. Anbei übermitteln wir Ihnen unser Angebot <strong style="color:#fafafa;">Nr. ${angebot.number}</strong> mit einer detaillierten Aufstellung der Leistungen.`
+          }</p>
 
           <!-- Positions -->
           ${positions && positions.length > 0 ? `
