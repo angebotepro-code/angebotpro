@@ -18,6 +18,7 @@ import {
   CheckIcon,
   PlusIcon,
   ArrowLeftIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -171,9 +172,9 @@ export default function AngebotDetailPage() {
 
       {/* Content */}
       {savedAt && (
-        <div className="rounded-lg border border-brand/30 bg-brand/10/10 px-4 py-2 text-xs text-emerald-400 flex items-center justify-between">
+        <div className="rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950 px-4 py-2 text-xs text-emerald-600 dark:text-emerald-400 flex items-center justify-between">
           <span>Saved at {savedAt.toLocaleTimeString("de-AT")}</span>
-          <button onClick={() => setSavedAt(null)} className="text-zinc-500 hover:text-foreground">✕</button>
+          <button onClick={() => setSavedAt(null)} className="text-muted-foreground hover:text-foreground"><XMarkIcon className="size-3.5" /></button>
         </div>
       )}
 

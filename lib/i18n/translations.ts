@@ -8,7 +8,7 @@ export const translations = {
       newQuote: "New Quote",
       quotes: "Quotes",
       settings: "Settings",
-      test: "🧪 Test",
+      test: "Test",
       logout: "Logout",
     },
     // Landing
@@ -112,7 +112,7 @@ export const translations = {
       newQuote: "Neues Angebot",
       quotes: "Angebote",
       settings: "Einstellungen",
-      test: "🧪 Test",
+      test: "Test",
       logout: "Abmelden",
     },
     landing: {
