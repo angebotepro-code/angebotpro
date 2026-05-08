@@ -14,8 +14,8 @@ import {
   MicrophoneIcon,
   StopCircleIcon,
   DocumentTextIcon,
-  PlusIcon,
   PencilSquareIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 
 interface Position {
@@ -98,10 +98,25 @@ export default function NeuesAngebotPage() {
     setAngebot({ ...angebot, positionen: p, subtotalNet: sub, mwstTotal: tax, totalGross: Math.round((sub + tax) * 100) / 100 });
   }
 
+  function updateField(field: string, value: string | number) {
+    if (!angebot) return;
+    setAngebot({ ...angebot, [field]: value });
+  }
+
   async function handleSave() {
     if (!savedId || !angebot) return; setSaving(true);
     await fetch(`/api/angebote/${savedId}`, { method: "PATCH", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ positions: angebot.positionen, subtotalNet: angebot.subtotalNet, mwstTotal: angebot.mwstTotal, totalGross: angebot.totalGross }) });
+      body: JSON.stringify({
+        einleitung: angebot.einleitung,
+        schlussformel: angebot.schlussformel,
+        zahlungsbedingungen: angebot.zahlungsbedingungen,
+        gewaehrleistung: angebot.gewaehrleistung,
+        mwstRate: angebot.mwstRate,
+        positions: angebot.positionen,
+        subtotalNet: angebot.subtotalNet,
+        mwstTotal: angebot.mwstTotal,
+        totalGross: angebot.totalGross
+      }) });
     setSaving(false);
   }
 
@@ -223,16 +238,47 @@ export default function NeuesAngebotPage() {
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
+            {/* Title */}
+            <div className="space-y-1">
+              <Label className="text-[10px] text-zinc-500 uppercase tracking-wider">Title</Label>
+              <Input
+                value={angebot.positionen[0]?.beschreibung?.slice(0, 80) ?? "Angebot"}
+                onChange={(e) => updateField("title", e.target.value)}
+                className="h-8 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 font-medium" />
+            </div>
+
             {/* Einleitung */}
-            <p className="text-sm leading-relaxed text-zinc-300">{angebot.einleitung}</p>
+            <div className="space-y-1">
+              <Label className="text-[10px] text-zinc-500 uppercase tracking-wider">Introduction</Label>
+              <Textarea value={angebot.einleitung} onChange={(e) => updateField("einleitung", e.target.value)}
+                rows={3} className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 resize-none" />
+            </div>
 
             {/* Positions */}
             <div className="space-y-2">
-              <h4 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Positions</h4>
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Positions</h4>
+                <Button size="sm" variant="ghost" className="h-6 text-[10px] text-zinc-500 hover:text-zinc-300"
+                  onClick={() => {
+                    const newPos = { pos: (angebot.positionen?.length ?? 0) + 1, beschreibung: "", menge: 1, einheit: "pauschal", einzelpreis: 0, gesamtpreis: 0 };
+                    setAngebot({ ...angebot, positionen: [...(angebot.positionen ?? []), newPos] });
+                  }}>
+                  + Add position
+                </Button>
+              </div>
               {angebot.positionen.map((pos, i) => (
                 <div key={pos.pos} className="rounded-lg shadow-card transition-[box-shadow] duration-150 bg-zinc-900/30 p-4 space-y-3">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between">
                     <Badge className="h-5 px-1.5 text-[10px] bg-zinc-800 text-zinc-400 border-0">Pos. {pos.pos}</Badge>
+                    <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-zinc-600 hover:text-red-400"
+                      onClick={() => {
+                        const p = angebot.positionen.filter((_, j) => j !== i).map((x, idx) => ({ ...x, pos: idx + 1 }));
+                        const sub = p.reduce((s, x) => s + x.gesamtpreis, 0);
+                        const tax = Math.round(sub * (angebot.mwstRate / 100) * 100) / 100;
+                        setAngebot({ ...angebot, positionen: p, subtotalNet: sub, mwstTotal: tax, totalGross: Math.round((sub + tax) * 100) / 100 });
+                      }}>
+                      <TrashIcon className="size-3" />
+                    </Button>
                   </div>
                   <Textarea value={pos.beschreibung} onChange={(e) => updatePosition(i, "beschreibung", e.target.value)}
                     rows={2} className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 resize-none" />
@@ -257,22 +303,44 @@ export default function NeuesAngebotPage() {
             {/* Totals */}
             <div className="rounded-lg border border-emerald-800/30 bg-emerald-950/10 p-4 space-y-2">
               <div className="flex justify-between text-sm"><span className="text-zinc-400">Subtotal (net)</span><span className="text-zinc-200 tabular-nums">€{angebot.subtotalNet.toFixed(2)}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-zinc-400">+ {angebot.mwstRate}% VAT</span><span className="text-zinc-200 tabular-nums">€{angebot.mwstTotal.toFixed(2)}</span></div>
+              <div className="flex justify-between text-sm items-center gap-2">
+                <span className="text-zinc-400">VAT rate</span>
+                <select value={angebot.mwstRate} onChange={(e) => {
+                  const rate = Number(e.target.value);
+                  const tax = Math.round(angebot.subtotalNet * (rate / 100) * 100) / 100;
+                  setAngebot({ ...angebot, mwstRate: rate, mwstTotal: tax, totalGross: Math.round((angebot.subtotalNet + tax) * 100) / 100 });
+                }} className="h-8 rounded-md border border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 px-2">
+                  <option value={20}>20%</option><option value={10}>10%</option><option value={0}>0%</option>
+                </select>
+                <span className="text-zinc-200 tabular-nums">€{angebot.mwstTotal.toFixed(2)}</span>
+              </div>
               <div className="flex justify-between font-semibold text-base pt-2 border-t border-zinc-800"><span className="text-zinc-100">Total</span><span className="text-emerald-400 tabular-nums">€{angebot.totalGross.toFixed(2)}</span></div>
               {angebot.mwstReason && <p className="text-[10px] text-zinc-600 pt-1">{angebot.mwstReason}</p>}
             </div>
 
             {/* Legal */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-zinc-500">
-              <div className="rounded-lg shadow-card transition-[box-shadow] duration-150 px-3 py-2"><span className="text-zinc-400">Payment: </span>{angebot.zahlungsbedingungen}</div>
-              <div className="rounded-lg shadow-card transition-[box-shadow] duration-150 px-3 py-2"><span className="text-zinc-400">Warranty: </span>{angebot.gewaehrleistung}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label className="text-[10px] text-zinc-500">Payment Terms</Label>
+                <Input value={angebot.zahlungsbedingungen} onChange={(e) => updateField("zahlungsbedingungen", e.target.value)}
+                  className="h-8 border-zinc-800 bg-zinc-800/50 text-xs text-zinc-200" />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-[10px] text-zinc-500">Warranty</Label>
+                <Input value={angebot.gewaehrleistung} onChange={(e) => updateField("gewaehrleistung", e.target.value)}
+                  className="h-8 border-zinc-800 bg-zinc-800/50 text-xs text-zinc-200" />
+              </div>
             </div>
 
             {/* AI disclaimer */}
-            <p className="text-[11px] text-zinc-600 text-center">AI-generated draft — please review before sending.</p>
+            <p className="text-[11px] text-zinc-600 text-center">AI-generated draft — please review all fields before sending.</p>
 
             {/* Schlussformel */}
-            <p className="text-sm leading-relaxed text-zinc-300 border-t border-zinc-800/50 pt-4">{angebot.schlussformel}</p>
+            <div className="space-y-1">
+              <Label className="text-[10px] text-zinc-500 uppercase tracking-wider">Closing</Label>
+              <Textarea value={angebot.schlussformel} onChange={(e) => updateField("schlussformel", e.target.value)}
+                rows={3} className="border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200 resize-none" />
+            </div>
           </CardContent>
         </Card>
       )}
