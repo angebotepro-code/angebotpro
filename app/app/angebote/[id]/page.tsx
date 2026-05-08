@@ -54,6 +54,8 @@ export default function AngebotDetailPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [restoreOpen, setRestoreOpen] = useState(false);
+  const [restoreTarget, setRestoreTarget] = useState<any>(null);
   const [duplicating, setDuplicating] = useState(false);
   const changedRef = useRef(false);
   const aRef = useRef(a);
@@ -171,6 +173,35 @@ export default function AngebotDetailPage() {
           <div className="flex gap-2 justify-end pt-2">
             <Button variant="ghost" size="sm" onClick={() => setDeleteOpen(false)} className="text-muted-foreground">Cancel</Button>
             <Button size="sm" onClick={handleDelete} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white">{deleting?"Deleting…":"Delete"}</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Restore confirmation dialog */}
+      <Dialog open={restoreOpen} onOpenChange={setRestoreOpen}>
+        <DialogContent className="bg-card border-border max-w-sm">
+          <DialogHeader><DialogTitle className="text-foreground">Restore Version?</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground">This will replace the current content with the selected revision. Any unsaved changes will be lost.</p>
+          <div className="flex gap-2 justify-end pt-2">
+            <Button variant="ghost" size="sm" onClick={() => { setRestoreOpen(false); setRestoreTarget(null); }} className="text-muted-foreground">Cancel</Button>
+            <Button size="sm" onClick={() => {
+              if (!restoreTarget) return;
+              setA((prev) => prev ? {
+                ...prev,
+                title: restoreTarget.title ?? prev.title,
+                einleitung: restoreTarget.einleitung ?? prev.einleitung,
+                schlussformel: restoreTarget.schlussformel ?? prev.schlussformel,
+                positions: restoreTarget.positions ?? prev.positions,
+                subtotalNet: restoreTarget.subtotalNet ?? prev.subtotalNet,
+                mwstRate: restoreTarget.mwstRate ?? prev.mwstRate,
+                mwstTotal: restoreTarget.mwstTotal ?? prev.mwstTotal,
+                totalGross: restoreTarget.totalGross ?? prev.totalGross,
+                zahlungsbedingungen: restoreTarget.zahlungsbedingungen ?? prev.zahlungsbedingungen,
+                gewaehrleistung: restoreTarget.gewaehrleistung ?? prev.gewaehrleistung,
+              } : null);
+              mutate();
+              setRestoreOpen(false); setRestoreTarget(null);
+            }} className="bg-foreground text-background hover:bg-foreground/80">Restore</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -395,23 +426,7 @@ export default function AngebotDetailPage() {
                   </div>
                   {a.status === "draft" && (
                     <Button size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground hover:text-foreground shrink-0"
-                      onClick={() => {
-                        if (!rev.snapshot) return;
-                        setA((prev) => prev ? {
-                          ...prev,
-                          title: rev.snapshot.title ?? prev.title,
-                          einleitung: rev.snapshot.einleitung ?? prev.einleitung,
-                          schlussformel: rev.snapshot.schlussformel ?? prev.schlussformel,
-                          positions: rev.snapshot.positions ?? prev.positions,
-                          subtotalNet: rev.snapshot.subtotalNet ?? prev.subtotalNet,
-                          mwstRate: rev.snapshot.mwstRate ?? prev.mwstRate,
-                          mwstTotal: rev.snapshot.mwstTotal ?? prev.mwstTotal,
-                          totalGross: rev.snapshot.totalGross ?? prev.totalGross,
-                          zahlungsbedingungen: rev.snapshot.zahlungsbedingungen ?? prev.zahlungsbedingungen,
-                          gewaehrleistung: rev.snapshot.gewaehrleistung ?? prev.gewaehrleistung,
-                        } : null);
-                        mutate();
-                      }}>
+                      onClick={() => { setRestoreTarget(rev.snapshot); setRestoreOpen(true); }}>
                       Restore
                     </Button>
                   )}
