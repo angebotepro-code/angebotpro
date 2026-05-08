@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/loading";
 
 interface AngebotDetail {
   id: string;
@@ -46,7 +47,7 @@ export default function AngebotDetailPage() {
   }, [params.id]);
 
   if (loading) {
-    return <p className="text-zinc-400">Loading...</p>;
+    return <div className="flex justify-center py-24"><Spinner /></div>;
   }
 
   if (!angebot) {

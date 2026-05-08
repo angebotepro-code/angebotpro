@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/loading";
 
 interface Position {
   pos: number;
@@ -281,6 +282,16 @@ export default function NeuesAngebotPage() {
           </Tabs>
         </CardContent>
       </Card>
+
+      {/* Generieren loading */}
+      {loading && !angebot && (
+        <div className="flex justify-center py-12">
+          <div className="text-center space-y-3">
+            <Spinner />
+            <p className="text-sm text-zinc-500">KI erstellt dein Angebot...</p>
+          </div>
+        </div>
+      )}
 
       {error && (
         <Card className="border-red-800 bg-red-950">

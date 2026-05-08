@@ -6,6 +6,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/loading";
 
 interface Angebot {
   id: string;
@@ -125,7 +126,7 @@ export default function DashboardPage() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <p className="text-sm text-zinc-500">Loading...</p>
+            <div className="flex justify-center py-12"><Spinner /></div>
           ) : angebote.length === 0 ? (
             <p className="text-sm text-zinc-500">{t("dashboard.noQuotes")}</p>
           ) : (
