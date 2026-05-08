@@ -30,7 +30,21 @@ export async function GET(
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
+    // Get company data
+    const { data: company } = await adminClient
+      .from("Company")
+      .select("*")
+      .eq("id", angebot.companyId)
+      .single();
+
     const pdfBuffer = await generatePDF({
+      company: company ? {
+        name: company.name,
+        address: company.address ?? "",
+        uidNumber: company.uidNumber ?? "",
+        phone: company.phone ?? "",
+        email: company.email ?? "",
+      } : undefined,
       angebot: {
         number: angebot.number,
         date: new Date(angebot.createdAt).toLocaleDateString("de-AT"),
