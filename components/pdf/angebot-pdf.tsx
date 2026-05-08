@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderTop: "1px solid #f1f5f9",
     paddingTop: 8,
+    lineHeight: 1.4,
   },
 });
 
@@ -311,7 +312,8 @@ export function AngebotPDF({ company, angebot }: AngebotPDFProps) {
 
         {/* Footer */}
         <Text style={styles.footer}>
-          Erstellt mit AngebotPro — KI-gestützte Angebotserstellung
+          Erstellt mit AngebotPro — KI-gestützte Angebotserstellung{"\n"}
+          Dieses Dokument wurde mit KI-Unterstützung erstellt und vor dem Versand vom Ersteller geprüft.
         </Text>
       </Page>
     </Document>
