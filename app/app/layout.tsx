@@ -47,6 +47,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const initials = email?.slice(0, 2).toUpperCase() ?? "??";
   const close = useCallback(() => setSidebarOpen(false), []);
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
   const navLinks = (
     <nav className="flex flex-col gap-1">
       {[
@@ -98,12 +104,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </DropdownMenu>
     </>
   );
-
-  async function handleLogout() {
-    await supabase.auth.signOut();
-    router.push("/login");
-    router.refresh();
-  }
 
   return (
     <div className="flex min-h-screen bg-background">
