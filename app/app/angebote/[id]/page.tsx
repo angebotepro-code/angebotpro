@@ -31,6 +31,7 @@ export default function AngebotDetailPage() {
   const [loading, setLoading] = useState(true);
   const [sendEmail, setSendEmail] = useState("");
   const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -51,19 +52,26 @@ export default function AngebotDetailPage() {
 
   async function handleSend() {
     setSending(true);
+    setSendError(null);
     try {
       const res = await fetch(`/api/angebote/${angebot!.id}/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ to: sendEmail }),
       });
+      const data = await res.json();
       if (res.ok) {
         setSent(true);
         setAngebot({ ...angebot!, status: "sent" });
+        setDialogOpen(false);
+      } else {
+        setSendError(data.error || "Send failed");
       }
-    } catch {}
+    } catch {
+      setSendError("Network error. Please try again.");
+    }
     setSending(false);
-    setDialogOpen(false);
   }
 
   return (
@@ -98,6 +106,9 @@ export default function AngebotDetailPage() {
                   onChange={(e) => setSendEmail(e.target.value)}
                   className="border-zinc-700 bg-zinc-800 text-zinc-100"
                 />
+                {sendError && (
+                  <p className="text-sm text-red-400">{sendError}</p>
+                )}
                 <Button
                   onClick={handleSend}
                   disabled={sending || !sendEmail.includes("@")}
