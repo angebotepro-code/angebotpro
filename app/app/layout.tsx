@@ -5,6 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useI18n } from "@/lib/i18n/context";
+import { useTheme } from "@/components/theme-provider";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
@@ -16,16 +17,9 @@ import {
   Cog6ToothIcon,
   XMarkIcon,
   Bars3Icon,
+  SunIcon,
+  MoonIcon,
 } from "@heroicons/react/24/outline";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useTheme } from "@/components/theme-provider";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { t, lang, setLang } = useI18n();
@@ -35,6 +29,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
   const [email, setEmail] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -75,32 +70,52 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const sidebarFooter = (
     <>
       <Separator />
-      <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center gap-3 w-full rounded-lg p-2 hover:bg-muted transition-colors text-left cursor-pointer" aria-label="User menu">
-            <Avatar className="h-8 w-8 shrink-0">
-              <AvatarFallback className="bg-primary text-primary-foreground text-xs">{initials}</AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="truncate text-sm text-foreground">{email}</p>
+      <div className="relative">
+        <button
+          onClick={() => setProfileOpen(!profileOpen)}
+          className="flex items-center gap-3 w-full rounded-lg p-2 hover:bg-muted transition-colors text-left cursor-pointer"
+          aria-label="User menu"
+        >
+          <Avatar className="h-8 w-8 shrink-0">
+            <AvatarFallback className="bg-primary text-primary-foreground text-xs">{initials}</AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <p className="truncate text-sm text-foreground">{email}</p>
+          </div>
+        </button>
+        {profileOpen && (
+          <>
+            <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
+            <div className="absolute bottom-full left-0 mb-2 w-56 z-50 rounded-lg border border-border bg-card shadow-lg py-1">
+              <p className="px-3 py-2 text-xs text-muted-foreground truncate">{email}</p>
+              <div className="h-px bg-border mx-1 my-1" />
+              <button
+                onClick={() => { toggleTheme(); setProfileOpen(false); }}
+                className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
+              >
+                Theme
+                <span className="text-xs text-muted-foreground">
+                  {theme === "dark" ? <SunIcon className="size-3.5" /> : <MoonIcon className="size-3.5" />}
+                </span>
+              </button>
+              <button
+                onClick={() => { setLang(lang === "en" ? "de" : "en"); setProfileOpen(false); }}
+                className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
+              >
+                Language
+                <span className="text-xs text-muted-foreground">{lang === "en" ? "DE" : "EN"}</span>
+              </button>
+              <div className="h-px bg-border mx-1 my-1" />
+              <button
+                onClick={() => { handleLogout(); }}
+                className="flex items-center w-full px-3 py-2 text-sm text-destructive hover:bg-muted text-left"
+              >
+                {t("sidebar.logout")}
+              </button>
             </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="w-56">
-          <DropdownMenuLabel>{email}</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={toggleTheme} className="flex items-center justify-between cursor-pointer">
-            Theme
-            <span className="text-xs text-muted-foreground">{theme === "dark" ? "☀️ Light" : "🌙 Dark"}</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => setLang(lang === "en" ? "de" : "en")} className="flex items-center justify-between cursor-pointer">
-            Language
-            <span className="text-xs text-muted-foreground">{lang === "en" ? "DE" : "EN"}</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={handleLogout} className="text-destructive cursor-pointer">
-            {t("sidebar.logout")}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          </>
+        )}
+      </div>
     </>
   );
 
