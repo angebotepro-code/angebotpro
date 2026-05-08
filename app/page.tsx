@@ -172,8 +172,13 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="px-6 py-8 border-t border-zinc-800 text-center text-sm text-zinc-600">
-        © 2026 AngebotPro. Made in Austria.
+      <footer className="px-6 py-8 border-t border-zinc-800 text-center text-sm text-zinc-600 space-y-2">
+        <div className="flex justify-center gap-6">
+          <Link href="/impressum" className="hover:text-zinc-400">Impressum</Link>
+          <Link href="/datenschutz" className="hover:text-zinc-400">Datenschutz</Link>
+          <Link href="/agb" className="hover:text-zinc-400">AGB</Link>
+        </div>
+        <p>© 2026 AngebotPro. Made in Austria.</p>
       </footer>
     </div>
   );

@@ -95,8 +95,10 @@ REGELN:
 - Standard-Zahlungsbedingungen: '30 Tage netto' (oder angepasst an die Arbeit)
 - Standard-Gewährleistung: '3 Jahre gemäß § 933 ABGB'
 - Gültigkeitsdauer: erwähne im Angebotstext, dass das Angebot 30 Tage gültig ist
-- Erwähne, dass es sich um ein unverbindliches Angebot handelt
-- Schlussformel: höflicher, professioneller Abschluss${tradeContext}${companyInfo}`,
+- Bezeichne das Dokument klar als "Angebot" (nicht "Kostenvoranschlag")
+- Erwähne, dass es sich um ein unverbindliches und kostenloses Angebot handelt
+- Füge folgenden Hinweis am Ende ein: "Dieses Angebot wurde KI-unterstützt erstellt und vom Ersteller geprüft."
+- Schlussformel: höflicher, professioneller Abschluss mit Kontaktdaten des Betriebs${tradeContext}${companyInfo}`,
     prompt: inputText,
   });
 
