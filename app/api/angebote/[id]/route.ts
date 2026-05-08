@@ -20,9 +20,38 @@ export async function PATCH(
     const body = await request.json();
     const adminClient = createAdminClient();
 
+    // Fetch current state for revision snapshot
+    const { data: current } = await adminClient
+      .from("Angebot")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    // Build revision entry
+    const revisionEntry = {
+      timestamp: new Date().toISOString(),
+      editor: user.email,
+      snapshot: current ? {
+        einleitung: current.einleitung,
+        positions: current.positions,
+        subtotalNet: current.subtotalNet,
+        mwstRate: current.mwstRate,
+        mwstTotal: current.mwstTotal,
+        totalGross: current.totalGross,
+        zahlungsbedingungen: current.zahlungsbedingungen,
+        gewaehrleistung: current.gewaehrleistung,
+        schlussformel: current.schlussformel,
+        title: current.title,
+      } : null,
+    };
+
+    // Get existing revisions and append
+    const existing = (current?.revisions as any[]) ?? [];
+    const updatedRevisions = [...existing, revisionEntry];
+
     const { data, error } = await adminClient
       .from("Angebot")
-      .update(body)
+      .update({ ...body, revisions: updatedRevisions })
       .eq("id", id)
       .select()
       .single();

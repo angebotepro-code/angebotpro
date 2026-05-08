@@ -23,6 +23,7 @@ interface AngebotDetail {
   positions:{pos:number;beschreibung:string;menge:number;einheit:string;einzelpreis:number;gesamtpreis:number}[];
   subtotalNet:number;mwstRate:number;mwstTotal:number;totalGross:number;
   zahlungsbedingungen:string;gewaehrleistung:string;schlussformel:string;createdAt:string;
+  revisions?: { timestamp: string; editor: string; snapshot: any }[];
 }
 
 const statusConfig: Record<string, { label: string; className: string }> = {
@@ -260,6 +261,30 @@ export default function AngebotDetailPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Revision History */}
+      {a.revisions && a.revisions.length > 0 && (
+        <Card className="shadow-card bg-card">
+          <CardHeader>
+            <CardTitle className="text-base text-foreground">Revision History</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {[...a.revisions].reverse().map((rev, i) => (
+                <div key={i} className="flex items-start justify-between gap-4 rounded-lg border border-border p-3 text-xs">
+                  <div>
+                    <p className="font-medium text-foreground">{rev.editor}</p>
+                    <p className="text-muted-foreground mt-0.5">
+                      Saved {new Date(rev.timestamp).toLocaleString("de-AT")}
+                    </p>
+                  </div>
+                  <span className="text-muted-foreground shrink-0">v{a.revisions!.length - i}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
