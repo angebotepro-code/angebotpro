@@ -107,7 +107,7 @@ export default function NeuesAngebotPage() {
       </div>
 
       {/* Input card */}
-      <Card className="border-zinc-800/50 bg-zinc-900/50 overflow-hidden">
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50 overflow-hidden">
         <Tabs defaultValue="voice" className="w-full">
           <div className="flex items-center justify-between border-b border-zinc-800/50 px-6 pt-4">
             <TabsList className="bg-transparent h-auto p-0 gap-0">
@@ -174,7 +174,7 @@ export default function NeuesAngebotPage() {
 
       {/* Loading */}
       {loading && (
-        <Card className="border-zinc-800/50 bg-zinc-900/50">
+        <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
           <CardContent className="flex flex-col items-center justify-center py-16 gap-3">
             <Spinner />
             <p className="text-sm text-zinc-500">AI is writing your Angebot...</p>
@@ -190,7 +190,7 @@ export default function NeuesAngebotPage() {
 
       {/* Angebot Preview */}
       {angebot && (
-        <Card className="border-zinc-800/50 bg-zinc-900/50">
+        <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle className="text-base font-semibold text-zinc-100">Generated Quote</CardTitle>
@@ -215,7 +215,7 @@ export default function NeuesAngebotPage() {
             <div className="space-y-2">
               <h4 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Positions</h4>
               {angebot.positionen.map((pos, i) => (
-                <div key={pos.pos} className="rounded-lg border border-zinc-800/50 bg-zinc-900/30 p-4 space-y-3">
+                <div key={pos.pos} className="rounded-lg shadow-card transition-[box-shadow] duration-150 bg-zinc-900/30 p-4 space-y-3">
                   <div className="flex items-center gap-2">
                     <Badge className="h-5 px-1.5 text-[10px] bg-zinc-800 text-zinc-400 border-0">Pos. {pos.pos}</Badge>
                   </div>
@@ -249,8 +249,8 @@ export default function NeuesAngebotPage() {
 
             {/* Legal */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-zinc-500">
-              <div className="rounded-lg border border-zinc-800/50 px-3 py-2"><span className="text-zinc-400">Payment: </span>{angebot.zahlungsbedingungen}</div>
-              <div className="rounded-lg border border-zinc-800/50 px-3 py-2"><span className="text-zinc-400">Warranty: </span>{angebot.gewaehrleistung}</div>
+              <div className="rounded-lg shadow-card transition-[box-shadow] duration-150 px-3 py-2"><span className="text-zinc-400">Payment: </span>{angebot.zahlungsbedingungen}</div>
+              <div className="rounded-lg shadow-card transition-[box-shadow] duration-150 px-3 py-2"><span className="text-zinc-400">Warranty: </span>{angebot.gewaehrleistung}</div>
             </div>
 
             {/* AI disclaimer */}

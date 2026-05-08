@@ -34,7 +34,7 @@ export default function SettingsPage() {
         <p className="mt-1 text-sm text-zinc-500">Company profile, defaults, and legal text.</p>
       </div>
 
-      <Card className="border-zinc-800/50 bg-zinc-900/50">
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
         <CardHeader>
           <CardTitle className="text-base">Company Profile</CardTitle>
           <CardDescription className="text-xs text-zinc-500">Appears on your Angebot PDFs and emails.</CardDescription>
@@ -59,7 +59,7 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
 
-      <Card className="border-zinc-800/50 bg-zinc-900/50">
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
         <CardHeader>
           <CardTitle className="text-base">Defaults</CardTitle>
           <CardDescription className="text-xs text-zinc-500">Pre-filled values for new quotes.</CardDescription>
@@ -75,7 +75,7 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
 
-      <Card className="border-zinc-800/50 bg-zinc-900/50">
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
         <CardHeader>
           <CardTitle className="text-base">Legal Text</CardTitle>
           <CardDescription className="text-xs text-zinc-500">Payment terms and warranty included in every Angebot.</CardDescription>

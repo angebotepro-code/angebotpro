@@ -64,7 +64,7 @@ export default function LoginPage() {
           <p className="mt-1 text-sm text-zinc-400">{t("login.subtitle")}</p>
         </div>
 
-        <Card className="border-zinc-800/50 bg-zinc-900/50 backdrop-blur">
+        <Card className="shadow-card bg-zinc-900/50 backdrop-blur">
           <CardContent className="pt-6">
             <Tabs defaultValue="login" className="w-full">
               <TabsList className="w-full bg-zinc-800/50">

@@ -86,14 +86,14 @@ export default function AngebotDetailPage() {
       </div>
 
       {/* Content */}
-      <Card className="border-zinc-800/50 bg-zinc-900/50">
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
         <CardContent className="pt-6 space-y-6">
           <p className="text-sm leading-relaxed text-zinc-300">{a.einleitung}</p>
 
           <div className="space-y-2">
             <h4 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Positions</h4>
             {a.positions?.map(p => (
-              <div key={p.pos} className="rounded-lg border border-zinc-800/50 bg-zinc-900/30 p-4">
+              <div key={p.pos} className="rounded-lg shadow-card transition-[box-shadow] duration-150 bg-zinc-900/30 p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -115,8 +115,8 @@ export default function AngebotDetailPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-zinc-500">
-            <div className="rounded-lg border border-zinc-800/50 px-3 py-2"><span className="text-zinc-400">Payment: </span>{a.zahlungsbedingungen}</div>
-            <div className="rounded-lg border border-zinc-800/50 px-3 py-2"><span className="text-zinc-400">Warranty: </span>{a.gewaehrleistung}</div>
+            <div className="rounded-lg shadow-card transition-[box-shadow] duration-150 px-3 py-2"><span className="text-zinc-400">Payment: </span>{a.zahlungsbedingungen}</div>
+            <div className="rounded-lg shadow-card transition-[box-shadow] duration-150 px-3 py-2"><span className="text-zinc-400">Warranty: </span>{a.gewaehrleistung}</div>
           </div>
 
           <p className="text-[11px] text-center text-zinc-600">AI-generated draft — please review before sending.</p>

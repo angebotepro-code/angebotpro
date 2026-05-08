@@ -80,7 +80,7 @@ export default function DashboardPage() {
       {/* Stat cards */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {statCards.map((s) => (
-          <Card key={s.label} className="border-zinc-800/50 bg-zinc-900/50">
+          <Card key={s.label} className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800/50 text-lg">{s.icon}</div>
               <div>
@@ -93,7 +93,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Quote list */}
-      <Card className="border-zinc-800/50 bg-zinc-900/50">
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-medium text-zinc-300">{t("dashboard.recentQuotes")}</CardTitle>
         </CardHeader>
