@@ -13,6 +13,7 @@ import {
 import { Spinner } from "@/components/ui/loading";
 import {
   DocumentTextIcon,
+  EyeIcon,
   TrashIcon,
   CheckIcon,
   XMarkIcon,
@@ -164,9 +165,14 @@ export default function AngebotePage() {
                     <TableCell className="text-sm font-medium tabular-nums text-right">€{a.totalGross?.toFixed(2)}</TableCell>
                     <TableCell className="text-sm text-muted-foreground">{new Date(a.createdAt).toLocaleDateString("de-AT")}</TableCell>
                     <TableCell>
-                      <Link href={`/app/angebote/${a.id}`} className={buttonVariants({ size: "sm", variant: "ghost", className: "h-7" })}>
-                        <DocumentTextIcon className="size-3.5" />
-                      </Link>
+                      <div className="flex items-center gap-1">
+                        <button onClick={() => window.open(`/api/angebote/${a.id}/pdf`, "_blank")} className={buttonVariants({ size: "sm", variant: "ghost", className: "h-7 w-7 p-0" })} title="Preview">
+                          <EyeIcon className="size-3.5" />
+                        </button>
+                        <Link href={`/app/angebote/${a.id}`} className={buttonVariants({ size: "sm", variant: "ghost", className: "h-7 w-7 p-0" })}>
+                          <DocumentTextIcon className="size-3.5" />
+                        </Link>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -14,6 +14,8 @@ import { Spinner } from "@/components/ui/loading";
 import {
   EnvelopeIcon,
   DocumentTextIcon,
+  EyeIcon,
+  ArrowDownTrayIcon,
   TrashIcon,
   CheckIcon,
   PlusIcon,
@@ -56,6 +58,7 @@ export default function AngebotDetailPage() {
   const [deleting, setDeleting] = useState(false);
   const [restoreOpen, setRestoreOpen] = useState(false);
   const [restoreTarget, setRestoreTarget] = useState<any>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const [duplicating, setDuplicating] = useState(false);
   const changedRef = useRef(false);
   const aRef = useRef(a);
@@ -257,6 +260,10 @@ export default function AngebotDetailPage() {
               </DialogContent>
             </Dialog>
           )}
+          {/* Preview */}
+          <Button size="sm" variant="ghost" onClick={() => setPreviewOpen(true)}
+            className="h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+            <EyeIcon className="size-3.5" />Preview</Button>
           {/* PDF */}
           <a href={`/api/angebote/${a.id}/pdf`} target="_blank" className={buttonVariants({ size:"sm", className:"h-8 bg-muted hover:bg-muted/80 text-xs flex items-center gap-1" })}>
             <DocumentTextIcon className="size-3.5" />PDF</a>
@@ -436,6 +443,19 @@ export default function AngebotDetailPage() {
           </CardContent>
         </Card>
       )}
+      {/* Preview Modal */}
+      <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+        <DialogContent className="bg-card border-border max-w-4xl h-[90vh] flex flex-col p-0">
+          <DialogHeader className="shrink-0 flex flex-row items-center justify-between px-6 pt-5 pb-3 border-b border-border">
+            <DialogTitle className="text-foreground text-base">Preview — {a.number}</DialogTitle>
+            <a href={`/api/angebote/${a.id}/pdf`} download className={buttonVariants({ size:"sm", className:"h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1" })}>
+              <ArrowDownTrayIcon className="size-3.5" />Download PDF</a>
+          </DialogHeader>
+          <div className="flex-1 min-h-0">
+            <iframe src={`/api/angebote/${a.id}/pdf`} className="w-full h-full border-0" title="PDF Preview" />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
