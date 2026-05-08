@@ -174,7 +174,7 @@ export default function Home() {
             <Link href="/datenschutz" className="hover:text-muted-foreground transition-colors">Datenschutz</Link>
             <Link href="/agb" className="hover:text-muted-foreground transition-colors">AGB</Link>
           </div>
-          <p className="text-xs text-zinc-700">© 2026 AngebotPro. Made in Austria.</p>
+          <p className="text-xs text-zinc-700">© {new Date().getFullYear()} AngebotPro. Made in Austria.</p>
         </div>
       </footer>
     </div>

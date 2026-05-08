@@ -98,7 +98,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <aside className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar border-r border-border p-4 flex flex-col z-50" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
               <Link href="/app/dashboard" className="text-xl font-bold text-foreground" onClick={close}>Angebot<span className="text-brand">Pro</span></Link>
-              <button onClick={close} className="text-muted-foreground hover:text-foreground leading-none p-1"><XMarkIcon className="size-5" /></button>
+              <button onClick={close} aria-label="Close sidebar" className="text-muted-foreground hover:text-foreground leading-none p-1"><XMarkIcon className="size-5" /></button>
             </div>
             {navLinks}
             <div className="mt-auto">{sidebarFooter}</div>
@@ -108,7 +108,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       <div className="flex flex-col flex-1 min-w-0">
         <div className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-border bg-sidebar">
-          <button onClick={() => setSidebarOpen(true)} className="text-muted-foreground hover:text-foreground leading-none p-1"><Bars3Icon className="size-6" /></button>
+          <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="text-muted-foreground hover:text-foreground leading-none p-1"><Bars3Icon className="size-6" /></button>
           <span className="font-bold text-foreground text-lg">Angebot<span className="text-brand">Pro</span></span>
         </div>
         <main className="flex-1 p-4 md:p-6 overflow-x-hidden">{children}</main>

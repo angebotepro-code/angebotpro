@@ -154,7 +154,7 @@ export default function NeuesAngebotPage() {
             <div className="p-6 space-y-6">
               {/* Recording area */}
               <div className="flex flex-col items-center gap-4 py-8">
-                <button onClick={listening ? stopListening : startListening}
+                <button onClick={listening ? stopListening : startListening} aria-label={listening ? "Stop recording" : "Start recording"}
                   className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-[transform,box-shadow,background-color] duration-200 ${
                     listening ? "bg-red-500/20 text-destructive ring-4 ring-red-500/20" : "bg-muted text-foreground hover:bg-muted/80 active:scale-[0.96]"
                   }`}>

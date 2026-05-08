@@ -151,9 +151,9 @@ export default function DashboardPage() {
                     <span className="text-sm font-medium tabular-nums text-foreground">€{(a.totalGross ?? 0).toFixed(2)}</span>
                     {(a.status === "draft" || a.status === "sent") && (
                       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-emerald-600 dark:text-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-brand/10"
+                        <Button size="sm" variant="ghost" aria-label="Accept quote" className="h-7 w-7 p-0 text-emerald-600 dark:text-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-brand/10"
                           onClick={(e) => { e.preventDefault(); updateStatus(a.id, "accepted"); }}><CheckIcon className="size-4" /></Button>
-                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-600 dark:text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-destructive/10"
+                        <Button size="sm" variant="ghost" aria-label="Reject quote" className="h-7 w-7 p-0 text-red-600 dark:text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-destructive/10"
                           onClick={(e) => { e.preventDefault(); updateStatus(a.id, "rejected"); }}><XMarkIcon className="size-4" /></Button>
                       </div>
                     )}

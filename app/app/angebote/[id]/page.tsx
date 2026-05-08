@@ -165,7 +165,7 @@ export default function AngebotDetailPage() {
           </Dialog>
           <a href={`/api/angebote/${a.id}/pdf`} target="_blank" className={buttonVariants({ size:"sm", className:"h-8 bg-muted hover:bg-muted/80 text-xs flex items-center gap-1" })}>
             <DocumentTextIcon className="size-3.5" />PDF</a>
-          <Button size="sm" variant="ghost" onClick={handleDelete} disabled={deleting} className="h-8 text-muted-foreground hover:text-destructive">
+          <Button size="sm" variant="ghost" onClick={handleDelete} disabled={deleting} className="h-8 text-muted-foreground hover:text-destructive" aria-label="Delete quote">
             <TrashIcon className="size-4" /></Button>
         </div>
       </div>
@@ -200,7 +200,7 @@ export default function AngebotDetailPage() {
               <div key={p.pos} className="rounded-lg shadow-card transition-[box-shadow] duration-150 bg-card p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <Badge className="h-5 px-1.5 text-[10px] bg-muted text-muted-foreground border-0">Pos. {p.pos}</Badge>
-                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" onClick={() => deletePosition(i)}>
+                  <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" onClick={() => deletePosition(i)} aria-label="Remove position">
                     <TrashIcon className="size-3" />
                   </Button>
                 </div>

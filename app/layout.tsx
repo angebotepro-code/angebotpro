@@ -42,6 +42,7 @@ export const metadata: Metadata = {
     locale: "de_AT",
   },
   robots: { index: true, follow: true },
+  other: { "theme-color": "#09090b" },
 };
 
 export default function RootLayout({
@@ -52,6 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      style={{ colorScheme: "dark" }}
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
