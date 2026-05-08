@@ -67,7 +67,13 @@ export async function POST(request: Request) {
         .eq("id", companyId)
         .single();
       if (comp) {
-        companyContext = `Der Betrieb heißt "${comp.name}". Standard-Stundensatz: €${comp.defaultHourlyRate}/Std.`;
+        companyContext = `Dein Betrieb heißt "${comp.name}".
+PREISVORGABEN (verwende diese Werte zwingend für die Preiskalkulation):
+- Stundensatz: €${comp.defaultHourlyRate}/Std (für alle Arbeitsleistungen)
+- Standard-MwSt: ${comp.defaultMwst}%
+- Alle Preise sind Netto-Preise (MwSt wird vom System berechnet)
+- Materialpreise zu realistischen österreichischen Marktpreisen schätzen
+- Pauschalpreise nachvollziehbar aufschlüsseln (Arbeitsstunden × Stundensatz + Material)`;
       }
     }
 

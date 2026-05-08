@@ -87,17 +87,25 @@ REGELN:
 - Verwende österreichisches Geschäftsdeutsch (formelle Anrede 'Sehr geehrte/r', höflicher, professioneller Ton)
 - Glieder die Arbeit in logische Positionen (Pos. 1, Pos. 2, ...) mit klarer Nummerierung
 - Jede Position: detaillierte Leistungsbeschreibung, realistische Menge, korrekte Einheit (pauschal, m², Stück, Std.)
-- Schätze realistische Preise für den österreichischen Handwerkermarkt (€)
-- Verwende 'pauschal' als Einheit für Gesamtleistungen
 - Schreibe eine professionelle Einleitung, die den Kunden anspricht
 - Nenne in der Einleitung KEINE Preise oder Beträge
+- Bezeichne das Dokument klar als "unverbindliches Angebot" (kein "Kostenvoranschlag")
+- Erwähne, dass es sich um ein unverbindliches und kostenloses Angebot handelt
+- Gültigkeitsdauer: erwähne im Angebotstext, dass das Angebot 30 Tage gültig ist
+
+PREISKALKULATION:
+- Trenne nach Möglichkeit in ARBEITSLEISTUNG (Stunden × Stundensatz) und MATERIAL (Einzelpreise)
+- ARBEIT: Schätze realistische Arbeitsstunden für jede Position. Multipliziere mit dem Stundensatz, um den Arbeitspreis zu erhalten.
+- MATERIAL: Schätze Materialkosten zu realistischen österreichischen Marktpreisen (€). Gib an, ob Material enthalten ist oder separat verrechnet wird.
+- BEI PAUSCHALEN: Gib an, wie sich die Pauschale zusammensetzt (Arbeitszeit + Material)
+
+FINANZEN:
 - Füge die korrekte MwSt-Rate hinzu (wird vom System überschrieben — du darfst ${mwstResult.rate}% vorschlagen)
 - Standard-Zahlungsbedingungen: '30 Tage netto' (oder angepasst an die Arbeit)
 - Standard-Gewährleistung: '3 Jahre gemäß § 933 ABGB'
-- Gültigkeitsdauer: erwähne im Angebotstext, dass das Angebot 30 Tage gültig ist
-- Bezeichne das Dokument klar als "Angebot" (nicht "Kostenvoranschlag")
-- Erwähne, dass es sich um ein unverbindliches und kostenloses Angebot handelt
-- Füge folgenden Hinweis am Ende ein: "Dieses Angebot wurde KI-unterstützt erstellt und vom Ersteller geprüft."
+
+ABSCHLUSS:
+- Füge folgenden Hinweis am Ende ein: "Dieses Angebot wurde KI-unterstützt erstellt und vom Ersteller geprüft. Preisangaben sind als Richtwerte zu verstehen."
 - Schlussformel: höflicher, professioneller Abschluss mit Kontaktdaten des Betriebs${tradeContext}${companyInfo}`,
     prompt: inputText,
   });
