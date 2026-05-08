@@ -131,6 +131,16 @@ export async function POST(
 
           <p style="margin:0 0 4px;font-size:14px;color:#d4d4d8;line-height:1.6;">Das vollständige Angebot finden Sie im <strong style="color:#fafafa;">PDF-Anhang</strong>.</p>
           <p style="margin:0 0 20px;font-size:14px;color:#d4d4d8;line-height:1.6;">Bei Fragen stehen wir gerne zur Verfügung.</p>
+
+          <!-- Signing CTA -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+            <tr><td align="center" style="background:#052e16;border-radius:10px;padding:20px 24px;border:1px solid #166534;">
+              <p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#4ade80;">Angebot annehmen</p>
+              <p style="margin:0 0 16px;font-size:12px;color:#86efac;line-height:1.5;">Sie können dieses Angebot direkt online annehmen. Kein Ausdrucken, kein Scannen — einfach klicken und unterschreiben.</p>
+              <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://angebotpro.vercel.app"}/sign/${angebot.id}" style="display:inline-block;background:#16a34a;color:#fff;padding:12px 32px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">Angebot annehmen →</a>
+            </td></tr>
+          </table>
+
           <p style="margin:0;font-size:14px;color:#d4d4d8;">Mit freundlichen Grüßen<br><strong style="color:#fafafa;">${companyName}</strong></p>
         </td></tr>
 

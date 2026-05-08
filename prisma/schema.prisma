@@ -79,6 +79,9 @@ model Angebot {
   updatedAt           DateTime  @updatedAt
   sentAt              DateTime?
   acceptedAt          DateTime?
+  acceptedByName      String?
+  acceptedByEmail     String?
+  signatureIP         String?
 }
 
 model Subscription {
