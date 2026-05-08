@@ -14,6 +14,10 @@ model Company {
   uidNumber         String?
   logoUrl           String?
   defaultHourlyRate Decimal    @default(95.00)
+  meisterRate       Decimal    @default(85.00)
+  geselleRate       Decimal    @default(60.00)
+  helferRate        Decimal    @default(45.00)
+  materialMarkup    Decimal    @default(15.0)
   defaultMwst       Decimal    @default(20.0)
   phone             String?
   email             String?

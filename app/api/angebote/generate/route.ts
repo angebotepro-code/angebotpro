@@ -67,13 +67,16 @@ export async function POST(request: Request) {
         .eq("id", companyId)
         .single();
       if (comp) {
+        const meisterRate = Number(comp.meisterRate || comp.defaultHourlyRate || 85);
+        const markup = Number(comp.materialMarkup || 15);
         companyContext = `Dein Betrieb heißt "${comp.name}".
-PREISVORGABEN (verwende diese Werte zwingend für die Preiskalkulation):
-- Stundensatz: €${comp.defaultHourlyRate}/Std (für alle Arbeitsleistungen)
-- Standard-MwSt: ${comp.defaultMwst}%
-- Alle Preise sind Netto-Preise (MwSt wird vom System berechnet)
-- Materialpreise zu realistischen österreichischen Marktpreisen schätzen
-- Pauschalpreise nachvollziehbar aufschlüsseln (Arbeitsstunden × Stundensatz + Material)`;
+PREISVORGABEN (verwende diese Werte für die Preiskalkulation):
+- Stundensatz: €${meisterRate}/Std (Meister). Geselle: €${comp.geselleRate || 60}/Std, Helfer: €${comp.helferRate || 45}/Std
+- Materialaufschlag: ${markup}% auf den Netto-Einkaufspreis
+- Standard-MwSt: ${comp.defaultMwst || 20}%
+- Alle Preise als Netto-Preise angeben (MwSt wird vom System berechnet)
+- Materialpreise zu realistischen österreichischen Marktpreisen schätzen, dann ${markup}% Aufschlag draufrechnen
+- Positionen klar trennen in ARBEITSLEISTUNG und MATERIAL`;
       }
     }
 

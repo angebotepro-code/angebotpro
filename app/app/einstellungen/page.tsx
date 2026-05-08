@@ -9,13 +9,13 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/loading";
 
-interface CompanyData { id?:string;name:string;address:string;uidNumber:string;defaultHourlyRate:number;defaultMwst:number;phone:string;email:string;website:string;agbText:string; }
+interface CompanyData { id?:string;name:string;address:string;uidNumber:string;defaultHourlyRate:number;meisterRate:number;geselleRate:number;helferRate:number;materialMarkup:number;defaultMwst:number;phone:string;email:string;website:string;agbText:string; }
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [c, setC] = useState<CompanyData>({ name:"",address:"",uidNumber:"",defaultHourlyRate:95,defaultMwst:20,phone:"",email:"",website:"",agbText:"" });
+  const [c, setC] = useState<CompanyData>({ name:"",address:"",uidNumber:"",defaultHourlyRate:95,meisterRate:85,geselleRate:60,helferRate:45,materialMarkup:15,defaultMwst:20,phone:"",email:"",website:"",agbText:"" });
 
   useEffect(() => { fetch("/api/company").then(r=>r.json()).then(d=>{ if(d?.id)setC(d); }).finally(()=>setLoading(false)); }, []);
 
@@ -61,12 +61,27 @@ export default function SettingsPage() {
 
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
         <CardHeader>
-          <CardTitle className="text-base">Defaults</CardTitle>
-          <CardDescription className="text-xs text-zinc-500">Pre-filled values for new quotes. <span className="text-emerald-400">Your hourly rate is used by the AI to calculate labor costs.</span></CardDescription>
+          <CardTitle className="text-base">Lohngruppen (Hourly Rates)</CardTitle>
+          <CardDescription className="text-xs text-zinc-500"><span className="text-emerald-400">The AI multiplies estimated hours × the Meister rate.</span> Geselle and Helfer rates are used when you adjust positions manually.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid grid-cols-3 gap-3">
+          <div className="space-y-2"><Label className="text-xs text-zinc-400">Meister (€/h)</Label>
+            <Input type="number" value={c.meisterRate} onChange={e=>update("meisterRate",Number(e.target.value))} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" /></div>
+          <div className="space-y-2"><Label className="text-xs text-zinc-400">Geselle (€/h)</Label>
+            <Input type="number" value={c.geselleRate} onChange={e=>update("geselleRate",Number(e.target.value))} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" /></div>
+          <div className="space-y-2"><Label className="text-xs text-zinc-400">Helfer (€/h)</Label>
+            <Input type="number" value={c.helferRate} onChange={e=>update("helferRate",Number(e.target.value))} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" /></div>
+        </CardContent>
+      </Card>
+
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-zinc-900/50">
+        <CardHeader>
+          <CardTitle className="text-base">Pricing Defaults</CardTitle>
+          <CardDescription className="text-xs text-zinc-500">Standard markup and tax settings for all quotes.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-4">
-          <div className="space-y-2"><Label className="text-xs text-zinc-400">Hourly Rate (€)</Label>
-            <Input type="number" value={c.defaultHourlyRate} onChange={e=>update("defaultHourlyRate",Number(e.target.value))} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" /></div>
+          <div className="space-y-2"><Label className="text-xs text-zinc-400">Material Markup (%)</Label>
+            <Input type="number" value={c.materialMarkup} onChange={e=>update("materialMarkup",Number(e.target.value))} className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200" /></div>
           <div className="space-y-2"><Label className="text-xs text-zinc-400">Default VAT</Label>
             <Select value={String(c.defaultMwst)} onValueChange={v=>update("defaultMwst",Number(v))}>
               <SelectTrigger className="h-9 border-zinc-800 bg-zinc-800/50 text-sm text-zinc-200"><SelectValue /></SelectTrigger>
