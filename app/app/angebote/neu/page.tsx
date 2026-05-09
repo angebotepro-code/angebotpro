@@ -296,7 +296,7 @@ export default function NeuesAngebotPage() {
             </div>
             <div className="flex gap-2">
               {savedId && (
-                <a href={`/api/angebote/${savedId}/pdf`} target="_blank" className={buttonVariants({ size: "sm", className: "h-8 bg-muted hover:bg-muted/80 text-xs flex items-center gap-1" })}>
+                <a href={`/api/angebote/${savedId}/pdf`} target="_blank" className={buttonVariants({ size: "sm", variant: "ghost", className: "h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1" })}>
                   <DocumentTextIcon className="size-3.5" />PDF
                 </a>
               )}
