@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 
 import { useState, useRef } from "react";
 import { useI18n } from "@/lib/i18n/context";
@@ -86,7 +87,7 @@ export default function NeuesAngebotPage() {
       const res = await fetch("/api/angebote/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ input_text: inputText }) });
       const data = await res.json();
       if (!res.ok) setError(data.error || "Generation failed");
-      else { setAngebot(data); setSavedId(data.id ?? null); }
+      else { setAngebot(data); setSavedId(data.id ?? null); toast.success("Angebot generated"); }
     } catch { setError("Network error."); }
     setLoading(false);
   }
@@ -108,18 +109,9 @@ export default function NeuesAngebotPage() {
   async function handleSave() {
     if (!savedId || !angebot) return; setSaving(true);
     await fetch(`/api/angebote/${savedId}`, { method: "PATCH", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        einleitung: angebot.einleitung,
-        schlussformel: angebot.schlussformel,
-        zahlungsbedingungen: angebot.zahlungsbedingungen,
-        gewaehrleistung: angebot.gewaehrleistung,
-        mwstRate: angebot.mwstRate,
-        positions: angebot.positionen,
-        subtotalNet: angebot.subtotalNet,
-        mwstTotal: angebot.mwstTotal,
-        totalGross: angebot.totalGross
-      }) });
+      body: JSON.stringify({ positions: angebot.positionen, subtotalNet: angebot.subtotalNet, mwstTotal: angebot.mwstTotal, totalGross: angebot.totalGross }) });
     setSaving(false);
+    toast.success("Quote saved");
   }
 
   return (

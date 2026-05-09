@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
@@ -63,12 +64,14 @@ export default function AngebotePage() {
 
   async function bulkAction(status: string | null) {
     const ids = Array.from(selected);
+    const count = ids.length;
     for (const id of ids) {
       if (status === "delete") await fetch(`/api/angebote/${id}`, { method: "DELETE" });
       else await fetch(`/api/angebote/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status, acceptedAt: status === "accepted" ? new Date().toISOString() : undefined }) });
     }
     setSelected(new Set());
     load();
+    toast.success(status === "delete" ? `${count} quote${count > 1 ? "s" : ""} deleted` : status === "accepted" ? `${count} quote${count > 1 ? "s" : ""} accepted` : `${count} quote${count > 1 ? "s" : ""} rejected`);
   }
 
   const filters = ["all", "draft", "sent", "accepted", "rejected"];

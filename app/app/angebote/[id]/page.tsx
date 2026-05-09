@@ -25,6 +25,7 @@ import {
   PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 interface AngebotDetail {
   id:string;number:string;title:string;status:string;einleitung:string;
@@ -140,25 +141,26 @@ export default function AngebotDetailPage() {
   async function handleSend() { setSending(true); setSendError(null);
     try { const res = await fetch(`/api/angebote/${a!.id}/send`, { method:"POST", headers:{"Content-Type":"application/json"}, credentials:"include", body:JSON.stringify({to:sendEmail}) });
       const data = await res.json();
-      if (res.ok) { setSent(true); setA({...a!, status:"sent"}); setDialogOpen(false); }
+      if (res.ok) { setSent(true); setA({...a!, status:"sent"}); setDialogOpen(false); toast.success("Quote sent successfully"); }
       else setSendError(data.error||"Send failed");
     } catch { setSendError("Network error."); }
     setSending(false); }
 
   async function handleSendAcknowledgment() { setSending(true);
-    try { await fetch(`/api/angebote/${a!.id}/send`, { method:"POST", headers:{"Content-Type":"application/json"}, credentials:"include", body:JSON.stringify({to:sendEmail, acknowledgment:true}) }); }
-    catch {};
+    try { await fetch(`/api/angebote/${a!.id}/send`, { method:"POST", headers:{"Content-Type":"application/json"}, credentials:"include", body:JSON.stringify({to:sendEmail, acknowledgment:true}) }); toast.success("Acknowledgment sent"); }
+    catch { toast.error("Failed to send acknowledgment"); };
     setSending(false); setDialogOpen(false); }
 
   async function handleDelete() { setDeleting(true);
-    await fetch(`/api/angebote/${a!.id}`, { method:"DELETE" }); router.push("/app/dashboard"); }
+    await fetch(`/api/angebote/${a!.id}`, { method:"DELETE" }); toast.success("Quote deleted"); router.push("/app/dashboard"); }
 
   async function handleDuplicate() { setDuplicating(true);
     const res = await fetch("/api/angebote/generate", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({input_text:`Duplicate of ${a!.number}`, trade:""}) });
     const data = await res.json();
     if (data.id) { await fetch(`/api/angebote/${data.id}`, { method:"PATCH", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ title: `${a!.title} (Copy)`, einleitung: a!.einleitung, positions: a!.positions, subtotalNet: a!.subtotalNet, mwstRate: a!.mwstRate, mwstTotal: a!.mwstTotal, totalGross: a!.totalGross, zahlungsbedingungen: a!.zahlungsbedingungen, gewaehrleistung: a!.gewaehrleistung, schlussformel: a!.schlussformel }) });
-      router.push(`/app/angebote/${data.id}`); }
+      toast.success("Quote duplicated"); router.push(`/app/angebote/${data.id}`); }
+    else { toast.error("Failed to duplicate"); }
     setDuplicating(false); }
 
   const sc = statusConfig[a.status] ?? { label: a.status, className: "text-muted-foreground" };
@@ -204,6 +206,7 @@ export default function AngebotDetailPage() {
               } : null);
               mutate();
               setRestoreOpen(false); setRestoreTarget(null);
+              toast.success("Quote restored to previous version");
             }} className="bg-foreground text-background hover:bg-foreground/80">Restore</Button>
           </div>
         </DialogContent>

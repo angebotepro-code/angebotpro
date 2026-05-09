@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -57,6 +58,7 @@ export default function DashboardPage() {
       body: JSON.stringify(status === "accepted" ? { status, acceptedAt: new Date().toISOString() } : { status }),
     });
     loadQuotes();
+    toast.success(status === "accepted" ? "Quote accepted" : "Quote rejected");
   }
 
   const counts = {

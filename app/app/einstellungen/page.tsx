@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ export default function SettingsPage() {
 
   async function handleSave() { setSaving(true); setSaved(false);
     await fetch("/api/company", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(c) });
+    toast.success("Settings saved");
     setSaved(true); setTimeout(()=>setSaved(false),2000); setSaving(false); }
 
   function update(f:string,v:string|number){ setC(p=>({...p,[f]:v})); setSaved(false); }
