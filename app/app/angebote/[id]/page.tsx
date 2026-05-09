@@ -446,12 +446,10 @@ export default function AngebotDetailPage() {
       {/* Preview Modal */}
       <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
         <DialogContent className="bg-card border-border max-w-4xl h-[90vh] flex flex-col p-0">
-          <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b border-border">
-            <DialogTitle className="text-foreground text-base">Preview — {a.number}</DialogTitle>
-            <div className="flex items-center gap-2">
-              <a href={`/api/angebote/${a.id}/pdf`} download className={buttonVariants({ size:"sm", className:"h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1" })}>
-                <ArrowDownTrayIcon className="size-3.5" />Download PDF</a>
-            </div>
+          <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b border-border pr-14">
+            <DialogTitle className="text-foreground text-base m-0">Preview — {a.number}</DialogTitle>
+            <a href={`/api/angebote/${a.id}/pdf`} download className={buttonVariants({ size:"sm", className:"h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1 shrink-0" })}>
+              <ArrowDownTrayIcon className="size-3.5" />Download PDF</a>
           </div>
           <div className="flex-1 min-h-0 bg-zinc-100 dark:bg-zinc-800">
             <iframe src={`/api/angebote/${a.id}/pdf?preview=true`} className="w-full h-full border-0" title="PDF Preview" />
