@@ -41,43 +41,46 @@ export default function NeuesAngebotPage() {
   const [interimText, setInterimText] = useState("");
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
+  const [transcribing, setTranscribing] = useState(false);
   const recognitionRef = useRef<any>(null);
   const userStoppedRef = useRef(false);
 
   async function startListening() {
-    const R = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition || (window as any).mozSpeechRecognition || (window as any).msSpeechRecognition;
-    if (!R) { setError("Voice not supported. Please use Chrome."); return; }
-    try { const s = await navigator.mediaDevices.getUserMedia({ audio: true }); s.getTracks().forEach((t: any) => t.stop()); }
-    catch { setError("Mic access denied."); return; }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+      const chunks: Blob[] = [];
 
-    const rec = new R();
-    rec.lang = "de-DE"; rec.continuous = true; rec.interimResults = true;
-    let final = inputText ? inputText + " " : "";
-    userStoppedRef.current = false; recognitionRef.current = rec;
+      mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
 
-    rec.onresult = (e: any) => { let interim = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const r = e.results[i]; r.isFinal ? final += r[0].transcript + " " : interim += r[0].transcript;
-      }
-      setInputText(final.trim()); setInterimText(interim);
-    };
-    rec.onerror = (e: any) => {
-      if (e.error === "no-speech" || e.error === "aborted") return;
-      setListening(false); setInterimText(""); recognitionRef.current = null;
-      if (e.error === "not-allowed") setError("Mic denied.");
-      else setError(`Voice error: ${e.error}. Try Chrome.`);
-    };
-    rec.onend = () => {
-      if (!userStoppedRef.current && recognitionRef.current) { try { recognitionRef.current.start(); } catch {} }
-      else { setListening(false); setInterimText(""); recognitionRef.current = null; }
-    };
-    setListening(true); setInterimText(""); rec.start();
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop());
+        if (!userStoppedRef.current) return;
+        setListening(false); setTranscribing(true);
+        try {
+          const blob = new Blob(chunks, { type: "audio/webm" });
+          const fd = new FormData(); fd.append("audio", blob, "recording.webm");
+          const res = await fetch("/api/transcribe", { method: "POST", body: fd });
+          const data = await res.json();
+          if (data.text) {
+            setInputText((prev) => (prev ? prev + " " : "") + data.text.trim());
+            toast.success("Transcription complete");
+          } else { toast.error(data.error || "Transcription failed"); }
+        } catch { toast.error("Transcription failed"); }
+        setTranscribing(false); setInterimText("");
+      };
+
+      userStoppedRef.current = false;
+      recognitionRef.current = mediaRecorder;
+      setListening(true);
+      mediaRecorder.start();
+    } catch { setError("Mic access denied."); }
   }
 
   function stopListening() {
     userStoppedRef.current = true;
     if (recognitionRef.current) { recognitionRef.current.stop(); recognitionRef.current = null; }
-    setListening(false); setInterimText("");
+    setListening(false);
   }
 
   async function handleGenerate() {
@@ -146,16 +149,20 @@ export default function NeuesAngebotPage() {
             <div className="p-6 space-y-6">
               {/* Recording area */}
               <div className="flex flex-col items-center gap-4 py-8">
-                <button onClick={listening ? stopListening : startListening} aria-label={listening ? "Stop recording" : "Start recording"}
+                <button onClick={listening ? stopListening : startListening} disabled={transcribing}
+                  aria-label={listening ? "Stop recording" : "Start recording"}
                   className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-[transform,box-shadow,background-color] duration-200 ${
+                    transcribing ? "bg-blue-500/20 text-blue-400 cursor-wait" :
                     listening ? "bg-red-500/20 text-destructive ring-4 ring-red-500/20" : "bg-muted text-foreground hover:bg-muted/80 active:scale-[0.96]"
                   }`}>
-                  {listening ? <StopCircleIcon className="size-8" /> : <MicrophoneIcon className="size-8" />}
-                  {listening && <span className="absolute inset-0 animate-ping rounded-full bg-red-500/20" />}
+                  {transcribing ? <Spinner className="size-6" /> : listening ? <StopCircleIcon className="size-8" /> : <MicrophoneIcon className="size-8" />}
+                  {listening && !transcribing && <span className="absolute inset-0 animate-ping rounded-full bg-red-500/20" />}
                 </button>
                 <div className="text-center">
-                  {listening ? (
-                    <p className="text-sm font-medium text-destructive">Recording... tap to stop</p>
+                  {transcribing ? (
+                    <p className="text-sm font-medium text-blue-400">Transcribing with Whisper…</p>
+                  ) : listening ? (
+                    <p className="text-sm font-medium text-red-400">Recording… tap to stop</p>
                   ) : (
                     <p className="text-sm text-muted-foreground">Tap the mic and describe the job in German</p>
                   )}
