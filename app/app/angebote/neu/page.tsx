@@ -20,6 +20,8 @@ import {
   TrashIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
+import { AudioWaveform } from "@/components/audio/waveform";
+import { RecordingTimer } from "@/components/audio/timer";
 
 interface Position {
   pos: number; beschreibung: string; menge: number; einheit: string;
@@ -44,17 +46,18 @@ export default function NeuesAngebotPage() {
   const [transcribing, setTranscribing] = useState(false);
   const recognitionRef = useRef<any>(null);
   const userStoppedRef = useRef(false);
+  const streamRef = useRef<MediaStream | null>(null);
 
   async function startListening() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
       const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
       const chunks: Blob[] = [];
 
       mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
 
       mediaRecorder.onstop = async () => {
-        stream.getTracks().forEach(t => t.stop());
         if (!userStoppedRef.current) return;
         setListening(false); setTranscribing(true);
         try {
@@ -67,6 +70,8 @@ export default function NeuesAngebotPage() {
             toast.success("Transcription complete");
           } else { toast.error(data.error || "Transcription failed"); }
         } catch { toast.error("Transcription failed"); }
+        stream.getTracks().forEach(t => t.stop());
+        streamRef.current = null;
         setTranscribing(false); setInterimText("");
       };
 
@@ -147,46 +152,54 @@ export default function NeuesAngebotPage() {
 
           <TabsContent value="voice" className="p-0 m-0">
             <div className="p-6 space-y-6">
-              {/* Recording area */}
-              <div className="flex flex-col items-center gap-4 py-8">
-                <button onClick={listening ? stopListening : startListening} disabled={transcribing}
+              {/* Waveform + Timer */}
+              <AudioWaveform stream={streamRef.current} isRecording={listening} isTranscribing={transcribing} />
+              <div className="flex justify-center -mt-2">
+                <RecordingTimer running={listening} />
+              </div>
+
+              {/* Record / Stop button */}
+              <div className="flex flex-col items-center gap-3 py-4">
+                <button
+                  onClick={listening ? stopListening : startListening}
+                  disabled={transcribing}
                   aria-label={listening ? "Stop recording" : "Start recording"}
-                  className={`relative flex h-20 w-20 items-center justify-center rounded-full transition-[transform,box-shadow,background-color] duration-200 ${
-                    transcribing ? "bg-blue-500/20 text-blue-400 cursor-wait" :
-                    listening ? "bg-red-500/20 text-destructive ring-4 ring-red-500/20" : "bg-muted text-foreground hover:bg-muted/80 active:scale-[0.96]"
-                  }`}>
-                  {transcribing ? <Spinner className="size-6" /> : listening ? <StopCircleIcon className="size-8" /> : <MicrophoneIcon className="size-8" />}
-                  {listening && !transcribing && <span className="absolute inset-0 animate-ping rounded-full bg-red-500/20" />}
-                </button>
-                <div className="text-center">
+                  className={`relative flex items-center justify-center rounded-full transition-all duration-300 ${
+                    transcribing
+                      ? "h-20 w-20 bg-blue-500/10 text-blue-400 cursor-wait"
+                      : listening
+                      ? "h-20 w-20 bg-red-500 text-white shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:scale-105"
+                      : "h-20 w-20 bg-foreground text-background shadow-lg shadow-foreground/20 hover:shadow-foreground/30 hover:scale-105 active:scale-[0.96]"
+                  }`}
+                >
                   {transcribing ? (
-                    <p className="text-sm font-medium text-blue-400">Transcribing with Whisper…</p>
+                    <Spinner className="size-7" />
                   ) : listening ? (
-                    <p className="text-sm font-medium text-red-400">Recording… tap to stop</p>
+                    <StopCircleIcon className="size-8" />
                   ) : (
-                    <p className="text-sm text-muted-foreground">Tap the mic and describe the job in German</p>
+                    <MicrophoneIcon className="size-8" />
                   )}
-                  {listening && interimText && (
-                    <p className="mt-2 text-sm italic text-muted-foreground max-w-sm">{interimText}</p>
-                  )}
-                </div>
+                </button>
+                <p className={`text-sm font-medium transition-colors duration-300 ${
+                  transcribing ? "text-blue-400" : listening ? "text-red-400" : "text-muted-foreground"
+                }`}>
+                  {transcribing ? "Transcribing with Whisper…" : listening ? "Recording… tap to stop" : "Tap to record your Angebot"}
+                </p>
               </div>
 
               {/* Transcript + Generate */}
-              {inputText && !listening && (
-                <div className="space-y-3">
+              {inputText && !listening && !transcribing && (
+                <div className="space-y-3 pt-2">
                   <Textarea value={inputText} onChange={(e) => setInputText(e.target.value)} rows={4}
                     className="border-border bg-muted text-sm text-foreground placeholder:text-muted-foreground resize-none" />
                   <Button onClick={handleGenerate} disabled={loading}
-                    className="w-full h-10 bg-black dark:bg-white text-sm font-medium hover:bg-black dark:bg-white/90">
-                    {loading ? "Generating..." : "Generate Angebot →"}
+                    className="w-full h-10 bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
+                    {loading ? "Generating…" : "Generate Angebot →"}
                   </Button>
                 </div>
               )}
-              {!inputText && !listening && (
-                <div className="text-center py-4">
-                  <p className="text-xs text-muted-foreground">Recording will appear here</p>
-                </div>
+              {!inputText && !listening && !transcribing && (
+                <p className="text-xs text-muted-foreground text-center">German voice recognition via OpenAI Whisper</p>
               )}
             </div>
           </TabsContent>
