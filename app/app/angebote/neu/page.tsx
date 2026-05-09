@@ -1,8 +1,9 @@
 "use client";
 import { toast } from "sonner";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useI18n } from "@/lib/i18n/context";
+import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -35,6 +36,7 @@ interface AngebotData {
 
 export default function NeuesAngebotPage() {
   const { t } = useI18n();
+  const router = useRouter();
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,6 +46,14 @@ export default function NeuesAngebotPage() {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [transcribing, setTranscribing] = useState(false);
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to preview when Angebot is generated
+  useEffect(() => {
+    if (angebot && previewRef.current) {
+      setTimeout(() => previewRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    }
+  }, [angebot]);
   const recognitionRef = useRef<any>(null);
   const userStoppedRef = useRef(false);
   const streamRef = useRef<MediaStream | null>(null);
@@ -117,9 +127,14 @@ export default function NeuesAngebotPage() {
   async function handleSave() {
     if (!savedId || !angebot) return; setSaving(true);
     await fetch(`/api/angebote/${savedId}`, { method: "PATCH", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ positions: angebot.positionen, subtotalNet: angebot.subtotalNet, mwstTotal: angebot.mwstTotal, totalGross: angebot.totalGross }) });
-    setSaving(false);
+      body: JSON.stringify({
+        positions: angebot.positionen, subtotalNet: angebot.subtotalNet, mwstTotal: angebot.mwstTotal, totalGross: angebot.totalGross,
+        einleitung: angebot.einleitung, schlussformel: angebot.schlussformel,
+        zahlungsbedingungen: angebot.zahlungsbedingungen, gewaehrleistung: angebot.gewaehrleistung,
+        mwstRate: angebot.mwstRate,
+      }) });
     toast.success("Quote saved");
+    router.push(`/app/angebote/${savedId}`);
   }
 
   return (
@@ -272,6 +287,7 @@ export default function NeuesAngebotPage() {
 
       {/* Angebot Preview */}
       {angebot && (
+        <div ref={previewRef}>
         <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
@@ -402,6 +418,7 @@ export default function NeuesAngebotPage() {
             </div>
           </CardContent>
         </Card>
+        </div>
       )}
     </div>
   );
