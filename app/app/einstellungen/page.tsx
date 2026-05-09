@@ -9,10 +9,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/loading";
+import { useI18n } from "@/lib/i18n/context";
 
 interface CompanyData { id?:string;name:string;address:string;uidNumber:string;defaultHourlyRate:number;meisterRate:number;geselleRate:number;helferRate:number;materialMarkup:number;defaultMwst:number;phone:string;email:string;website:string;agbText:string; }
 
 export default function SettingsPage() {
+  const { t } = useI18n();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
