@@ -105,7 +105,7 @@ export default function NeuesAngebotPage() {
       const res = await fetch("/api/angebote/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ input_text: inputText }) });
       const data = await res.json();
       if (!res.ok) setError(data.error || "Generation failed");
-      else { setAngebot(data); setSavedId(data.id ?? null); toast.success("Angebot generated"); }
+      else { setAngebot(data); setSavedId(data.id ?? null); toast.success(t("actions.generated")); }
     } catch { setError("Network error."); }
     setLoading(false);
   }
@@ -133,7 +133,7 @@ export default function NeuesAngebotPage() {
         zahlungsbedingungen: angebot.zahlungsbedingungen, gewaehrleistung: angebot.gewaehrleistung,
         mwstRate: angebot.mwstRate,
       }) });
-    toast.success("Quote saved");
+    toast.success(t("actions.saved"));
     router.push(`/app/angebote/${savedId}`);
   }
 
@@ -141,14 +141,14 @@ export default function NeuesAngebotPage() {
     <div className="mx-auto max-w-3xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">New Quote</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Speak or type your job description. AI generates the Angebot.</p>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{t("quote.newTitle")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("quote.newSubtitle")}</p>
       </div>
 
       {/* Pricing info */}
       <div className="rounded-lg border border-brand/30 bg-brand/10/10 px-4 py-3 text-xs text-muted-foreground">
-        <span className="font-medium text-brand">How pricing works:</span> The AI estimates <strong>labor</strong> (hours × your hourly rate from Settings) and <strong>material</strong> costs (Austrian market estimates). All prices are estimates — review and adjust before sending.
-        <a href="/app/einstellungen" className="ml-1 text-blue-600 dark:text-blue-400 hover:underline">Set your hourly rate →</a>
+        <span className="font-medium text-brand">{t("quote.pricingInfo")}</span> The AI estimates <strong>labor</strong> (hours × your hourly rate from Settings) and <strong>material</strong> costs (Austrian market estimates). All prices are estimates — review and adjust before sending.
+        <a href="/app/einstellungen" className="ml-1 text-blue-600 dark:text-blue-400 hover:underline">{t("quote.pricingLink")}</a>
       </div>
 
       {/* Input card */}
@@ -157,11 +157,11 @@ export default function NeuesAngebotPage() {
           <div className="px-3 sm:px-6 pt-4 sm:pt-5 pb-2">
             <TabsList className="bg-muted p-1 rounded-lg !flex w-full h-auto">
               <TabsTrigger value="voice" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
-                <MicrophoneIcon className="size-5" />Voice</TabsTrigger>
+                <MicrophoneIcon className="size-5" />{t("quote.voice")}</TabsTrigger>
               <TabsTrigger value="text" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
-                <PencilSquareIcon className="size-5" />Text</TabsTrigger>
+                <PencilSquareIcon className="size-5" />{t("quote.text")}</TabsTrigger>
               <TabsTrigger value="manual" className="flex-1 data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground rounded-md py-3 px-3 text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
-                <Squares2X2Icon className="size-5" />Manual</TabsTrigger>
+                <Squares2X2Icon className="size-5" />{t("quote.manual")}</TabsTrigger>
             </TabsList>
           </div>
 
@@ -198,7 +198,7 @@ export default function NeuesAngebotPage() {
                 <p className={`text-sm font-medium transition-colors duration-300 ${
                   transcribing ? "text-blue-400" : listening ? "text-red-400" : "text-muted-foreground"
                 }`}>
-                  {transcribing ? "Transcribing with Whisper…" : listening ? "Recording… tap to stop" : "Tap to record your Angebot"}
+                  {transcribing ? t("quote.transcribing") : listening ? t("quote.recording") : t("quote.tapToRecord")}
                 </p>
               </div>
 
@@ -209,12 +209,12 @@ export default function NeuesAngebotPage() {
                     className="border-border bg-muted text-sm text-foreground placeholder:text-muted-foreground resize-none" />
                   <Button onClick={handleGenerate} disabled={loading}
                     className="w-full h-10 bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
-                    {loading ? "Generating…" : "Generate Angebot →"}
+                    {loading ? t("quote.generating") : "Generate Angebot →"}
                   </Button>
                 </div>
               )}
               {!inputText && !listening && !transcribing && (
-                <p className="text-xs text-muted-foreground text-center">German voice recognition via OpenAI Whisper</p>
+                <p className="text-xs text-muted-foreground text-center">{t("quote.whisperHint")}</p>
               )}
             </div>
           </TabsContent>
@@ -226,14 +226,14 @@ export default function NeuesAngebotPage() {
                 placeholder="Describe the job — rooms, materials, measurements, customer... (in German)" />
               <Button onClick={handleGenerate} disabled={loading || inputText.trim().length < 10}
                 className="w-full h-10 bg-black dark:bg-white text-sm font-medium hover:bg-black dark:bg-white/90">
-                {loading ? "Generating..." : "Generate Angebot →"}
+                {loading ? t("quote.generating") : "Generate Angebot →"}
               </Button>
             </div>
           </TabsContent>
 
           <TabsContent value="manual" className="p-0 m-0">
             <div className="p-6 space-y-4">
-              <p className="text-xs text-muted-foreground">Start from scratch — no AI. Title and introduction are optional. Add positions manually in the editor below.</p>
+              <p className="text-xs text-muted-foreground">{t("quote.manualHint")}</p>
               <div className="space-y-2">
                 <Label className="text-xs text-muted-foreground">Title (optional)</Label>
                 <Input placeholder="e.g. Bathroom Renovation" className="border-border bg-muted"
@@ -291,8 +291,8 @@ export default function NeuesAngebotPage() {
         <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
-              <CardTitle className="text-base font-semibold text-foreground">Generated Quote</CardTitle>
-              <p className="text-xs text-muted-foreground mt-0.5">Review and edit before saving</p>
+              <CardTitle className="text-base font-semibold text-foreground">{t("quote.previewTitle")}</CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">{t("quote.previewSubtitle")}</p>
             </div>
             <div className="flex gap-2">
               {savedId && (

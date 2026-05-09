@@ -24,7 +24,7 @@ export default function SettingsPage() {
 
   async function handleSave() { setSaving(true); setSaved(false);
     await fetch("/api/company", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(c) });
-    toast.success("Settings saved");
+    toast.success(t("settings.savedToast"));
     setSaved(true); setTimeout(()=>setSaved(false),2000); setSaving(false); }
 
   function update(f:string,v:string|number){ setC(p=>({...p,[f]:v})); setSaved(false); }
@@ -34,30 +34,30 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Company profile, defaults, and legal text.</p>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{t("settings.title")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("settings.subtitle")}</p>
       </div>
 
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
         <CardHeader>
-          <CardTitle className="text-base">Company Profile</CardTitle>
-          <CardDescription className="text-xs text-muted-foreground">Appears on your Angebot PDFs and emails.</CardDescription>
+          <CardTitle className="text-base">{t("settings.company.title")}</CardTitle>
+          <CardDescription className="text-xs text-muted-foreground">{t("settings.company.desc")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2"><Label className="text-xs text-muted-foreground">Company Name</Label>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.company.name")}</Label>
             <Input value={c.name} onChange={e=>update("name",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" placeholder="Your Company GmbH" /></div>
-          <div className="space-y-2"><Label className="text-xs text-muted-foreground">Address</Label>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.company.address")}</Label>
             <Input value={c.address} onChange={e=>update("address",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" placeholder="Musterstraße 1, 4020 Linz" /></div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2"><Label className="text-xs text-muted-foreground">Phone</Label>
+            <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.company.phone")}</Label>
               <Input value={c.phone} onChange={e=>update("phone",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" placeholder="+43 732..." /></div>
-            <div className="space-y-2"><Label className="text-xs text-muted-foreground">Email</Label>
+            <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.company.email")}</Label>
               <Input value={c.email} onChange={e=>update("email",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" placeholder="office@company.at" /></div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2"><Label className="text-xs text-muted-foreground">UID Number</Label>
+            <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.company.uid")}</Label>
               <Input value={c.uidNumber} onChange={e=>update("uidNumber",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" placeholder="ATU12345678" /></div>
-            <div className="space-y-2"><Label className="text-xs text-muted-foreground">Website</Label>
+            <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.company.website")}</Label>
               <Input value={c.website} onChange={e=>update("website",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" placeholder="www.company.at" /></div>
           </div>
         </CardContent>
@@ -65,28 +65,28 @@ export default function SettingsPage() {
 
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
         <CardHeader>
-          <CardTitle className="text-base">Lohngruppen (Hourly Rates)</CardTitle>
+          <CardTitle className="text-base">{t("settings.rates.title")}</CardTitle>
           <CardDescription className="text-xs text-muted-foreground"><span className="text-brand">The AI multiplies estimated hours × the Meister rate.</span> Geselle and Helfer rates are used when you adjust positions manually.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-3 gap-3">
-          <div className="space-y-2"><Label className="text-xs text-muted-foreground">Meister (€/h)</Label>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.rates.meister")}</Label>
             <Input type="number" value={c.meisterRate} onChange={e=>update("meisterRate",Number(e.target.value))} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" /></div>
-          <div className="space-y-2"><Label className="text-xs text-muted-foreground">Geselle (€/h)</Label>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.rates.geselle")}</Label>
             <Input type="number" value={c.geselleRate} onChange={e=>update("geselleRate",Number(e.target.value))} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" /></div>
-          <div className="space-y-2"><Label className="text-xs text-muted-foreground">Helfer (€/h)</Label>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.rates.helfer")}</Label>
             <Input type="number" value={c.helferRate} onChange={e=>update("helferRate",Number(e.target.value))} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" /></div>
         </CardContent>
       </Card>
 
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
         <CardHeader>
-          <CardTitle className="text-base">Pricing Defaults</CardTitle>
-          <CardDescription className="text-xs text-muted-foreground">Standard markup and tax settings for all quotes.</CardDescription>
+          <CardTitle className="text-base">{t("settings.pricing.title")}</CardTitle>
+          <CardDescription className="text-xs text-muted-foreground">{t("settings.pricing.desc")}</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-4">
-          <div className="space-y-2"><Label className="text-xs text-muted-foreground">Material Markup (%)</Label>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.pricing.markup")}</Label>
             <Input type="number" value={c.materialMarkup} onChange={e=>update("materialMarkup",Number(e.target.value))} className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground" /></div>
-          <div className="space-y-2"><Label className="text-xs text-muted-foreground">Default VAT</Label>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.pricing.vat")}</Label>
             <Select value={String(c.defaultMwst)} onValueChange={v=>update("defaultMwst",Number(v))}>
               <SelectTrigger className="h-9 border-zinc-800 bg-muted/50 text-sm text-foreground"><SelectValue /></SelectTrigger>
               <SelectContent className="bg-zinc-900 border-zinc-800"><SelectItem value="20">20% — Standard</SelectItem><SelectItem value="10">10% — Reduced</SelectItem><SelectItem value="0">0% — Exempt</SelectItem></SelectContent>
@@ -96,8 +96,8 @@ export default function SettingsPage() {
 
       <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
         <CardHeader>
-          <CardTitle className="text-base">Legal Text</CardTitle>
-          <CardDescription className="text-xs text-muted-foreground">Payment terms and warranty included in every Angebot.</CardDescription>
+          <CardTitle className="text-base">{t("settings.legal.title")}</CardTitle>
+          <CardDescription className="text-xs text-muted-foreground">{t("settings.legal.desc")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           <Textarea value={c.agbText} onChange={e=>update("agbText",e.target.value)} rows={5}
@@ -109,7 +109,7 @@ export default function SettingsPage() {
         <Button onClick={handleSave} disabled={saving} className="h-9 bg-foreground text-background hover:bg-black dark:bg-white/90 text-sm">
           {saving ? "Saving..." : saved ? "✓ Saved!" : "Save Changes"}
         </Button>
-        {saved && <span className="text-xs text-brand">Settings updated</span>}
+        {saved && <span className="text-xs text-brand">{t("settings.updated")}</span>}
       </div>
     </div>
   );
