@@ -74,7 +74,7 @@ export default function SignPage() {
         {/* Quote Summary */}
         <Card className="shadow-card bg-card">
           <CardHeader>
-            <CardTitle className="text-base"{t("sign.quoteTitle") || "Angebot"} {data.number}</CardTitle>
+            <CardTitle className="text-base">Angebot {data.number}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">{data.einleitung}</p>
