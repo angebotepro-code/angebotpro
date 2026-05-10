@@ -11,14 +11,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Spinner } from "@/components/ui/loading";
 import { useI18n } from "@/lib/i18n/context";
 
-interface CompanyData { id?:string;name:string;address:string;uidNumber:string;defaultHourlyRate:number;meisterRate:number;geselleRate:number;helferRate:number;materialMarkup:number;defaultMwst:number;phone:string;email:string;website:string;agbText:string; }
+interface CompanyData { id?:string;name:string;address:string;uidNumber:string;defaultHourlyRate:number;meisterRate:number;geselleRate:number;helferRate:number;materialMarkup:number;defaultMwst:number;phone:string;email:string;website:string;agbText:string;bankName:string;iban:string;bic:string; }
 
 export default function SettingsPage() {
   const { t } = useI18n();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [c, setC] = useState<CompanyData>({ name:"",address:"",uidNumber:"",defaultHourlyRate:95,meisterRate:85,geselleRate:60,helferRate:45,materialMarkup:15,defaultMwst:20,phone:"",email:"",website:"",agbText:"" });
+  const [c, setC] = useState<CompanyData>({ name:"",address:"",uidNumber:"",defaultHourlyRate:95,meisterRate:85,geselleRate:60,helferRate:45,materialMarkup:15,defaultMwst:20,phone:"",email:"",website:"",agbText:"",bankName:"",iban:"",bic:"" });
 
   useEffect(() => { fetch("/api/company").then(r=>r.json()).then(d=>{ if(d?.id)setC(d); }).finally(()=>setLoading(false)); }, []);
 
@@ -102,6 +102,21 @@ export default function SettingsPage() {
         <CardContent className="space-y-2">
           <Textarea value={c.agbText} onChange={e=>update("agbText",e.target.value)} rows={5}
             className="border-zinc-800 bg-muted/50 text-sm text-zinc-200 resize-none" />
+        </CardContent>
+      </Card>
+
+      <Card className="shadow-card transition-[box-shadow] duration-150 bg-card/50">
+        <CardHeader>
+          <CardTitle className="text-base">{t("settings.bank.title")}</CardTitle>
+          <CardDescription className="text-xs text-muted-foreground">{t("settings.bank.desc")}</CardDescription>
+        </CardHeader>
+        <CardContent className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.bank.name")}</Label>
+            <Input value={c.bankName} onChange={e=>update("bankName",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-zinc-200" placeholder="z.B. Raiffeisen" /></div>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.bank.iban")}</Label>
+            <Input value={c.iban} onChange={e=>update("iban",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-zinc-200" placeholder="AT12 3456 7890 1234 5678" /></div>
+          <div className="space-y-2"><Label className="text-xs text-muted-foreground">{t("settings.bank.bic")}</Label>
+            <Input value={c.bic} onChange={e=>update("bic",e.target.value)} className="h-9 border-zinc-800 bg-muted/50 text-sm text-zinc-200" placeholder="RZOOAT2LXXX" /></div>
         </CardContent>
       </Card>
 

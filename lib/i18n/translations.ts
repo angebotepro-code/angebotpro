@@ -200,6 +200,13 @@ export const translations = {
         title: "Legal Text",
         desc: "Payment terms and warranty included in every Angebot.",
       },
+      bank: {
+        title: "Bank Details",
+        desc: "Appears on invoices for SEPA transfers.",
+        name: "Bank Name",
+        iban: "IBAN",
+        bic: "BIC",
+      },
       saving: "Saving…",
       saved: "✓ Saved!",
       saveButton: "Save Changes",
@@ -483,6 +490,13 @@ export const translations = {
       legal: {
         title: "Rechtstexte",
         desc: "Zahlungsbedingungen und Gewährleistung für jedes Angebot.",
+      },
+      bank: {
+        title: "Bankverbindung",
+        desc: "Erscheint auf Rechnungen für SEPA-Überweisungen.",
+        name: "Bankinstitut",
+        iban: "IBAN",
+        bic: "BIC",
       },
       saving: "Speichern…",
       saved: "✓ Gespeichert!",

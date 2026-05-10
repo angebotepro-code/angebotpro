@@ -90,6 +90,9 @@ export async function POST(request: Request) {
             email: body.email,
             website: body.website,
             agbText: body.agbText,
+            bankName: body.bankName,
+            iban: body.iban,
+            bic: body.bic,
           })
           .eq("id", company.id)
           .select()
@@ -116,6 +119,9 @@ export async function POST(request: Request) {
         email: body.email,
         website: body.website,
         agbText: body.agbText,
+            bankName: body.bankName,
+            iban: body.iban,
+            bic: body.bic,
       })
       .eq("id", userRecord!.companyId)
       .select()
