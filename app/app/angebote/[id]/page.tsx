@@ -233,7 +233,7 @@ export default function AngebotDetailPage() {
               className={`h-8 border-border bg-muted text-xl font-bold ${editable ? "text-foreground" : "text-muted-foreground pointer-events-none opacity-70"} w-auto min-w-[200px]`} />
             <Badge className={sc.className}>{sc.label}</Badge>
           </div>
-          <p className="mt-1 text-xs text-muted-foreground">{a.number} · {new Date(a.createdAt).toLocaleDateString("de-AT")}{a.acceptedByName ? ` · {t("detail.signedBy")} ${a.acceptedByName}` : ""}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{a.number} · {new Date(a.createdAt).toLocaleDateString("de-AT")}{a.acceptedByName ? ` · Signed by ${a.acceptedByName}` : ""}</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {/* Send / Send Again / Send Acknowledgment */}
@@ -317,7 +317,7 @@ export default function AngebotDetailPage() {
       {/* Autosave indicator */}
       {a.status === "draft" && savedAt && (
         <div className="rounded-lg border border-border bg-muted px-4 py-2 text-xs text-muted-foreground flex items-center justify-between">
-          <span>{t("detail.autosavedAt") || "Autosaved at"} {savedAt.toLocaleTimeString("de-AT")}</span>
+          <span>Autosaved at {savedAt.toLocaleTimeString("de-AT")}</span>
           <button onClick={() => setSavedAt(null)} className="text-muted-foreground hover:text-foreground"><XMarkIcon className="size-3.5" /></button>
         </div>
       )}
@@ -325,7 +325,7 @@ export default function AngebotDetailPage() {
       {/* Accepted info */}
       {a.status === "accepted" && a.acceptedByName && (
         <div className="rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950 px-4 py-2 text-xs text-emerald-600 dark:text-emerald-400">
-          ✓ {t("detail.acceptedBy")} <strong>{a.acceptedByName}</strong> on {a.acceptedAt ? new Date(a.acceptedAt).toLocaleDateString("de-AT") : "unknown date"}
+          ✓ Accepted by <strong>{a.acceptedByName}</strong> on {a.acceptedAt ? new Date(a.acceptedAt).toLocaleDateString("de-AT") : "unknown date"}
         </div>
       )}
 
