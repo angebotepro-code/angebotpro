@@ -17,6 +17,7 @@ import {
   CheckIcon,
   XMarkIcon,
   CurrencyDollarIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 import { Separator } from "@/components/ui/separator";
 
@@ -94,9 +95,6 @@ export default function DashboardPage() {
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{t("dashboard.welcome")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
         </div>
-        <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-foreground text-background hover:bg-foreground/80 h-9 text-sm flex items-center gap-1.5" })}>
-          <PlusIcon className="size-4" />New Quote
-        </Link>
       </div>
 
       {/* Stat cards */}
@@ -191,6 +189,14 @@ export default function DashboardPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Mobile floating New button */}
+      <div className="md:hidden fixed bottom-4 right-4 z-40 flex gap-2">
+        <Link href="/app/angebote/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
+          <DocumentTextIcon className="size-4" />New Quote</Link>
+        <Link href="/app/rechnungen/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
+          <CurrencyDollarIcon className="size-4" />New Invoice</Link>
+      </div>
     </div>
   );
 }
