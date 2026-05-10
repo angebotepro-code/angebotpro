@@ -24,6 +24,7 @@ import {
   DocumentDuplicateIcon,
   PaperAirplaneIcon,
   CurrencyDollarIcon,
+  EllipsisHorizontalIcon,
 } from "@heroicons/react/24/outline";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
@@ -62,6 +63,7 @@ export default function AngebotDetailPage() {
   const [restoreTarget, setRestoreTarget] = useState<any>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [converting, setConverting] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [duplicating, setDuplicating] = useState(false);
   const changedRef = useRef(false);
   const aRef = useRef(a);
@@ -281,23 +283,34 @@ export default function AngebotDetailPage() {
           <Button size="sm" variant="ghost" onClick={() => setPreviewOpen(true)}
             className="h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
             <EyeIcon className="size-3.5" />Preview</Button>
-          {/* PDF */}
-          <a href={`/api/angebote/${a.id}/pdf`} className={buttonVariants({ size:"sm", variant:"ghost", className:"h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1" })}>
-            <DocumentTextIcon className="size-3.5" />PDF</a>
-          {/* Duplicate */}
-          <Button size="sm" variant="ghost" onClick={handleDuplicate} disabled={duplicating}
-            className="h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
-            <DocumentDuplicateIcon className="size-3.5" />{duplicating ? "..." : "Duplicate"}</Button>
-          {/* Save (only for rejected) */}
-          {a.status === "rejected" && (
-            <Button size="sm" onClick={handleSave} disabled={saving}
-              className="h-8 bg-foreground text-background hover:bg-foreground/80 text-xs">
-              {saving ? "..." : savedAt ? "✓ Saved" : "Save"}
-            </Button>
-          )}
-          {/* Delete */}
-          <Button size="sm" variant="ghost" onClick={() => setDeleteOpen(true)} disabled={deleting} className="h-8 text-muted-foreground hover:text-destructive" aria-label="Delete quote">
-            <TrashIcon className="size-4" /></Button>
+
+          {/* More dropdown */}
+          <div className="relative">
+            <Button size="sm" variant="ghost" onClick={() => setMoreOpen(!moreOpen)}
+              className="h-8 text-xs text-muted-foreground hover:text-foreground">
+              <EllipsisHorizontalIcon className="size-4" />More</Button>
+            {moreOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setMoreOpen(false)} />
+                <div className="absolute right-0 top-full mt-1 z-50 w-48 rounded-lg border border-border bg-card shadow-lg py-1">
+                  <a href={`/api/angebote/${a.id}/pdf`} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted" onClick={() => setMoreOpen(false)}>
+                    <DocumentTextIcon className="size-4" />PDF</a>
+                  <button onClick={() => { handleDuplicate(); setMoreOpen(false); }} disabled={duplicating}
+                    className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left">
+                    <DocumentDuplicateIcon className="size-4" />{duplicating ? "..." : "Duplicate"}</button>
+                  {a.status === "rejected" && (
+                    <button onClick={() => { handleSave(); setMoreOpen(false); }} disabled={saving}
+                      className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left">
+                      <CheckIcon className="size-4" />{saving ? "..." : savedAt ? "✓ Saved" : "Save"}</button>
+                  )}
+                  <div className="h-px bg-border mx-2 my-1" />
+                  <button onClick={() => { setDeleteOpen(true); setMoreOpen(false); }} disabled={deleting}
+                    className="flex items-center gap-2 w-full px-3 py-2 text-sm text-destructive hover:bg-muted text-left">
+                    <TrashIcon className="size-4" />Delete</button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 

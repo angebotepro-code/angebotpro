@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/loading";
-import { EnvelopeIcon, DocumentTextIcon, TrashIcon, ArrowLeftIcon, EyeIcon, CurrencyDollarIcon } from "@heroicons/react/24/outline";
+import { EnvelopeIcon, DocumentTextIcon, TrashIcon, ArrowLeftIcon, EyeIcon, CurrencyDollarIcon, EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 
 interface InvoiceDetail {
   id:string; number:string; status:string; positions:{pos:number;beschreibung:string;menge:number;einheit:string;einzelpreis:number;gesamtpreis:number}[];
@@ -40,6 +40,7 @@ export default function InvoiceDetailPage() {
   const [payOpen, setPayOpen] = useState(false);
   const [paidAmount, setPaidAmount] = useState("");
   const [paidMethod, setPaidMethod] = useState("uberweisung");
+  const [moreOpen, setMoreOpen] = useState(false);
 
   useEffect(() => { fetch(`/api/invoices/${id}`).then(r => r.json()).then(d => setInv(d)).finally(() => setLoading(false)); }, [id]);
 
@@ -103,9 +104,25 @@ export default function InvoiceDetailPage() {
               </DialogContent>
             </Dialog>
           )}
-          <a href={`/api/invoices/${inv.id}/pdf`} className={buttonVariants({ size:"sm", variant:"ghost", className:"h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1" })}>
-            <DocumentTextIcon className="size-3.5" />PDF</a>
-          <Button size="sm" variant="ghost" onClick={handleDelete} className="h-8 text-muted-foreground hover:text-destructive"><TrashIcon className="size-4" /></Button>
+          {/* More dropdown */}
+          <div className="relative">
+            <Button size="sm" variant="ghost" onClick={() => setMoreOpen(!moreOpen)}
+              className="h-8 text-xs text-muted-foreground hover:text-foreground">
+              <EllipsisHorizontalIcon className="size-4" />More</Button>
+            {moreOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setMoreOpen(false)} />
+                <div className="absolute right-0 top-full mt-1 z-50 w-40 rounded-lg border border-border bg-card shadow-lg py-1">
+                  <a href={`/api/invoices/${inv!.id}/pdf`} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted" onClick={() => setMoreOpen(false)}>
+                    <DocumentTextIcon className="size-4" />PDF</a>
+                  <div className="h-px bg-border mx-2 my-1" />
+                  <button onClick={() => { handleDelete(); setMoreOpen(false); }}
+                    className="flex items-center gap-2 w-full px-3 py-2 text-sm text-destructive hover:bg-muted text-left">
+                    <TrashIcon className="size-4" />Delete</button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
