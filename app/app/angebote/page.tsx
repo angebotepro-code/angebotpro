@@ -20,6 +20,7 @@ import {
   XMarkIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import { useI18n } from "@/lib/i18n/context";
 
 interface Angebot {
   id: string; number: string; title: string; status: string; totalGross: number; createdAt: string;
@@ -33,6 +34,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function AngebotePage() {
+  const { t } = useI18n();
   const [angebote, setAngebote] = useState<Angebot[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -81,7 +83,7 @@ export default function AngebotePage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Quotes</h1>
-          <p className="text-xs sm:text-sm text-muted-foreground">{angebote.length} quotes total</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">{angebote.length} {t("table.total")}</p>
         </div>
         <Link href="/app/angebote/neu" className={buttonVariants({ className: "bg-foreground text-background hover:bg-foreground/80 h-9 text-sm" })}>
           + New Quote
@@ -91,7 +93,7 @@ export default function AngebotePage() {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 max-w-sm">
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search quotes…"
+          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder={t("table.search")}
             className="pl-9 h-9" />
         </div>
         <div className="flex gap-1.5">
@@ -108,7 +110,7 @@ export default function AngebotePage() {
       <Card className="shadow-card bg-card overflow-hidden">
         {selected.size > 0 && (
           <div className="flex items-center gap-3 px-4 py-2.5 bg-muted/50 border-b border-border">
-            <span className="text-xs font-medium text-foreground">{selected.size} selected</span>
+            <span className="text-xs font-medium text-foreground">{t("table.selectedCount").replace("{count}", String(selected.size))}</span>
             <div className="flex-1" />
             <Button size="sm" onClick={() => bulkAction("accepted")}
               className="h-7 text-xs bg-emerald-600 hover:bg-emerald-700 text-white">
@@ -119,7 +121,7 @@ export default function AngebotePage() {
               <XMarkIcon className="size-3 mr-1" />Reject
             </Button>
             <Button size="sm" variant="ghost"
-              onClick={() => { if (confirm(`Delete ${selected.size} quotes?`)) bulkAction("delete"); }}
+              onClick={() => { if (confirm(`${t("table.deleteConfirm").replace("{count}", String(selected.size))}`)) bulkAction("delete"); }}
               className="h-7 text-xs text-destructive hover:bg-destructive/10">
               <TrashIcon className="size-3 mr-1" />Delete
             </Button>
@@ -134,8 +136,8 @@ export default function AngebotePage() {
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <DocumentTextIcon className="size-8 text-muted-foreground mb-3" />
-              <p className="text-sm font-medium text-muted-foreground">No quotes found</p>
-              <Link href="/app/angebote/neu" className={buttonVariants({ className: "mt-4 bg-foreground text-background hover:bg-foreground/80 h-8 text-xs" })}>Create Quote</Link>
+              <p className="text-sm font-medium text-muted-foreground">{t("table.noQuotes")}</p>
+              <Link href="/app/angebote/neu" className={buttonVariants({ className: "mt-4 bg-foreground text-background hover:bg-foreground/80 h-8 text-xs" })}>{t("table.createQuote")}</Link>
             </div>
           ) : (
             <Table>
@@ -144,11 +146,11 @@ export default function AngebotePage() {
                   <TableHead className="w-10">
                     <Checkbox checked={selected.size === filtered.length && filtered.length > 0} onCheckedChange={toggleAll} />
                   </TableHead>
-                  <TableHead className="w-24">Number</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Total</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead className="w-24">{t("table.number")}</TableHead>
+                  <TableHead>{t("table.quoteTitle")}</TableHead>
+                  <TableHead>{t("table.status")}</TableHead>
+                  <TableHead className="text-right">{t("table.totalAmount")}</TableHead>
+                  <TableHead>{t("table.date")}</TableHead>
                   <TableHead className="w-10"></TableHead>
                 </TableRow>
               </TableHeader>
