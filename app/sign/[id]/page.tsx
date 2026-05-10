@@ -51,7 +51,7 @@ export default function SignPage() {
   }
 
   if (loading) return <div className="flex min-h-screen items-center justify-center bg-background"><Spinner /></div>;
-  if (error) return <div className="flex min-h-screen items-center justify-center bg-background"><div className="text-center max-w-md"><h1 className="text-xl font-bold text-foreground mb-2">Quote Not Found</h1><p className="text-muted-foreground">{error}</p></div></div>;
+  if (error) return <div className="flex min-h-screen items-center justify-center bg-background"><div className="text-center max-w-md"><h1 className="text-xl font-bold text-foreground mb-2">{t("sign.notFound")}</h1><p className="text-muted-foreground">{error}</p></div></div>;
   if (!data) return null;
 
   const isAccepted = data.status === "accepted" || signed;
@@ -74,7 +74,7 @@ export default function SignPage() {
         {/* Quote Summary */}
         <Card className="shadow-card bg-card">
           <CardHeader>
-            <CardTitle className="text-base">Angebot {data.number}</CardTitle>
+            <CardTitle className="text-base"{t("sign.quoteTitle") || "Angebot"} {data.number}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">{data.einleitung}</p>
@@ -89,7 +89,7 @@ export default function SignPage() {
             </div>
 
             <div className="rounded-lg bg-muted/50 p-4 space-y-1 text-sm">
-              <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span className="tabular-nums">€{data.subtotalNet?.toFixed(2)}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">{t("detail.subtotal")}</span><span className="tabular-nums">€{data.subtotalNet?.toFixed(2)}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">+ {data.mwstRate}% VAT</span><span className="tabular-nums">€{data.mwstTotal?.toFixed(2)}</span></div>
               <div className="flex justify-between font-bold text-base pt-2 border-t border-border"><span>Total</span><span className="tabular-nums">€{data.totalGross?.toFixed(2)}</span></div>
             </div>
@@ -126,12 +126,12 @@ export default function SignPage() {
                   By accepting, you agree to the terms and conditions stated in this Angebot. This constitutes a legally binding acceptance.
                 </p>
                 <div className="space-y-2">
-                  <Label className="text-xs">Your Full Name</Label>
+                  <Label className="text-xs">{t("sign.nameLabel")}</Label>
                   <Input value={name} onChange={e => setName(e.target.value)} placeholder="Max Mustermann" required
                     className="border-border bg-muted" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs">Your Email (optional)</Label>
+                  <Label className="text-xs">{t("sign.emailLabel")}</Label>
                   <Input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="max@example.com"
                     className="border-border bg-muted" />
                 </div>
