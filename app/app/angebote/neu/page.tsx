@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useState, useRef, useEffect } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,7 @@ import {
   PencilSquareIcon,
   TrashIcon,
   Squares2X2Icon,
+  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 import { AudioWaveform } from "@/components/audio/waveform";
 import { RecordingTimer } from "@/components/audio/timer";
@@ -141,6 +143,8 @@ export default function NeuesAngebotPage() {
     <div className="mx-auto max-w-3xl space-y-6">
       {/* Header */}
       <div>
+        <Link href="/app/angebote" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-2">
+          <ArrowLeftIcon className="size-3" />Back to Quotes</Link>
         <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{t("quote.newTitle")}</h1>
         <p className="mt-1 text-sm text-muted-foreground">{t("quote.newSubtitle")}</p>
       </div>

@@ -2,6 +2,7 @@
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DocumentTextIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { DocumentTextIcon, PlusIcon, TrashIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 interface Pos { pos: number; beschreibung: string; menge: number; einheit: string; einzelpreis: number; gesamtpreis: number; }
 interface Quote { id: string; number: string; title: string; totalGross: number; positions: Pos[]; subtotalNet: number; mwstRate: number; mwstTotal: number; zahlungsbedingungen: string; einleitung: string; schlussformel: string; }
@@ -68,7 +69,10 @@ export default function CreateInvoicePage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <div><h1 className="text-xl sm:text-2xl font-bold text-foreground">New Invoice</h1></div>
+      <div>
+        <Link href="/app/rechnungen" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-2">
+          <ArrowLeftIcon className="size-3" />Back to Invoices</Link>
+        <h1 className="text-xl sm:text-2xl font-bold text-foreground">New Invoice</h1></div>
 
       <Tabs defaultValue="quote" className="w-full">
         <div className="px-3 sm:px-6 pt-4 sm:pt-5 pb-2">
