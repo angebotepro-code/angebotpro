@@ -42,7 +42,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 py-3">
           <Link href="/" className="flex items-center gap-2 shrink-0" translate="no">
             <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-muted"><span className="text-xs sm:text-sm font-bold text-foreground">A</span></div>
-            <span className="text-base sm:text-lg font-bold tracking-tight">Angebot<span className="text-foreground">Pro</span></span>
+            <span className="text-base sm:text-lg font-bold tracking-tight">Werkit</span>
           </Link>
           <div className="flex items-center gap-1.5 sm:gap-3">
             <span className="hidden xs:block">{/* LanguageSwitcher handled globally */}</span>
@@ -153,7 +153,7 @@ export default function Home() {
             <Link href="/datenschutz" className="hover:text-foreground transition-colors">{t("landing.footer.datenschutz")}</Link>
             <Link href="/agb" className="hover:text-foreground transition-colors">{t("landing.footer.agb")}</Link>
           </div>
-          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} AngebotPro. {t("landing.footer.madeIn")}</p>
+          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Werkit. {t("landing.footer.madeIn")}</p>
         </div>
       </footer>
     </div>

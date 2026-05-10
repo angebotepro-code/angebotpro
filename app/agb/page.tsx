@@ -12,15 +12,15 @@ export default function AGBPage() {
         <p className="text-zinc-400 leading-relaxed">
           Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für sämtliche
           Verträge zwischen [Your Name/Firma] (nachfolgend
-          &quot;AngebotPro&quot;) und den Nutzern der SaaS-Plattform
-          AngebotPro. Abweichende AGB des Nutzers werden nicht anerkannt.
+          &quot;Werkit&quot;) und den Nutzern der SaaS-Plattform
+          Werkit. Abweichende AGB des Nutzers werden nicht anerkannt.
         </p>
 
         <h2 className="text-lg font-semibold text-zinc-200 mt-8 mb-2">
           2. Leistungsbeschreibung
         </h2>
         <p className="text-zinc-400 leading-relaxed">
-          AngebotPro stellt eine KI-gestützte SaaS-Plattform zur Erstellung von
+          Werkit stellt eine KI-gestützte SaaS-Plattform zur Erstellung von
           Angeboten für Handwerksbetriebe bereit. Die Plattform ermöglicht die
           Eingabe von Auftragsbeschreibungen (per Sprache oder Text) und
           generiert daraus mittels Künstlicher Intelligenz strukturierte
@@ -34,10 +34,10 @@ export default function AGBPage() {
           <strong>Entwürfe und Empfehlungen</strong>. Der Nutzer ist
           verpflichtet, jedes Angebot vor dem Versand an Endkunden auf
           Richtigkeit, Vollständigkeit und rechtliche Konformität zu prüfen.
-          AngebotPro übernimmt keine Haftung für Fehler, Auslassungen oder
+          Werkit übernimmt keine Haftung für Fehler, Auslassungen oder
           fehlerhafte Preisberechnungen in KI-generierten Inhalten, es sei
           denn, diese beruhen auf Vorsatz oder grober Fahrlässigkeit von
-          AngebotPro.
+          Werkit.
         </p>
 
         <h2 className="text-lg font-semibold text-zinc-200 mt-8 mb-2">
@@ -70,7 +70,7 @@ export default function AGBPage() {
           Das Abonnement hat eine Mindestlaufzeit von einem Monat und verlängert
           sich automatisch um einen weiteren Monat, sofern es nicht mit einer
           Frist von 7 Tagen zum Ende der Vertragslaufzeit gekündigt wird. Die
-          Kündigung erfolgt in Textform (E-Mail an [your-email]@angebotpro.at)
+          Kündigung erfolgt in Textform (E-Mail an [your-email]@werkit.io)
           oder über die Plattform. Jahresabonnements verlängern sich um ein
           weiteres Jahr, sofern sie nicht mit einer Frist von 30 Tagen zum Ende
           der Vertragslaufzeit gekündigt werden.
@@ -80,16 +80,16 @@ export default function AGBPage() {
           6. Gewährleistung und Haftung
         </h2>
         <p className="text-zinc-400 leading-relaxed">
-          AngebotPro haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit
+          Werkit haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit
           sowie für Personenschäden. Für leichte Fahrlässigkeit haftet
-          AngebotPro nur bei Verletzung wesentlicher Vertragspflichten
+          Werkit nur bei Verletzung wesentlicher Vertragspflichten
           (Kardinalpflichten), wobei die Haftung auf den vertragstypisch
           vorhersehbaren Schaden begrenzt ist und den Betrag des jährlichen
           Abonnement-Entgelts nicht übersteigt.
         </p>
         <p className="text-zinc-400 leading-relaxed mt-2">
           Die Haftung für KI-generierte Inhalte ist in Ziffer 2 dieser AGB
-          gesondert geregelt. AngebotPro übernimmt keine Gewähr für die
+          gesondert geregelt. Werkit übernimmt keine Gewähr für die
           ununterbrochene Verfügbarkeit der Plattform, bemüht sich jedoch um
           eine Verfügbarkeit von 99,5% während der Geschäftszeiten.
         </p>
@@ -139,7 +139,7 @@ export default function AGBPage() {
           Es gilt österreichisches Recht unter Ausschluss des UN-Kaufrechts
           (CISG) und der Verweisungsnormen des internationalen Privatrechts.
           Gerichtsstand für alle Streitigkeiten aus diesem Vertrag ist das
-          sachlich zuständige Gericht am Sitz von AngebotPro, soweit der Nutzer
+          sachlich zuständige Gericht am Sitz von Werkit, soweit der Nutzer
           Unternehmer ist. Für Verbraucher gilt der gesetzliche Gerichtsstand.
         </p>
 

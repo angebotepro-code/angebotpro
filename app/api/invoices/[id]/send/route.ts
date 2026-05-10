@@ -22,7 +22,7 @@ export async function POST(
     if (!invoice) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     const { data: company } = await adminClient.from("Company").select("*").eq("id", invoice.companyId).single();
-    const companyName = company?.name ?? "AngebotPro";
+    const companyName = company?.name ?? "Werkit";
 
     const resendKey = process.env.RESEND_API_KEY;
     if (!resendKey) return NextResponse.json({ error: "RESEND_API_KEY missing" }, { status: 500 });

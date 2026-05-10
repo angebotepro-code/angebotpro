@@ -145,7 +145,7 @@ export default function SignPage() {
         </Card>
 
         <p className="text-center text-xs text-muted-foreground">
-          Powered by AngebotPro — KI-gestützte Angebotserstellung
+          Powered by Werkit — KI-gestützte Angebotserstellung
         </p>
       </div>
     </div>

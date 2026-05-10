@@ -18,14 +18,14 @@ export default function DatenschutzPage() {
           <br />
           [Your Address]
           <br />
-          E-Mail: [your-email]@angebotpro.at
+          E-Mail: [your-email]@werkit.io
         </p>
 
         <h2 className="text-lg font-semibold text-zinc-200 mt-8 mb-2">
           2. Welche Daten wir verarbeiten
         </h2>
         <p className="text-zinc-400 leading-relaxed">
-          Im Rahmen der Nutzung von AngebotPro verarbeiten wir folgende
+          Im Rahmen der Nutzung von Werkit verarbeiten wir folgende
           personenbezogene Daten:
         </p>
         <ul className="list-disc pl-6 space-y-1 text-zinc-400 mt-2">
@@ -123,7 +123,7 @@ export default function DatenschutzPage() {
         </ul>
         <p className="text-zinc-400 leading-relaxed mt-2">
           Zur Ausübung Ihrer Rechte kontaktieren Sie uns unter{" "}
-          [your-email]@angebotpro.at.
+          [your-email]@werkit.io.
         </p>
         <p className="text-zinc-400 leading-relaxed mt-2">
           Sie haben außerdem das Recht auf Beschwerde bei der zuständigen

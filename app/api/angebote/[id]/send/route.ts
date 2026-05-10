@@ -23,7 +23,7 @@ export async function POST(
     if (error || !angebot) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     const { data: company } = await adminClient.from("Company").select("*").eq("id", angebot.companyId).single();
-    const companyName = company?.name ?? "AngebotPro";
+    const companyName = company?.name ?? "Werkit";
 
     const resendKey = process.env.RESEND_API_KEY;
     if (!resendKey) return NextResponse.json({ error: "RESEND_API_KEY missing" }, { status: 500 });
@@ -158,7 +158,7 @@ export async function POST(
 
         <!-- Footer -->
         <tr><td style="padding:16px 48px;background:#f9fafb;border-top:1px solid #e5e7eb;">
-          <p style="margin:0;font-size:11px;color:#d1d5db;">Erstellt mit AngebotPro — KI-gestützte Angebotserstellung</p>
+          <p style="margin:0;font-size:11px;color:#d1d5db;">Erstellt mit Werkit — KI-gestützte Angebotserstellung</p>
         </td></tr>
 
       </table>

@@ -140,7 +140,7 @@ export function InvoicePDF({ company, invoice }: InvoicePDFProps) {
         <Text style={styles.closing}>{invoice.schlussformel}</Text>
 
         <Text style={{ position: "absolute", bottom: 24, left: 48, right: 48, fontSize: 7, color: "#d1d5db", textAlign: "center", borderTop: "1px solid #f3f4f6", paddingTop: 6 }}>
-          Erstellt mit AngebotPro — KI-gestützte Angebotserstellung
+          Erstellt mit Werkit — KI-gestützte Angebotserstellung
         </Text>
       </Page>
     </Document>

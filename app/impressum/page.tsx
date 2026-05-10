@@ -22,7 +22,7 @@ export default function ImpressumPage() {
           Kontakt
         </h2>
         <p className="text-zinc-400 leading-relaxed">
-          E-Mail: [your-email]@angebotpro.at
+          E-Mail: [your-email]@werkit.io
           <br />
           Telefon: [Your Phone Number]
         </p>

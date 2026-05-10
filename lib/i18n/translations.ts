@@ -68,7 +68,7 @@ export const translations = {
       footer: { impressum: "Imprint", datenschutz: "Privacy", agb: "Terms", madeIn: "Made in Austria." },
     },
     login: {
-      title: "AngebotPro",
+      title: "Werkit",
       subtitle: "AI-powered quotes for tradespeople",
       login: "Login",
       signup: "Sign Up",
@@ -327,7 +327,7 @@ export const translations = {
       footer: { impressum: "Impressum", datenschutz: "Datenschutz", agb: "AGB", madeIn: "Made in Austria." },
     },
     login: {
-      title: "AngebotPro",
+      title: "Werkit",
       subtitle: "KI-gestützte Angebote für Handwerker",
       login: "Anmelden",
       signup: "Registrieren",
@@ -540,7 +540,7 @@ export const translations = {
       acceptButton: "Annehmen & unterschreiben",
       accepting: "Wird angenommen…",
       signedBy: "Angenommen von:",
-      poweredBy: "Erstellt mit AngebotPro — KI-gestützte Angebotserstellung",
+      poweredBy: "Erstellt mit Werkit — KI-gestützte Angebotserstellung",
       acceptedText: "Dieses Angebot wurde angenommen.",
       couldNotSign: "Annahme fehlgeschlagen. Bitte versuche es erneut.",
       valid: "Gültig bis",
@@ -563,7 +563,7 @@ export const translations = {
       deleteSelected: "{count} Angebote löschen?",
     },
     general: {
-      appName: "AngebotPro",
+      appName: "Werkit",
       error: "Fehler",
       save: "Speichern",
       cancel: "Abbrechen",

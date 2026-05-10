@@ -123,7 +123,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen bg-background">
       <aside className="hidden md:flex md:w-64 md:flex-col border-r border-border bg-sidebar h-screen sticky top-0 overflow-hidden p-4">
         <Link href="/app/dashboard" className="mb-6 text-xl font-bold text-foreground shrink-0" onClick={close}>
-          Angebot<span className="text-black dark:text-white">Pro</span>
+          Werkit
         </Link>
         <div className="flex-1 overflow-y-auto pr-2 -mr-2">
           {navLinks}
@@ -136,7 +136,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="absolute inset-0 bg-black/60" />
           <aside className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar border-r border-border p-4 flex flex-col z-50" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
-              <Link href="/app/dashboard" className="text-xl font-bold text-foreground" onClick={close}>Angebot<span className="text-brand">Pro</span></Link>
+              <Link href="/app/dashboard" className="text-xl font-bold text-foreground" onClick={close}>Werkit</Link>
               <button onClick={close} aria-label="Close sidebar" className="text-muted-foreground hover:text-foreground leading-none p-1"><XMarkIcon className="size-5" /></button>
             </div>
             {navLinks}
@@ -148,7 +148,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col flex-1 min-w-0">
         <div className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-border bg-sidebar">
           <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="text-muted-foreground hover:text-foreground leading-none p-1"><Bars3Icon className="size-6" /></button>
-          <span className="font-bold text-foreground text-lg">Angebot<span className="text-foreground">Pro</span></span>
+          <span className="font-bold text-foreground text-lg">Werkit</span>
         </div>
         <main className="flex-1 p-4 md:p-6 overflow-x-hidden">{children}</main>
       </div>

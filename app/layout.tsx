@@ -15,8 +15,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "AngebotPro — AI-Angebote für österreichische Handwerker",
-    template: "%s | AngebotPro",
+    default: "Werkit — AI-Angebote für österreichische Handwerker",
+    template: "%s | Werkit",
   },
   description:
     "KI-gestützte Angebotserstellung in 2 Minuten. Sprich dein Angebot ein — wir schreiben den Rest. PDF, E-Mail, korrekte MwSt, DSGVO-konform. Für Elektriker, Installateure, Maler & mehr.",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: "AngebotPro — AI-Angebote in 2 Minuten",
+    title: "Werkit — AI-Werkit",
     description:
       "KI-gestützte Angebotserstellung. Sprechen → Generieren → Versenden. Für österreichische Handwerker.",
     type: "website",

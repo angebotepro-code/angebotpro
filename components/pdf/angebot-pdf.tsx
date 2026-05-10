@@ -376,7 +376,7 @@ export function AngebotPDF({ company, angebot, acceptedByName, acceptedAt }: Ang
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            Erstellt mit AngebotPro · KI-unterstützt erstellt und vom Ersteller geprüft
+            Erstellt mit Werkit · KI-unterstützt erstellt und vom Ersteller geprüft
           </Text>
         </View>
       </Page>
