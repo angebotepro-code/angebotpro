@@ -19,9 +19,6 @@ import {
   CurrencyDollarIcon,
   SunIcon,
   MoonIcon,
-  PlusIcon,
-  ChevronDownIcon,
-  DocumentPlusIcon,
 } from "@heroicons/react/24/outline";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -33,7 +30,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [email, setEmail] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [newOpen, setNewOpen] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -150,41 +146,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       )}
 
       <div className="flex flex-col flex-1 min-w-0">
-        {/* Mobile header with New button */}
-        <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-sidebar">
-          <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="text-muted-foreground hover:text-foreground leading-none p-1"><Bars3Icon className="size-6" /></button>
-            <span className="font-bold text-foreground text-lg">Angebot<span className="text-foreground">Pro</span></span>
-          </div>
-          <div className="relative">
-            <button onClick={() => setNewOpen(!newOpen)} className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
-              <PlusIcon className="size-4" />New<ChevronDownIcon className="size-3.5" /></button>
-            {newOpen && (<>
-              <div className="fixed inset-0 z-50" onClick={() => setNewOpen(false)} />
-              <div className="absolute right-0 top-full mt-1 z-50 w-44 rounded-lg border border-border bg-card shadow-lg py-1">
-                <Link href="/app/angebote/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
-                  <DocumentTextIcon className="size-4" />New Quote</Link>
-                <Link href="/app/rechnungen/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
-                  <CurrencyDollarIcon className="size-4" />New Invoice</Link>
-              </div>
-            </>)}
-          </div>
-        </div>
-        {/* Desktop header with New button */}
-        <div className="hidden md:flex items-center justify-end px-6 py-3">
-          <div className="relative">
-            <button onClick={() => setNewOpen(!newOpen)} className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
-              <PlusIcon className="size-4" />New<ChevronDownIcon className="size-3.5" /></button>
-            {newOpen && (<>
-              <div className="fixed inset-0 z-50" onClick={() => setNewOpen(false)} />
-              <div className="absolute right-0 top-full mt-1 z-50 w-44 rounded-lg border border-border bg-card shadow-lg py-1">
-                <Link href="/app/angebote/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
-                  <DocumentTextIcon className="size-4" />New Quote</Link>
-                <Link href="/app/rechnungen/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
-                  <CurrencyDollarIcon className="size-4" />New Invoice</Link>
-              </div>
-            </>)}
-          </div>
+        <div className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-border bg-sidebar">
+          <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="text-muted-foreground hover:text-foreground leading-none p-1"><Bars3Icon className="size-6" /></button>
+          <span className="font-bold text-foreground text-lg">Angebot<span className="text-foreground">Pro</span></span>
         </div>
         <main className="flex-1 p-4 md:p-6 overflow-x-hidden">{children}</main>
       </div>

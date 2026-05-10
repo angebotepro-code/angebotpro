@@ -18,6 +18,7 @@ import {
   XMarkIcon,
   CurrencyDollarIcon,
   DocumentTextIcon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import { Separator } from "@/components/ui/separator";
 
@@ -44,6 +45,7 @@ export default function DashboardPage() {
   const [angebote, setAngebote] = useState<Angebot[]>([]);
   const [invoiceCounts, setInvoiceCounts] = useState({ open: 0, overdue: 0 });
   const [loading, setLoading] = useState(true);
+  const [newOpen, setNewOpen] = useState(false);
 
   function loadQuotes() {
     fetch("/api/angebote")
@@ -94,6 +96,20 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{t("dashboard.welcome")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
+        </div>
+        {/* Desktop New button */}
+        <div className="hidden sm:block relative">
+          <button onClick={() => setNewOpen(!newOpen)} className="flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
+            <PlusIcon className="size-4" />New<ChevronDownIcon className="size-3.5" /></button>
+          {newOpen && (<>
+            <div className="fixed inset-0 z-50" onClick={() => setNewOpen(false)} />
+            <div className="absolute right-0 top-full mt-1 z-50 w-44 rounded-lg border border-border bg-card shadow-lg py-1">
+              <Link href="/app/angebote/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
+                <DocumentTextIcon className="size-4" />New Quote</Link>
+              <Link href="/app/rechnungen/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
+                <CurrencyDollarIcon className="size-4" />New Invoice</Link>
+            </div>
+          </>)}
         </div>
       </div>
 
