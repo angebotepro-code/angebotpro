@@ -16,6 +16,7 @@ import {
   PlusIcon,
   CheckIcon,
   XMarkIcon,
+  CurrencyDollarIcon,
 } from "@heroicons/react/24/outline";
 import { Separator } from "@/components/ui/separator";
 
@@ -40,12 +41,22 @@ const statusColors: Record<string, string> = {
 export default function DashboardPage() {
   const { t } = useI18n();
   const [angebote, setAngebote] = useState<Angebot[]>([]);
+  const [invoiceCounts, setInvoiceCounts] = useState({ open: 0, overdue: 0 });
   const [loading, setLoading] = useState(true);
 
   function loadQuotes() {
     fetch("/api/angebote")
       .then((r) => r.json())
-      .then((data) => setAngebote(Array.isArray(data) ? data : []))
+      .then((data) => setAngebote(Array.isArray(data) ? data : []));
+    fetch("/api/invoices")
+      .then(r => r.json())
+      .then((data) => {
+        const invs = Array.isArray(data) ? data : [];
+        setInvoiceCounts({
+          open: invs.filter((i: any) => i.status === "sent" || i.status === "overdue").length,
+          overdue: invs.filter((i: any) => i.status === "overdue").length,
+        });
+      })
       .finally(() => setLoading(false));
   }
 
@@ -112,6 +123,20 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         )})}
+        {/* Invoice stat cards */}
+        <Link href="/app/rechnungen">
+          <Card className="shadow-card bg-card hover:bg-muted/50 transition-colors cursor-pointer">
+            <CardContent className="flex items-center gap-4 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted"><CurrencyDollarIcon className="size-5 text-muted-foreground" /></div>
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Offene Rechnungen</p>
+                <p className={`text-xl font-bold ${invoiceCounts.overdue > 0 ? "text-red-500" : "text-muted-foreground"}`}>
+                  {invoiceCounts.open}{invoiceCounts.overdue > 0 ? ` (${invoiceCounts.overdue} überfällig)` : ""}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
       {/* Quote list */}

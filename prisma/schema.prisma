@@ -31,6 +31,8 @@ model Company {
   users             User[]
   angebote          Angebot[]
   customers         Customer[]
+  nextInvoiceNumber Int        @default(1)
+  invoices          Invoice[]
 }
 
 model User {
@@ -52,6 +54,7 @@ model Customer {
   email     String?
   phone     String?
   angebote  Angebot[]
+  invoices  Invoice[]
   createdAt DateTime  @default(now())
 }
 
@@ -85,6 +88,7 @@ model Angebot {
   acceptedByName      String?
   acceptedByEmail     String?
   signatureIP         String?
+  revisions           Json      @default("[]")
 }
 
 model Subscription {
@@ -99,4 +103,44 @@ model Subscription {
   quotesLimit      Int       @default(3)
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
+}
+
+model Invoice {
+  id                  String           @id @default(cuid())
+  companyId           String
+  company             Company          @relation(fields: [companyId], references: [id])
+  customerId          String?
+  customer            Customer?        @relation(fields: [customerId], references: [id])
+  referencedAngebotId String?
+  number              String
+  status              String           @default("draft")
+  positions           Json             @default("[]")
+  subtotalNet         Decimal          @default(0)
+  mwstTotal           Decimal          @default(0)
+  totalGross          Decimal          @default(0)
+  mwstRate            Decimal          @default(20.0)
+  paidAmount          Decimal?
+  paidAt              DateTime?
+  paidMethod          String?
+  issuedAt            DateTime         @default(now())
+  dueAt               DateTime         @default(now())
+  leistungsdatum      String?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  zahlungsbedingungen String?
+  skonto              String?
+  einleitung          String?
+  schlussformel       String?
+  customerUid         String?
+  reminders           InvoiceReminder[]
+}
+
+model InvoiceReminder {
+  id        String   @id @default(cuid())
+  invoiceId String
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id])
+  type      String
+  sentAt    DateTime @default(now())
+  fee       Decimal?
+  status    String   @default("sent")
 }

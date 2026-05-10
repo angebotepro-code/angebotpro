@@ -14,15 +14,16 @@ import { Spinner } from "@/components/ui/loading";
 import {
   EnvelopeIcon,
   DocumentTextIcon,
-  EyeIcon,
-  ArrowDownTrayIcon,
   TrashIcon,
   CheckIcon,
   PlusIcon,
   ArrowLeftIcon,
   XMarkIcon,
+  EyeIcon,
+  ArrowDownTrayIcon,
   DocumentDuplicateIcon,
   PaperAirplaneIcon,
+  CurrencyDollarIcon,
 } from "@heroicons/react/24/outline";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
@@ -60,6 +61,7 @@ export default function AngebotDetailPage() {
   const [restoreOpen, setRestoreOpen] = useState(false);
   const [restoreTarget, setRestoreTarget] = useState<any>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [converting, setConverting] = useState(false);
   const [duplicating, setDuplicating] = useState(false);
   const changedRef = useRef(false);
   const aRef = useRef(a);
@@ -163,6 +165,12 @@ export default function AngebotDetailPage() {
     else { toast.error("Failed to duplicate"); }
     setDuplicating(false); }
 
+  async function handleConvertToInvoice() { setConverting(true);
+    const res = await fetch(`/api/invoices/convert/${a!.id}`, { method: "POST" });
+    const data = await res.json();
+    if (data.id) { toast.success("Rechnung erstellt"); router.push(`/app/rechnungen/${data.id}`); }
+    else { toast.error("Konnte nicht umgewandelt werden"); setConverting(false); } }
+
   const sc = statusConfig[a.status] ?? { label: a.status, className: "text-muted-foreground" };
 
   const inputClass = (ed: boolean) => `border-border bg-muted text-sm ${ed ? "text-foreground" : "text-muted-foreground"} resize-none ${!ed ? "pointer-events-none opacity-70" : ""}`;
@@ -247,11 +255,16 @@ export default function AngebotDetailPage() {
           )}
           {/* Send Acknowledgment (Accepted) */}
           {a.status === "accepted" && (
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <Button size="sm" onClick={() => setDialogOpen(true)}
-                className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white text-xs flex items-center gap-1">
-                <PaperAirplaneIcon className="size-3.5" />Send Acknowledgment
+            <>
+              <Button size="sm" onClick={handleConvertToInvoice} disabled={converting}
+                className="h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1">
+                <CurrencyDollarIcon className="size-3.5" />{converting ? "..." : "In Rechnung umwandeln →"}
               </Button>
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <Button size="sm" onClick={() => setDialogOpen(true)}
+                  className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white text-xs flex items-center gap-1">
+                  <PaperAirplaneIcon className="size-3.5" />Send Acknowledgment
+                </Button>
               <DialogContent className="bg-card border-border">
                 <DialogHeader><DialogTitle className="text-foreground">Send Acknowledgment</DialogTitle></DialogHeader>
                 <div className="space-y-4 pt-4">
@@ -262,6 +275,7 @@ export default function AngebotDetailPage() {
                 </div>
               </DialogContent>
             </Dialog>
+            </>
           )}
           {/* Preview */}
           <Button size="sm" variant="ghost" onClick={() => setPreviewOpen(true)}

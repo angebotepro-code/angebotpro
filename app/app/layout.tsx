@@ -17,6 +17,7 @@ import {
   Cog6ToothIcon,
   XMarkIcon,
   Bars3Icon,
+  CurrencyDollarIcon,
   SunIcon,
   MoonIcon,
 } from "@heroicons/react/24/outline";
@@ -53,6 +54,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         { href: "/app/dashboard", key: "sidebar.dashboard", icon: HomeIcon },
         { href: "/app/angebote", key: "sidebar.quotes", icon: DocumentTextIcon },
         { href: "/app/angebote/neu", key: "sidebar.newQuote", icon: PlusIcon },
+        { href: "/app/rechnungen", key: "sidebar.invoices", icon: CurrencyDollarIcon },
         { href: "/app/test", key: "sidebar.test", icon: BeakerIcon },
         { href: "/app/einstellungen", key: "sidebar.settings", icon: Cog6ToothIcon },
       ].map(({ href, key, icon: Icon }) => {
