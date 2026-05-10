@@ -143,7 +143,7 @@ export default function DashboardPage() {
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted"><CurrencyDollarIcon className="size-5 text-muted-foreground" /></div>
               <div>
-                <p className="text-xs font-medium text-muted-foreground">Offene Rechnungen</p>
+                <p className="text-xs font-medium text-muted-foreground">{t("dashboard.openInvoices") || "Open Invoices"}</p>
                 <p className={`text-xl font-bold ${invoiceCounts.overdue > 0 ? "text-red-500" : "text-muted-foreground"}`}>
                   {invoiceCounts.open}{invoiceCounts.overdue > 0 ? ` (${invoiceCounts.overdue} überfällig)` : ""}
                 </p>
@@ -158,7 +158,7 @@ export default function DashboardPage() {
         <CardHeader className="pb-3 flex flex-row items-center justify-between">
           <CardTitle className="text-sm font-medium text-foreground">{t("dashboard.recentQuotes")}</CardTitle>
           {angebote.length > 0 && (
-            <Link href="/app/angebote" className="text-xs text-muted-foreground hover:text-foreground">Show all →</Link>
+            <Link href="/app/angebote" className="text-xs text-muted-foreground hover:text-foreground">{t("dashboard.showAll")}</Link>
           )}
         </CardHeader>
         <CardContent>
@@ -168,7 +168,7 @@ export default function DashboardPage() {
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <PencilSquareIcon className="mb-3 size-8 text-muted-foreground" />
               <p className="text-sm font-medium text-muted-foreground">{t("dashboard.noQuotes")}</p>
-              <p className="mt-1 text-xs text-muted-foreground">Create your first quote to get started.</p>
+              <p className="mt-1 text-xs text-muted-foreground">{t("dashboard.getStarted")}</p>
               <Link href="/app/angebote/neu" className={buttonVariants({ className: "mt-4 bg-foreground text-background hover:bg-foreground/80 h-8 text-xs" })}>
                 Create Quote
               </Link>

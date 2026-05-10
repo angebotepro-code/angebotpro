@@ -97,9 +97,8 @@ export const translations = {
       recentQuotes: "Recent Quotes",
       noQuotes: "No quotes yet. Create your first quote!",
       getStarted: "Create your first quote to get started.",
-      createQuote: "Create Quote",
-      newQuote: "New Quote",
       showAll: "Show all →",
+      openInvoices: "Open Invoices",
     },
     quote: {
       newTitle: "New Quote",
@@ -357,9 +356,8 @@ export const translations = {
       recentQuotes: "Aktuelle Angebote",
       noQuotes: "Noch keine Angebote. Erstelle dein erstes Angebot!",
       getStarted: "Erstelle dein erstes Angebot.",
-      createQuote: "Angebot erstellen",
-      newQuote: "Neues Angebot",
       showAll: "Alle anzeigen →",
+      openInvoices: "Offene Rechnungen",
     },
     quote: {
       newTitle: "Neues Angebot",
