@@ -131,15 +131,15 @@ export default function InvoiceDetailPage() {
       {/* Pay dialog */}
       <Dialog open={payOpen} onOpenChange={setPayOpen}>
         <DialogContent className="bg-card border-border">
-          <DialogHeader><DialogTitle className="text-foreground">Zahlung erfassen</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle className="text-foreground">{t("settings.invoices.payTitle")}</DialogTitle></DialogHeader>
           <div className="space-y-4 pt-4">
-            <div><Label className="text-xs">Betrag (€)</Label>
+            <div><Label className="text-xs">{t("settings.invoices.payAmount")}</Label>
               <Input type="number" value={paidAmount || inv.totalGross.toString()} onChange={e => setPaidAmount(e.target.value)} className="border-border bg-muted text-foreground h-9" /></div>
-            <div><Label className="text-xs">Zahlungsmethode</Label>
+            <div><Label className="text-xs">{t("settings.invoices.payMethod")}</Label>
               <select value={paidMethod} onChange={e => setPaidMethod(e.target.value)} className="w-full h-9 rounded-md border border-border bg-muted text-foreground px-2 text-sm">
-                <option value="uberweisung">SEPA Überweisung</option><option value="bar">Bar</option><option value="lastschrift">SEPA Lastschrift</option><option value="sonstiges">Sonstiges</option>
+                <option value="uberweisung">{t("settings.invoices.payMethods.uberweisung")}</option><option value="bar">{t("settings.invoices.payMethods.bar")}</option><option value="lastschrift">{t("settings.invoices.payMethods.lastschrift")}</option><option value="sonstiges">{t("settings.invoices.payMethods.sonstiges")}</option>
               </select></div>
-            <Button onClick={handlePay} className="w-full h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-sm">Zahlung erfassen</Button>
+            <Button onClick={handlePay} className="w-full h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-sm">{t("settings.invoices.payTitle")}</Button>
           </div>
         </DialogContent>
       </Dialog>
