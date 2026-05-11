@@ -292,6 +292,7 @@ export default function AngebotDetailPage() {
                 <div className="absolute right-0 top-full mt-1 z-50 w-48 rounded-lg border border-border bg-card shadow-lg py-1">
                   <button onClick={() => { setPreviewOpen(true); setMoreOpen(false); }} className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left">
                     <EyeIcon className="size-4" />Preview</button>
+                  <a href={`/api/angebote/${a.id}/pdf`} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted" onClick={() => setMoreOpen(false)}>
                     <DocumentTextIcon className="size-4" />PDF</a>
                   <button onClick={() => { handleDuplicate(); setMoreOpen(false); }} disabled={duplicating}
                     className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left">
