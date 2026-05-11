@@ -281,11 +281,6 @@ export default function AngebotDetailPage() {
             </Dialog>
             </>
           )}
-          {/* Preview */}
-          {/*<Button size="sm" variant="ghost" onClick={() => setPreviewOpen(true)}
-            className="h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
-            <EyeIcon className="size-3.5" />Preview</Button>*/}
-
           {/* More dropdown */}
           <div className="relative">
             <Button size="sm" variant="ghost" onClick={() => setMoreOpen(!moreOpen)}
