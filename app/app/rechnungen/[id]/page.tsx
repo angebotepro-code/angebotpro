@@ -91,7 +91,7 @@ export default function InvoiceDetailPage() {
         <div className="flex items-center gap-2 flex-wrap">
           {!isPaid && (
             <Button size="sm" onClick={() => setPayOpen(true)} className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white text-xs flex items-center gap-1">
-              <CurrencyDollarIcon className="size-3.5" />{t("invoices.payButton")}</Button>
+              <CurrencyDollarIcon className="size-3.5" />{t("settings.invoices.payButton")}</Button>
           )}
           {!isPaid && (
             <Dialog open={sendOpen} onOpenChange={setSendOpen}>
