@@ -212,6 +212,7 @@ export const translations = {
       },
       invoices: {
         title: "Invoices",
+        newInvoice: "New Invoice",
         search: "Search invoices…",
         number: "Number",
         customer: "Customer",
@@ -532,6 +533,7 @@ export const translations = {
       },
       invoices: {
         title: "Rechnungen",
+        newInvoice: "Neue Rechnung",
         search: "Rechnungen durchsuchen…",
         number: "Nummer",
         customer: "Kunde",
