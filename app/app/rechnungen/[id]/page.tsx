@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/loading";
+import { useI18n } from "@/lib/i18n/context";
 import { EnvelopeIcon, DocumentTextIcon, TrashIcon, ArrowLeftIcon, EyeIcon, CurrencyDollarIcon, EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 
 interface InvoiceDetail {
@@ -32,6 +33,7 @@ const statusConfig: Record<string, { label: string; className: string }> = {
 
 export default function InvoiceDetailPage() {
   const { id } = useParams(); const router = useRouter();
+  const { t } = useI18n();
   const [inv, setInv] = useState<InvoiceDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [sendOpen, setSendOpen] = useState(false);
@@ -89,7 +91,7 @@ export default function InvoiceDetailPage() {
         <div className="flex items-center gap-2 flex-wrap">
           {!isPaid && (
             <Button size="sm" onClick={() => setPayOpen(true)} className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white text-xs flex items-center gap-1">
-              <CurrencyDollarIcon className="size-3.5" />Als bezahlt markieren</Button>
+              <CurrencyDollarIcon className="size-3.5" />{t("invoices.payButton")}</Button>
           )}
           {!isPaid && (
             <Dialog open={sendOpen} onOpenChange={setSendOpen}>
