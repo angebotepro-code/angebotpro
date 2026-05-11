@@ -282,9 +282,9 @@ export default function AngebotDetailPage() {
             </>
           )}
           {/* Preview */}
-          <Button size="sm" variant="ghost" onClick={() => setPreviewOpen(true)}
+          {/*<Button size="sm" variant="ghost" onClick={() => setPreviewOpen(true)}
             className="h-8 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
-            <EyeIcon className="size-3.5" />Preview</Button>
+            <EyeIcon className="size-3.5" />Preview</Button>*/}
 
           {/* More dropdown */}
           <div className="relative">
@@ -295,7 +295,8 @@ export default function AngebotDetailPage() {
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setMoreOpen(false)} />
                 <div className="absolute right-0 top-full mt-1 z-50 w-48 rounded-lg border border-border bg-card shadow-lg py-1">
-                  <a href={`/api/angebote/${a.id}/pdf`} className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted" onClick={() => setMoreOpen(false)}>
+                  <button onClick={() => { setPreviewOpen(true); setMoreOpen(false); }} className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left">
+                    <EyeIcon className="size-4" />Preview</button>
                     <DocumentTextIcon className="size-4" />PDF</a>
                   <button onClick={() => { handleDuplicate(); setMoreOpen(false); }} disabled={duplicating}
                     className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left">
