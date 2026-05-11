@@ -1,5 +1,6 @@
 "use client";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/context";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -18,6 +19,7 @@ interface Quote { id: string; number: string; title: string; totalGross: number;
 
 export default function CreateInvoicePage() {
   const router = useRouter();
+  const { t } = useI18n();
   const [loading, setLoading] = useState(false);
   // Manual mode
   const [title, setTitle] = useState("");

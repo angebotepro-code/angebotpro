@@ -1,5 +1,6 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n/context";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -48,6 +49,7 @@ const statusConfig: Record<string, { label: string; className: string }> = {
 export default function AngebotDetailPage() {
   const { id } = useParams();
   const router = useRouter();
+  const { t } = useI18n();
   const [a, setA] = useState<AngebotDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
