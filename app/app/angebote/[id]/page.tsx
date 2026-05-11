@@ -241,7 +241,7 @@ export default function AngebotDetailPage() {
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <Button size="sm" onClick={() => setDialogOpen(true)} disabled={sent}
                 className="h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1">
-                {sent ? <><CheckIcon className="size-3.5" />Sent</> : a.status === "sent" || a.status === "rejected" ? <><EnvelopeIcon className="size-3.5" />Send Again</> : <><EnvelopeIcon className="size-3.5" />Send</>}
+                {sent ? <><CheckIcon className="size-3.5" />Sent</> : a.status === "sent" || a.status === "rejected" ? <><EnvelopeIcon className="size-3.5" />Send Again</> : <><EnvelopeIcon className="size-3.5" />{t("detail.send")}</>}
               </Button>
               <DialogContent className="bg-card border-border">
                 <DialogHeader><DialogTitle className="text-foreground">Send via Email</DialogTitle></DialogHeader>
@@ -250,7 +250,7 @@ export default function AngebotDetailPage() {
                     className="border-border bg-muted text-foreground" />
                   {sendError && <p className="text-xs text-destructive">{sendError}</p>}
                   <Button onClick={handleSend} disabled={sending || !sendEmail.includes("@")}
-                    className="w-full h-9 bg-foreground text-background hover:bg-foreground/80 text-sm">Send</Button>
+                    className="w-full h-9 bg-foreground text-background hover:bg-foreground/80 text-sm">{t("detail.send")}</Button>
                 </div>
               </DialogContent>
             </Dialog>
@@ -260,7 +260,7 @@ export default function AngebotDetailPage() {
             <>
               <Button size="sm" onClick={handleConvertToInvoice} disabled={converting}
                 className="h-8 bg-foreground text-background hover:bg-foreground/80 text-xs flex items-center gap-1">
-                <CurrencyDollarIcon className="size-3.5" />{converting ? "..." : "In Rechnung umwandeln →"}
+                <CurrencyDollarIcon className="size-3.5" />{converting ? "..." : t("detail.inRechnungUmwandeln")}
               </Button>
               <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <Button size="sm" onClick={() => setDialogOpen(true)}
@@ -273,7 +273,7 @@ export default function AngebotDetailPage() {
                   <Input type="email" placeholder="customer@example.com" value={sendEmail} onChange={e => setSendEmail(e.target.value)}
                     className="border-border bg-muted text-foreground" />
                   <Button onClick={handleSendAcknowledgment} disabled={sending || !sendEmail.includes("@")}
-                    className="w-full h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-sm">Send</Button>
+                    className="w-full h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-sm">{t("detail.send")}</Button>
                 </div>
               </DialogContent>
             </Dialog>

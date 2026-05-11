@@ -71,8 +71,8 @@ export default function CreateInvoicePage() {
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
         <Link href="/app/rechnungen" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-2">
-          <ArrowLeftIcon className="size-3" />Back to Invoices</Link>
-        <h1 className="text-xl sm:text-2xl font-bold text-foreground">New Invoice</h1></div>
+          <ArrowLeftIcon className="size-3" />{t("invoices.backToInvoices")}</Link>
+        <h1 className="text-xl sm:text-2xl font-bold text-foreground">{t("invoices.newInvoice")}</h1></div>
 
       <Tabs defaultValue="quote" className="w-full">
         <div className="px-3 sm:px-6 pt-4 sm:pt-5 pb-2">

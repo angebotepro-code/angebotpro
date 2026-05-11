@@ -105,9 +105,9 @@ export default function DashboardPage() {
             <div className="fixed inset-0 z-50" onClick={() => setNewOpen(false)} />
             <div className="absolute right-0 top-full mt-1 z-50 w-44 rounded-lg border border-border bg-card shadow-lg py-1">
               <Link href="/app/angebote/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
-                <DocumentTextIcon className="size-4" />New Quote</Link>
+                <DocumentTextIcon className="size-4" />{t("quote.newTitle")}</Link>
               <Link href="/app/rechnungen/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
-                <CurrencyDollarIcon className="size-4" />New Invoice</Link>
+                <CurrencyDollarIcon className="size-4" />{t("invoices.newInvoice")}</Link>
             </div>
           </>)}
         </div>
@@ -209,9 +209,9 @@ export default function DashboardPage() {
       {/* Mobile floating New button */}
       <div className="md:hidden fixed bottom-4 right-4 z-40 flex gap-2">
         <Link href="/app/angebote/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
-          <DocumentTextIcon className="size-4" />New Quote</Link>
+          <DocumentTextIcon className="size-4" />{t("quote.newTitle")}</Link>
         <Link href="/app/rechnungen/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
-          <CurrencyDollarIcon className="size-4" />New Invoice</Link>
+          <CurrencyDollarIcon className="size-4" />{t("invoices.newInvoice")}</Link>
       </div>
     </div>
   );

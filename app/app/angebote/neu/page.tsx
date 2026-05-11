@@ -144,7 +144,7 @@ export default function NeuesAngebotPage() {
       {/* Header */}
       <div>
         <Link href="/app/angebote" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-2">
-          <ArrowLeftIcon className="size-3" />Back to Quotes</Link>
+          <ArrowLeftIcon className="size-3" />{t("quote.backToQuotes")}</Link>
         <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{t("quote.newTitle")}</h1>
         <p className="mt-1 text-sm text-muted-foreground">{t("quote.newSubtitle")}</p>
       </div>
@@ -213,7 +213,7 @@ export default function NeuesAngebotPage() {
                     className="border-border bg-muted text-sm text-foreground placeholder:text-muted-foreground resize-none" />
                   <Button onClick={handleGenerate} disabled={loading}
                     className="w-full h-10 bg-foreground text-background text-sm font-medium hover:bg-foreground/80">
-                    {loading ? t("quote.generating") : "Generate Angebot →"}
+                    {loading ? t("quote.generating") : t("quote.generate")}
                   </Button>
                 </div>
               )}
@@ -230,7 +230,7 @@ export default function NeuesAngebotPage() {
                 placeholder="Describe the job — rooms, materials, measurements, customer... (in German)" />
               <Button onClick={handleGenerate} disabled={loading || inputText.trim().length < 10}
                 className="w-full h-10 bg-black dark:bg-white text-sm font-medium hover:bg-black dark:bg-white/90">
-                {loading ? t("quote.generating") : "Generate Angebot →"}
+                {loading ? t("quote.generating") : t("quote.generate")}
               </Button>
             </div>
           </TabsContent>
