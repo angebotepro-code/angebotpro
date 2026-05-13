@@ -145,6 +145,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             );
           })}
+          <button onClick={() => setProfileOpen(!profileOpen)}
+            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 text-[10px] font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Avatar className="h-5 w-5 shrink-0">
+              <AvatarFallback className="bg-primary text-primary-foreground text-[8px]">{initials}</AvatarFallback>
+            </Avatar>
+            <span>You</span>
+          </button>
         </div>
       </nav>
 
