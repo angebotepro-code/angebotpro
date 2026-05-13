@@ -107,7 +107,7 @@ export default function DashboardPage() {
               <Link href="/app/angebote/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
                 <DocumentTextIcon className="size-4" />{t("quote.newTitle")}</Link>
               <Link href="/app/rechnungen/neu" onClick={() => setNewOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-foreground hover:bg-muted">
-                <CurrencyDollarIcon className="size-4" />{t("invoices.newInvoice")}</Link>
+                <CurrencyDollarIcon className="size-4" />{t("settings.invoices.newInvoice")}</Link>
             </div>
           </>)}
         </div>
@@ -211,7 +211,7 @@ export default function DashboardPage() {
         <Link href="/app/angebote/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
           <DocumentTextIcon className="size-4" />{t("quote.newTitle")}</Link>
         <Link href="/app/rechnungen/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
-          <CurrencyDollarIcon className="size-4" />{t("invoices.newInvoice")}</Link>
+          <CurrencyDollarIcon className="size-4" />{t("settings.invoices.newInvoice")}</Link>
       </div>
     </div>
   );
