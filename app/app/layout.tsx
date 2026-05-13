@@ -27,6 +27,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
   const [email, setEmail] = useState<string | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [bottomProfileOpen, setBottomProfileOpen] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -145,13 +146,45 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             );
           })}
-          <button onClick={() => setProfileOpen(!profileOpen)}
-            className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 text-[10px] font-medium text-muted-foreground hover:text-foreground transition-colors">
-            <Avatar className="h-5 w-5 shrink-0">
-              <AvatarFallback className="bg-primary text-primary-foreground text-[8px]">{initials}</AvatarFallback>
-            </Avatar>
-            <span>You</span>
-          </button>
+          <div className="relative">
+            <button onClick={() => setProfileOpen(!profileOpen)}
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 text-[10px] font-medium text-muted-foreground hover:text-foreground transition-colors">
+              <Avatar className="h-5 w-5 shrink-0">
+                <AvatarFallback className="bg-primary text-primary-foreground text-[8px]">{initials}</AvatarFallback>
+              </Avatar>
+              <span>You</span>
+            </button>
+            {profileOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
+                <div className="absolute bottom-full right-0 mb-2 w-44 z-50 rounded-lg border border-border bg-card shadow-lg py-1">
+                  <p className="px-3 py-2 text-xs text-muted-foreground truncate">{email}</p>
+                  <div className="h-px bg-border mx-1 my-1" />
+                  <button
+                    onClick={() => { toggleTheme(); setProfileOpen(false); }}
+                    className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
+                  >
+                    Theme
+                    <span className="text-xs text-muted-foreground">{theme === "dark" ? <SunIcon className="size-3.5" /> : <MoonIcon className="size-3.5" />}</span>
+                  </button>
+                  <button
+                    onClick={() => { setLang(lang === "en" ? "de" : "en"); setProfileOpen(false); }}
+                    className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
+                  >
+                    Language
+                    <span className="text-xs text-muted-foreground">{lang === "en" ? "DE" : "EN"}</span>
+                  </button>
+                  <div className="h-px bg-border mx-1 my-1" />
+                  <button
+                    onClick={() => { handleLogout(); }}
+                    className="flex items-center w-full px-3 py-2 text-sm text-destructive hover:bg-muted text-left"
+                  >
+                    {t("sidebar.logout")}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -160,7 +193,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <span className="font-bold text-foreground text-lg">Werkit</span>
           <div className="relative">
             <button
-              onClick={() => setProfileOpen(!profileOpen)}
+              onClick={() => setBottomProfileOpen(!bottomProfileOpen)}
               className="flex items-center gap-2 rounded-full hover:bg-muted transition-colors"
               aria-label="User menu"
             >
@@ -170,12 +203,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </button>
             {profileOpen && (
               <>
-                <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
+                <div className="fixed inset-0 z-40" onClick={() => setBottomProfileOpen(false)} />
                 <div className="absolute right-0 top-full mt-2 w-48 z-50 rounded-lg border border-border bg-card shadow-lg py-1">
                   <p className="px-3 py-2 text-xs text-muted-foreground truncate">{email}</p>
                   <div className="h-px bg-border mx-1 my-1" />
                   <button
-                    onClick={() => { toggleTheme(); setProfileOpen(false); }}
+                    onClick={() => { toggleTheme(); setBottomProfileOpen(false); }}
                     className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
                   >
                     Theme
@@ -184,7 +217,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     </span>
                   </button>
                   <button
-                    onClick={() => { setLang(lang === "en" ? "de" : "en"); setProfileOpen(false); }}
+                    onClick={() => { setLang(lang === "en" ? "de" : "en"); setBottomProfileOpen(false); }}
                     className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
                   >
                     Language
