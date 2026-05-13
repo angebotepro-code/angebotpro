@@ -207,7 +207,7 @@ export default function DashboardPage() {
       </Card>
 
       {/* Mobile floating New button */}
-      <div className="md:hidden fixed bottom-4 right-4 z-40 flex gap-2">
+      <div className="md:hidden fixed bottom-16 right-4 z-40 flex gap-2">
         <Link href="/app/angebote/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
           <DocumentTextIcon className="size-4" />{t("quote.newTitle")}</Link>
         <Link href="/app/rechnungen/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">

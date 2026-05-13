@@ -8,14 +8,12 @@ import { useI18n } from "@/lib/i18n/context";
 import { useTheme } from "@/components/theme-provider";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import {
   HomeIcon,
   DocumentTextIcon,
   BeakerIcon,
   Cog6ToothIcon,
-  XMarkIcon,
-  Bars3Icon,
   CurrencyDollarIcon,
   SunIcon,
   MoonIcon,
@@ -28,7 +26,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const supabase = createClient();
   const [email, setEmail] = useState<string | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
@@ -39,7 +36,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   const initials = email?.slice(0, 2).toUpperCase() ?? "??";
-  const close = useCallback(() => setSidebarOpen(false), []);
 
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -58,7 +54,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       ].map(({ href, key, icon: Icon }) => {
         const isActive = pathname === href || (href !== "/app/dashboard" && pathname.startsWith(href));
         return (
-        <Link key={href} href={href} onClick={close}
+        <Link key={href} href={href}
           className={buttonVariants({ variant: isActive ? "secondary" : "ghost", className: `justify-start gap-2.5 ${isActive ? "bg-muted text-foreground font-medium" : "text-muted-foreground hover:text-foreground"}` })}>
           <Icon className="size-4 shrink-0" />
           {t(key)}
@@ -122,7 +118,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-background">
       <aside className="hidden md:flex md:w-64 md:flex-col border-r border-border bg-sidebar h-screen sticky top-0 overflow-hidden p-4">
-        <Link href="/app/dashboard" className="mb-6 text-xl font-bold text-foreground shrink-0" onClick={close}>
+        <Link href="/app/dashboard" className="mb-6 text-xl font-bold text-foreground shrink-0">
           Werkit
         </Link>
         <div className="flex-1 overflow-y-auto pr-2 -mr-2">
@@ -131,26 +127,32 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="shrink-0 pt-2">{sidebarFooter}</div>
       </aside>
 
-      {sidebarOpen && (
-        <div className="md:hidden fixed inset-0 z-40" onClick={close}>
-          <div className="absolute inset-0 bg-black/60" />
-          <aside className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar border-r border-border p-4 flex flex-col z-50" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-6">
-              <Link href="/app/dashboard" className="text-xl font-bold text-foreground" onClick={close}>Werkit</Link>
-              <button onClick={close} aria-label="Close sidebar" className="text-muted-foreground hover:text-foreground leading-none p-1"><XMarkIcon className="size-5" /></button>
-            </div>
-            {navLinks}
-            <div className="mt-auto">{sidebarFooter}</div>
-          </aside>
+      {/* Mobile bottom tab bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sidebar border-t border-border px-2 pb-safe">
+        <div className="flex items-center justify-around h-14">
+          {[
+            { href: "/app/dashboard", label: t("sidebar.dashboard") || "Home", icon: HomeIcon },
+            { href: "/app/angebote", label: t("sidebar.quotes") || "Quotes", icon: DocumentTextIcon },
+            { href: "/app/rechnungen", label: t("sidebar.invoices") || "Invoices", icon: CurrencyDollarIcon },
+            { href: "/app/einstellungen", label: t("sidebar.settings") || "Settings", icon: Cog6ToothIcon },
+          ].map(({ href, label, icon: Icon }) => {
+            const active = pathname === href || (href !== "/app/dashboard" && pathname.startsWith(href));
+            return (
+              <Link key={href} href={href}
+                className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 text-[10px] font-medium transition-colors ${active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                <Icon className="size-5" />
+                <span>{label}</span>
+              </Link>
+            );
+          })}
         </div>
-      )}
+      </nav>
 
       <div className="flex flex-col flex-1 min-w-0">
-        <div className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-border bg-sidebar">
-          <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar" className="text-muted-foreground hover:text-foreground leading-none p-1"><Bars3Icon className="size-6" /></button>
+        <div className="md:hidden flex items-center px-4 py-3 border-b border-border bg-sidebar">
           <span className="font-bold text-foreground text-lg">Werkit</span>
         </div>
-        <main className="flex-1 p-4 md:p-6 overflow-x-hidden">{children}</main>
+        <main className="flex-1 p-4 md:p-6 pb-20 md:pb-6 overflow-x-hidden">{children}</main>
       </div>
     </div>
   );
