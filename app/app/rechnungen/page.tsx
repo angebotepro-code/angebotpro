@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Spinner } from "@/components/ui/loading";
+import { useI18n } from "@/lib/i18n/context";
 import { EyeIcon, DocumentTextIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 interface Invoice { id: string; number: string; status: string; totalGross: number; createdAt: string; customerName?: string; }
@@ -18,6 +19,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function InvoicesPage() {
+  const { t } = useI18n();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -45,7 +47,7 @@ export default function InvoicesPage() {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 max-w-sm"><MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search invoices…" className="pl-9 h-9" />
+          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder={t("settings.invoices.search")} className="pl-9 h-9" />
         </div>
         <div className="flex gap-1.5">
           {filters.map(f => (
@@ -59,13 +61,13 @@ export default function InvoicesPage() {
         <CardContent className="p-0">
           {loading ? <div className="flex justify-center py-24"><Spinner /></div> : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center"><DocumentTextIcon className="size-8 text-muted-foreground mb-3" />
-              <p className="text-sm font-medium text-muted-foreground">No invoices found</p>
+              <p className="text-sm font-medium text-muted-foreground">{t("settings.invoices.noInvoices")}</p>
               <Link href="/app/rechnungen/neu" className={buttonVariants({ className: "mt-4 bg-foreground text-background hover:bg-foreground/80 h-8 text-xs" })}>Create Invoice</Link>
             </div>
           ) : (
             <Table>
               <TableHeader>
-                <TableRow><TableHead className="w-32">Number</TableHead><TableHead>Customer</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Total</TableHead><TableHead>Date</TableHead><TableHead className="w-10"></TableHead></TableRow>
+                <TableRow><TableHead className="w-32">{t("settings.invoices.number")}</TableHead><TableHead>{t("settings.invoices.customer")}</TableHead><TableHead>{t("settings.invoices.status")}</TableHead><TableHead className="text-right">{t("settings.invoices.totalAmount")}</TableHead><TableHead>{t("settings.invoices.date")}</TableHead><TableHead className="w-10"></TableHead></TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.map(inv => (

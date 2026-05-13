@@ -181,7 +181,7 @@ export default function CreateInvoicePage() {
                 <Textarea value={schlussformel} onChange={e => setSchlussformel(e.target.value)} rows={2} className="border-border bg-muted text-sm resize-none" /></div>
 
               <Button onClick={handleCreateManual} disabled={loading} className="w-full h-10 bg-foreground text-background hover:bg-foreground/80">
-                {loading ? "Creating…" : "Create Invoice"}
+                {loading ? "Creating…" : t("settings.invoices.createInvoice")}
               </Button>
             </CardContent>
           </Card>
