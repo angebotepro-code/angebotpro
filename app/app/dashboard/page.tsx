@@ -206,12 +206,29 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
 
-      {/* Mobile floating New button */}
-      <div className="md:hidden fixed bottom-16 right-4 z-40 flex gap-2">
-        <Link href="/app/angebote/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
-          <DocumentTextIcon className="size-4" />{t("quote.newTitle")}</Link>
-        <Link href="/app/rechnungen/neu" className="flex items-center gap-1.5 h-10 px-4 rounded-full bg-foreground text-background text-sm font-medium shadow-lg hover:bg-foreground/80">
-          <CurrencyDollarIcon className="size-4" />{t("settings.invoices.newInvoice")}</Link>
+      {/* Mobile FAB */}
+      <div className="md:hidden fixed bottom-20 right-4 z-30">
+        <button
+          onClick={() => setNewOpen(!newOpen)}
+          className={`flex items-center justify-center h-14 w-14 rounded-full shadow-xl transition-all duration-200 ${
+            newOpen ? "bg-muted text-foreground rotate-45" : "bg-foreground text-background"
+          }`}
+        >
+          <PlusIcon className="size-7" />
+        </button>
+        {newOpen && (
+          <>
+            <div className="fixed inset-0 z-40" onClick={() => setNewOpen(false)} />
+            <div className="absolute bottom-16 right-0 z-50 w-48 rounded-xl border border-border bg-card shadow-xl py-1.5">
+              <Link href="/app/angebote/neu" onClick={() => setNewOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 text-sm text-foreground hover:bg-muted">
+                <DocumentTextIcon className="size-5" />{t("quote.newTitle")}</Link>
+              <Link href="/app/rechnungen/neu" onClick={() => setNewOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 text-sm text-foreground hover:bg-muted">
+                <CurrencyDollarIcon className="size-5" />{t("settings.invoices.newInvoice")}</Link>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
