@@ -154,21 +154,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </Avatar>
               <span>You</span>
             </button>
-            {profileOpen && (
+            {bottomProfileOpen && (
               <>
-                <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
+                <div className="fixed inset-0 z-50" onClick={() => setBottomProfileOpen(false)} />
                 <div className="absolute bottom-full right-0 mb-2 w-44 z-50 rounded-lg border border-border bg-card shadow-lg py-1">
                   <p className="px-3 py-2 text-xs text-muted-foreground truncate">{email}</p>
                   <div className="h-px bg-border mx-1 my-1" />
                   <button
-                    onClick={() => { toggleTheme(); setProfileOpen(false); }}
+                    onClick={() => { toggleTheme(); setBottomProfileOpen(false); }}
                     className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
                   >
                     Theme
                     <span className="text-xs text-muted-foreground">{theme === "dark" ? <SunIcon className="size-3.5" /> : <MoonIcon className="size-3.5" />}</span>
                   </button>
                   <button
-                    onClick={() => { setLang(lang === "en" ? "de" : "en"); setProfileOpen(false); }}
+                    onClick={() => { setLang(lang === "en" ? "de" : "en"); setBottomProfileOpen(false); }}
                     className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
                   >
                     Language
@@ -189,51 +189,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </nav>
 
       <div className="flex flex-col flex-1 min-w-0">
-        <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-sidebar">
+        <div className="md:hidden flex items-center px-4 py-3 border-b border-border bg-sidebar">
           <span className="font-bold text-foreground text-lg">Werkit</span>
-          <div className="relative">
-            <button
-              onClick={() => setBottomProfileOpen(!bottomProfileOpen)}
-              className="flex items-center gap-2 rounded-full hover:bg-muted transition-colors"
-              aria-label="User menu"
-            >
-              <Avatar className="h-8 w-8 shrink-0">
-                <AvatarFallback className="bg-primary text-primary-foreground text-xs">{initials}</AvatarFallback>
-              </Avatar>
-            </button>
-            {profileOpen && (
-              <>
-                <div className="fixed inset-0 z-40" onClick={() => setBottomProfileOpen(false)} />
-                <div className="absolute right-0 top-full mt-2 w-48 z-50 rounded-lg border border-border bg-card shadow-lg py-1">
-                  <p className="px-3 py-2 text-xs text-muted-foreground truncate">{email}</p>
-                  <div className="h-px bg-border mx-1 my-1" />
-                  <button
-                    onClick={() => { toggleTheme(); setBottomProfileOpen(false); }}
-                    className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
-                  >
-                    Theme
-                    <span className="text-xs text-muted-foreground">
-                      {theme === "dark" ? <SunIcon className="size-3.5" /> : <MoonIcon className="size-3.5" />}
-                    </span>
-                  </button>
-                  <button
-                    onClick={() => { setLang(lang === "en" ? "de" : "en"); setBottomProfileOpen(false); }}
-                    className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
-                  >
-                    Language
-                    <span className="text-xs text-muted-foreground">{lang === "en" ? "DE" : "EN"}</span>
-                  </button>
-                  <div className="h-px bg-border mx-1 my-1" />
-                  <button
-                    onClick={() => { handleLogout(); }}
-                    className="flex items-center w-full px-3 py-2 text-sm text-destructive hover:bg-muted text-left"
-                  >
-                    {t("sidebar.logout")}
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
         </div>
         <main className="flex-1 p-4 md:p-6 pb-20 md:pb-6 overflow-x-hidden">{children}</main>
       </div>
