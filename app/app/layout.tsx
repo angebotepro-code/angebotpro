@@ -83,12 +83,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {profileOpen && (
           <>
             <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
-            <div className="absolute bottom-full left-0 mb-2 w-56 z-50 rounded-lg border border-border bg-card shadow-lg py-1">
-              <p className="px-3 py-2 text-xs text-muted-foreground truncate">{email}</p>
+            <div className="absolute bottom-full left-0 mb-2 w-56 z-50 rounded-lg border-xl border-border bg-card shadow-lg py-1">
+              <p className="px-4 py-2.5 text-xs text-muted-foreground truncate">{email}</p>
               <div className="h-px bg-border mx-1 my-1" />
               <button
                 onClick={() => { toggleTheme(); setProfileOpen(false); }}
-                className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
+                className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted text-left"
               >
                 Theme
                 <span className="text-xs text-muted-foreground">
@@ -97,7 +97,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </button>
               <button
                 onClick={() => { setLang(lang === "en" ? "de" : "en"); setProfileOpen(false); }}
-                className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
+                className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted text-left"
               >
                 Language
                 <span className="text-xs text-muted-foreground">{lang === "en" ? "DE" : "EN"}</span>
@@ -129,8 +129,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Mobile bottom tab bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sidebar border-t border-border px-1">
-        <div className="flex items-center justify-around h-12">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-sidebar border-t border-border px-1 pb-safe">
+        <div className="flex items-center justify-around h-16">
           {[
             { href: "/app/dashboard", label: t("sidebar.dashboard") || "Home", icon: HomeIcon },
             { href: "/app/angebote", label: t("sidebar.quotes") || "Quotes", icon: DocumentTextIcon },
@@ -139,40 +139,40 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             const active = pathname === href || (href !== "/app/dashboard" && pathname.startsWith(href));
             return (
               <Link key={href} href={href}
-                className={`flex flex-col items-center justify-center flex-1 py-0.5 text-[9px] font-medium transition-colors ${active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-                <Icon className="size-4" />
-                <span className="mt-0.5">{label}</span>
+                className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 text-[11px] font-semibold transition-colors ${active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                <Icon className="size-6" />
+                <span>{label}</span>
               </Link>
             );
           })}
           <div className="relative flex-1 flex items-center justify-center">
             <button onClick={() => setBottomProfileOpen(!bottomProfileOpen)}
-              className="flex flex-col items-center justify-center text-[9px] font-medium text-muted-foreground hover:text-foreground transition-colors">
-              <Avatar className="h-6 w-6 shrink-0">
-                <AvatarFallback className="bg-primary text-primary-foreground text-[9px]">{initials}</AvatarFallback>
+              className="flex flex-col items-center justify-center gap-1 text-[11px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+              <Avatar className="h-7 w-7 shrink-0">
+                <AvatarFallback className="bg-primary text-primary-foreground text-[10px]">{initials}</AvatarFallback>
               </Avatar>
-              <span className="mt-0.5">You</span>
+              <span>{t("sidebar.settings") || "You"}</span>
             </button>
             {bottomProfileOpen && (
               <>
                 <div className="fixed inset-0 z-50" onClick={() => setBottomProfileOpen(false)} />
-                <div className="absolute bottom-full right-0 mb-2 w-44 z-50 rounded-lg border border-border bg-card shadow-lg py-1">
-                  <p className="px-3 py-2 text-xs text-muted-foreground truncate">{email}</p>
+                <div className="absolute bottom-full right-0 mb-3 w-48 z-50 rounded-xl border border-border bg-card shadow-xl py-1.5">
+                  <p className="px-4 py-2.5 text-xs text-muted-foreground truncate">{email}</p>
                   <div className="h-px bg-border mx-1 my-1" />
                   <Link href="/app/einstellungen" onClick={() => setBottomProfileOpen(false)}
-                    className="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left">
+                    className="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted text-left">
                     <Cog6ToothIcon className="size-4" />Settings</Link>
                   <div className="h-px bg-border mx-1 my-1" />
                   <button
                     onClick={() => { toggleTheme(); setBottomProfileOpen(false); }}
-                    className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
+                    className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted text-left"
                   >
                     Theme
                     <span className="text-xs text-muted-foreground">{theme === "dark" ? <SunIcon className="size-3.5" /> : <MoonIcon className="size-3.5" />}</span>
                   </button>
                   <button
                     onClick={() => { setLang(lang === "en" ? "de" : "en"); setBottomProfileOpen(false); }}
-                    className="flex items-center justify-between w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left"
+                    className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted text-left"
                   >
                     Language
                     <span className="text-xs text-muted-foreground">{lang === "en" ? "DE" : "EN"}</span>
