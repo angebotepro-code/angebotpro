@@ -135,7 +135,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             { href: "/app/dashboard", label: t("sidebar.dashboard") || "Home", icon: HomeIcon },
             { href: "/app/angebote", label: t("sidebar.quotes") || "Quotes", icon: DocumentTextIcon },
             { href: "/app/rechnungen", label: t("sidebar.invoices") || "Invoices", icon: CurrencyDollarIcon },
-            { href: "/app/einstellungen", label: t("sidebar.settings") || "Settings", icon: Cog6ToothIcon },
           ].map(({ href, label, icon: Icon }) => {
             const active = pathname === href || (href !== "/app/dashboard" && pathname.startsWith(href));
             return (
@@ -149,8 +148,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="relative flex-1 flex items-center justify-center">
             <button onClick={() => setBottomProfileOpen(!bottomProfileOpen)}
               className="flex flex-col items-center justify-center text-[9px] font-medium text-muted-foreground hover:text-foreground transition-colors">
-              <Avatar className="h-4 w-4 shrink-0">
-                <AvatarFallback className="bg-primary text-primary-foreground text-[7px]">{initials}</AvatarFallback>
+              <Avatar className="h-6 w-6 shrink-0">
+                <AvatarFallback className="bg-primary text-primary-foreground text-[9px]">{initials}</AvatarFallback>
               </Avatar>
               <span className="mt-0.5">You</span>
             </button>
@@ -159,6 +158,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <div className="fixed inset-0 z-50" onClick={() => setBottomProfileOpen(false)} />
                 <div className="absolute bottom-full right-0 mb-2 w-44 z-50 rounded-lg border border-border bg-card shadow-lg py-1">
                   <p className="px-3 py-2 text-xs text-muted-foreground truncate">{email}</p>
+                  <div className="h-px bg-border mx-1 my-1" />
+                  <Link href="/app/einstellungen" onClick={() => setBottomProfileOpen(false)}
+                    className="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-foreground hover:bg-muted text-left">
+                    <Cog6ToothIcon className="size-4" />Settings</Link>
                   <div className="h-px bg-border mx-1 my-1" />
                   <button
                     onClick={() => { toggleTheme(); setBottomProfileOpen(false); }}
