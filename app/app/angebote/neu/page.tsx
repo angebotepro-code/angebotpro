@@ -309,7 +309,7 @@ export default function NeuesAngebotPage() {
               </Button>
             </div>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 page-enter">
             {/* Title */}
             <div className="space-y-1">
               <Label className="text-[10px] text-muted-foreground uppercase tracking-wider">Title</Label>

@@ -134,6 +134,7 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
   h1, h2, h3 {
     text-wrap: balance;
@@ -141,13 +142,24 @@
   p, li, figcaption {
     text-wrap: pretty;
   }
-  button {
-    transition-property: transform;
+  button, a {
+    transition-property: transform, box-shadow, background-color, border-color, color, opacity;
     transition-duration: 150ms;
-    transition-timing-function: ease-out;
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
   }
   button:not(:disabled):active {
     scale: 0.96;
+  }
+  a:active {
+    scale: 0.98;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    transition: outline-offset 100ms ease-out;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 }
 
@@ -172,5 +184,25 @@
   }
   .dark .shadow-card-hover {
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.13);
+  }
+  .hover-lift {
+    transition: transform 200ms cubic-bezier(0.2, 0, 0, 1), box-shadow 200ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .hover-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  .dark .hover-lift:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  .tap-active:active {
+    scale: 0.97;
+  }
+  .page-enter {
+    animation: fadeSlideIn 300ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }

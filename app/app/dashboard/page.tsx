@@ -90,7 +90,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 page-enter">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -125,7 +125,7 @@ export default function DashboardPage() {
           };
           const colorKey = Object.keys(colorMap).find(k => s.label.toLowerCase().startsWith(k)) ?? "open";
           return (
-          <Card key={s.label} className="shadow-card bg-card">
+          <Card key={s.label} className="shadow-card bg-card hover-lift tap-active">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
                 <Icon className={`size-5 ${colorMap[colorKey]}`} />
