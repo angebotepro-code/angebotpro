@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,6 +36,8 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
+        <Link href="/app/dashboard" className="md:hidden inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-2">
+          <ArrowLeftIcon className="size-3" />Back</Link>
         <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">{t("settings.title")}</h1>
         <p className="mt-1 text-sm text-muted-foreground">{t("settings.subtitle")}</p>
       </div>
